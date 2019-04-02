@@ -30,5 +30,6 @@ notifications:
     on_success: always
     on_failure: always
     template:
-      - "%{repository_slug} (%{commit}) : %{message} %{foo} "
+      - "%{repository_slug} : %{commit}"
+      - "Message: %{message}"
       - "Build details: %{build_url}"
