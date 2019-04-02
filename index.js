@@ -16,15 +16,19 @@ let container = {
 };
 
 let config = {
+    "env": "dev",
     "cache": resolve(container.Helper.getUserHome(), '.skyflow'),
     "docker": {"version": "3", "directory": "docker", "composes": {}},
-    "script": {"directory": "assets/scripts", "scripts": {}},
-    "style": {"directory": "assets/styles", "styles": {}},
+    "script": {"directory": "assets/scripts", "helper": "Helper.js"},
+    "style": {"directory": "assets/styles", "variable": "_variables.scss"},
+    "widget": {"directory": "assets/widgets"},
+
 };
 try {
     let conf = container.File.readJson(resolve(process.cwd(), 'skyflow.json'));
     config = Object.assign({}, config, conf);
-} catch (e) {}
+} catch (e) {
+}
 
 container['config'] = {
     filename: 'skyflow.json',
@@ -35,6 +39,10 @@ container['config'] = {
 container['cache'] = {
     skyflow: config.cache,
     compose: resolve(config.cache, 'compose'),
+    package: resolve(config.cache, 'package'),
+    script: resolve(config.cache, 'script'),
+    style: resolve(config.cache, 'style'),
+    widget: resolve(config.cache, 'widget')
 };
 
 container['Api'] = new (require('./src/Api.js'))(container);

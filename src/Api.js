@@ -43,29 +43,28 @@ module.exports = class Api {
      *
      * @method get
      * @param {String} resource Resource name.
+     * @param {String} type Type of resource, like 'compose', 'package', 'script', 'style', 'widget'
      * @param {Function} callback Callback to run after obtaining data. The first argument of this callback is the cache url.
      * @returns {Api} Returns the current Api object.
      */
-    get(resource, callback) {
+    get(resource, type = 'compose', callback) {
 
         const {Output, Shell, cache, Directory, File} = this.container;
 
-        let type = 'compose';
-
-        if(Directory.exists(resolve(cache.compose, resource))){
-            callback(resolve(cache.compose, resource));
+        if(Directory.exists(resolve(cache[type], resource))){
+            callback(resolve(cache[type], resource));
             return this;
         }
 
         Output.writeln("Pulling " + resource + " " + type + " from " + this.protocol + "://" + this.host + " ...", false);
 
         const query = `{
-            ${type}(name: ${resource}){ ${type} directory filename contents }
+            ${type}(name: ${resource}){ directory filename contents }
         }`;
 
         request(this.protocol + "://" + this.host, query)
             .then(data => {
-                let dir = resolve(cache.compose, resource);
+                let dir = resolve(cache[type], resource);
                 Shell.mkdir("-p", dir);
                 data[type].map((file) => {
                     let directory = resolve(dir, file.directory);

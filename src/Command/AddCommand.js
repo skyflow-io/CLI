@@ -10,9 +10,8 @@ const UpdateCommand = require('./UpdateCommand.js');
  * @command add
  * @argument resource Name of resource.
  * @option [-f,--force] Option to force adding resources.
- * @example
- *      skyflow add apache python Tooltip.js grid.scss
- *      skyflow add python -f
+ * @example skyflow add apache python Tooltip.js grid.scss
+ * @example skyflow add python -f
  */
 module.exports = class AddCommand {
 
@@ -30,9 +29,14 @@ module.exports = class AddCommand {
 
             let resource = Request.commands[i];
 
+            if(/\.js$/.test(resource)){
+                this.addScript(resource);
+                continue
+            }
+
             // Todo: Check resource -> Use this.addScript
 
-            Api.get(resource, (cacheDirectory) => {
+            Api.get(resource, 'compose', (cacheDirectory) => {
 
                 let currentDockerDir = resolve(process.cwd(), config.value.docker.directory);
                 if (Directory.exists(resolve(currentDockerDir, resource))) {
@@ -64,6 +68,10 @@ module.exports = class AddCommand {
         }
 
         UpdateCommand.updateFiles(container);
+    }
+
+    addScript(script){
+        console.log(script);
     }
 
 };
