@@ -21,7 +21,8 @@ before_deploy:
 deploy:
 - provider: script
   skip_cleanup: true
-  script: ssh lewebpedagogique@51.15.187.88 mkdir -p /srv/http/skyflow/doc && rsync -r --delete-after $TRAVIS_BUILD_DIR/doc/commands.json lewebpedagogique@51.15.187.88:/srv/http/skyflow/doc/commands.json
+  script: ssh lewebpedagogique@51.15.187.88 mkdir -p /srv/http/skyflow/doc &&
+  rsync -r --delete-after $TRAVIS_BUILD_DIR/doc/commands.json lewebpedagogique@51.15.187.88:/srv/http/skyflow/doc/commands.json
   on:
     branch: master
 notifications:
@@ -32,7 +33,7 @@ notifications:
     on_success: always
     on_failure: always
     template:
-      - "%{commit_message}"
+      - "*%{commit_message}*"
       - "Repo `%{repository_slug}` *%{result}* build (<%{build_url}|#%{build_number}>) for commit (<%{compare_url}|%{commit}>) on branch `%{branch}`."
       - "Execution time: *%{duration}*"
       - "Message: %{message}"
