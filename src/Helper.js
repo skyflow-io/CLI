@@ -255,10 +255,10 @@ module.exports = class Helper {
      * Generates unique id.
      *
      * @method generateUniqueId
-     * @param {Number} count Lenght of id.
+     * @param {Number} count Length of id.
      * @returns {Number} Returns generated id.
      */
-    static generateUniqueId(count = 5) {
+    static generateUniqueId(count = 6) {
         return Math.floor(Math.random() * Math.pow(10, count));
     }
 

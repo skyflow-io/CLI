@@ -1,5 +1,3 @@
-'use strict';
-
 const fs = require('fs'), os = require("os");
 const jsonfile = require('jsonfile');
 

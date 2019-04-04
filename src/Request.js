@@ -1,5 +1,3 @@
-'use strict';
-
 const Helper = require('./Helper.js');
 
 /**
@@ -41,6 +39,15 @@ class Request {
         this.commands = [];
 
         /**
+         * Parsed arguments.
+         *
+         * @property consoleArguments
+         * @type Array
+         * @default []
+         */
+        this.consoleArguments = [];
+
+        /**
          * Parsed options.
          *
          * @property options
@@ -67,15 +74,6 @@ class Request {
          */
         this.longOptions = {};
 
-        /**
-         * Objects container.
-         *
-         * @property container
-         * @type Object
-         * @default {}
-         */
-        this.container = {};
-
         this.parse(process.argv.slice(2));
 
     }
@@ -90,35 +88,39 @@ class Request {
     parse(args){
 
         this.command = null;
+        this.commands = [];
+        this.consoleArguments = [];
         this.options = {};
         this.shortOptions = {};
         this.longOptions = {};
-
         let option = null;
 
         for (let i=0; i < args.length; i++) {
 
             let value = args[i];
-
             let first = value.charAt(0);
 
             if(first !== '-' && !option){
                 this.commands.push(value);
             }
 
+            if(first !== '-' && !option && this.command){
+                this.consoleArguments.push(value);
+            }
 
             if(first !== '-' && !option && !this.command){
                 this.command = value.replace(/^\-+/, '');
+                let commands = this.command.split(':');
+                this.command = commands.pop();
+                this.commands = this.commands.concat(commands);
+                this.consoleArguments = this.consoleArguments.concat(commands);
                 continue;
             }
 
             if(first === '-'){
-
                 option = value;
                 let opt = option.replace(/^\-+/, '');
-
                 this.options[opt] = true;
-
                 if(option.charAt(1) === '-'){
                     this.longOptions[opt] = true;
                 }else {
@@ -126,26 +128,21 @@ class Request {
                         this.shortOptions[opt] = true;
                     }
                 }
-
                 continue;
             }
 
             if(first !== '-' && option){
-
                 value = value.replace(/^\-+/, '');
                 let opt = option.replace(/^\-+/, '');
                 this.options[opt] = value;
-
                 if(option.charAt(0) === '-' && option.charAt(1) === '-'){
                     this.longOptions[opt] = value;
                 }
-
                 if(option.charAt(0) === '-' && option.charAt(1) !== '-'){
                     if(opt.length === 1){
                         this.shortOptions[opt] = value;
                     }
                 }
-
                 option = null;
             }
 
@@ -185,6 +182,32 @@ class Request {
      */
     hasLongOption(option){
         return Helper.hasProperty(this.longOptions, option);
+    }
+
+    /**
+     * Contacts short and long options as string.
+     *
+     * @method getStringOptions
+     * @returns {String} Returns true if long option exists and false otherwise.
+     */
+    getStringOptions() {
+        let options = '';
+        Object.keys(this.shortOptions).map((option) => {
+            if (Helper.isBoolean(this.shortOptions[option])) {
+                options += ' -' + option
+            } else {
+                options += ' -' + option + ' ' + this.shortOptions[option]
+            }
+        });
+        Object.keys(this.longOptions).map((option) => {
+            if (Helper.isBoolean(this.longOptions[option])) {
+                options += ' --' + option
+            } else {
+                options += ' --' + option + ' ' + this.longOptions[option]
+            }
+        });
+
+        return options.trim();
     }
 
 }

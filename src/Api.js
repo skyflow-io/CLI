@@ -1,5 +1,3 @@
-'use strict';
-
 const {resolve} = require("path");
 const {request} = require('graphql-request');
 
@@ -44,41 +42,50 @@ module.exports = class Api {
      * @method get
      * @param {String} resource Resource name.
      * @param {String} type Type of resource, like 'compose', 'package', 'script', 'style', 'widget'
-     * @param {Function} callback Callback to run after obtaining data. The first argument of this callback is the cache url.
-     * @returns {Api} Returns the current Api object.
+     * @returns {Promise} Returns the current Api object. The first argument of resolve callback is the cache url.
      */
-    get(resource, type = 'compose', callback) {
+    get(resource, type = 'compose') {
 
-        const {Output, Shell, cache, Directory, File} = this.container;
+        return new Promise((res, reject) => {
 
-        if(Directory.exists(resolve(cache[type], resource))){
-            callback(resolve(cache[type], resource));
-            return this;
-        }
+            const {Output, Shell, cache, Directory, File} = this.container;
 
-        Output.writeln("Pulling " + resource + " " + type + " from " + this.protocol + "://" + this.host + " ...", false);
+            let resourceCacheDir = resolve(cache[type], resource);
 
-        const query = `{
-            ${type}(name: ${resource}){ directory filename contents }
-        }`;
+            if (Directory.exists(resourceCacheDir)) {
+                return res(resourceCacheDir);
+            }
 
-        request(this.protocol + "://" + this.host, query)
-            .then(data => {
-                let dir = resolve(cache[type], resource);
-                Shell.mkdir("-p", dir);
-                data[type].map((file) => {
-                    let directory = resolve(dir, file.directory);
-                    Shell.mkdir("-p", directory);
-                    let filename = resolve(directory, file.filename);
-                    File.create(filename, file.contents);
+            Output.writeln("Pulling " + resource + " " + type + " from " + this.protocol + "://" + this.host + " ...", null);
+
+            const query = `{ ${type}(name: ${resource}){ directory filename contents } }`;
+
+            request(this.protocol + "://" + this.host, query)
+                .then(data => {
+                    let dir = resolve(cache[type], resource);
+                    Shell.mkdir("-p", dir);
+                    data[type].map((file) => {
+                        let directory = resolve(dir, file.directory);
+                        Shell.mkdir("-p", directory);
+                        let filename = resolve(directory, file.filename);
+                        File.create(filename, file.contents);
+                    });
+                    res(dir);
+                })
+                .catch(() => {
+                    Output.error("Can not pull " + resource + " " + type + " from " + this.protocol + "://" + this.host, false);
+                    return reject();
                 });
-                callback(dir);
-            })
-            .catch(() => {
-                Output.error("Can not pull " + resource + " " + type + " from " + this.protocol + "://" + this.host, false);
-            });
+        });
 
-        return this;
     }
+
+    getCompose(name) {
+        return this.get(name, 'compose');
+    }
+
+
+
+
 
 };

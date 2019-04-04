@@ -1,5 +1,3 @@
-'use strict';
-
 const Style = require('./Style.js');
 
 /**

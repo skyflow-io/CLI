@@ -6,24 +6,25 @@ const _ = require('lodash'), resolve = require('path').resolve;
 
 let container = {
     Directory: require('./src/Directory.js'),
+    Docker: require('./src/Docker.js'),
     File: require('./src/File.js'),
     Helper: require('./src/Helper.js'),
-    Output: require('./src/Output.js'),
     Input: require('./src/Input.js'),
+    Output: require('./src/Output.js'),
     Request: require('./src/Request.js'),
-    Style: require('./src/Style.js'),
     Shell: require('./src/Shell.js'),
+    Style: require('./src/Style.js'),
 };
 
 let config = {
     "env": "dev",
     "cache": resolve(container.Helper.getUserHome(), '.skyflow'),
-    "docker": {"version": "3", "directory": "docker", "composes": {}},
+    "docker": {"version": "3", "directory": "docker", "project_name": "skyflow_project_" + container.Helper.generateUniqueId(), "composes": {}},
     "script": {"directory": "assets/scripts", "helper": "Helper.js"},
     "style": {"directory": "assets/styles", "variable": "_variables.scss"},
     "widget": {"directory": "assets/widgets"},
-
 };
+
 try {
     let conf = container.File.readJson(resolve(process.cwd(), 'skyflow.json'));
     config = Object.assign({}, config, conf);

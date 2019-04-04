@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Print information on console.
  *

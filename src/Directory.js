@@ -1,5 +1,3 @@
-'use strict';
-
 const fs = require('fs'), path = require('path');
 const Helper = require('./Helper.js');
 

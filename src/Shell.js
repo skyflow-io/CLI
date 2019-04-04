@@ -11,12 +11,14 @@ class Shell {
     }
 
     /**
-     * Run command synchronously without verbose
+     * Run command synchronously without verbose.
+     *
+     * @method run
      * @param {string} command
      * @param {array} options
      * @returns {Shell}
      */
-    run(command, options) {
+    run(command, options = []) {
 
         this.error = false;
 
@@ -39,8 +41,16 @@ class Shell {
         return this;
     }
 
+    /**
+     * Run command synchronously with verbose.
+     *
+     * @method exec
+     * @param {string} command
+     * @returns {Shell}
+     */
     exec(command) {
         execSync(command, {stdio: [process.stdin, process.stdout, process.stderr]});
+        return this;
     }
 
     runAsync(command, options) {
@@ -56,22 +66,53 @@ class Shell {
 
     }
 
+    /**
+     * Checks if shell has error.
+     *
+     * @method hasError
+     * @returns {Boolean}
+     */
     hasError() {
         return this.error !== false;
     }
 
+    /**
+     * Gets shell error.
+     *
+     * @method getError
+     * @returns {String}
+     */
     getError() {
         return this.error;
     }
 
+    /**
+     * Gets shell result.
+     *
+     * @method getResult
+     * @returns {String}
+     */
     getResult() {
         return this.result;
     }
 
+    /**
+     * Gets shell status.
+     *
+     *
+     * @method getStatus
+     * @returns {Array}
+     */
     getStatus() {
         return this.status;
     }
 
+    /**
+     * Gets shell result as array.
+     *
+     * @method getArrayResult
+     * @returns {Boolean}
+     */
     getArrayResult() {
         return this.arrayResult;
     }
