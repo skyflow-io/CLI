@@ -86,7 +86,7 @@ module.exports = class AddCommand {
             try{
                 let event = composeConfig.events.add;
                 event = require(resolve(cacheDirectory, event));
-                new event(container);
+                new event(container, UpdateCommand);
                 return this;
             }catch (e) {}
 
