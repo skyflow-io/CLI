@@ -16,18 +16,15 @@
     "compose",
     "package",
     "react",
-    "asset",
-    "webpack",
-    "style",
-    "script",
-    "symfony"
+    "assets",
+    "webpack"
   ],
   "author": "Franck DIOMANDE <fkdiomande@gmail.com>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/skyflow-io/npm-skyflow-cli/issues"
+    "url": "https://github.com/skyflow-io/CLI/issues"
   },
-  "homepage": "https://github.com/skyflow-io/npm-skyflow-cli#readme",
+  "homepage": "https://github.com/skyflow-io/CLI#readme",
   "bin": {
     "skyflow": "./index.js"
   },

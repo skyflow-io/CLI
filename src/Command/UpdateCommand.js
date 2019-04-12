@@ -23,8 +23,7 @@ module.exports = class UpdateCommand {
         if(Request.hasOption('y') || Request.hasOption('yes')){
             return UpdateCommand.updateFiles(container);
         }
-        let composes = Request.commands;
-        composes.shift();
+        let composes = Request.consoleArguments;
         if(!composes[0]){
             composes = Object.keys(config.value.docker.composes)
         }
@@ -125,6 +124,12 @@ module.exports = class UpdateCommand {
                     '# <------ ' + compose + ' <------';
                 dockerComposeContent += os.EOL.repeat(2) + content;
             }
+
+            try{
+                let event = cacheComposeConfig.events.update;
+                event = require(resolve(cacheComposeDir, event));
+                new event(container);
+            }catch (e){}
 
         });
 

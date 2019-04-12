@@ -50,8 +50,6 @@ module.exports = class AddCommand {
             }
 
         }
-
-        // UpdateCommand.updateFiles(container);
     }
 
     addCompose(compose, container){
@@ -84,8 +82,17 @@ module.exports = class AddCommand {
             File.createJson(config.path, config.value);
             Output.skyflowSuccess(compose + ' added!');
 
+            // Trigger add event
+            try{
+                let event = composeConfig.events.add;
+                event = require(resolve(cacheDirectory, event));
+                new event(container);
+                return this;
+            }catch (e) {}
+
             UpdateCommand.updateFiles(container);
-        });
+
+        }).catch(()=>{});
 
     }
 

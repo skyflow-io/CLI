@@ -20,6 +20,7 @@ let config = {
     "env": "dev",
     "cache": resolve(container.Helper.getUserHome(), '.skyflow'),
     "docker": {"version": "3", "directory": "docker", "project_name": "skyflow_project_" + container.Helper.generateUniqueId(), "composes": {}},
+    "assets": {"directory": "assets"},
     "script": {"directory": "assets/scripts", "helper": "Helper.js"},
     "style": {"directory": "assets/styles", "variable": "_variables.scss"},
     "widget": {"directory": "assets/widgets"},
@@ -39,11 +40,11 @@ container['config'] = {
 
 container['cache'] = {
     skyflow: config.cache,
-    compose: resolve(config.cache, 'compose'),
-    package: resolve(config.cache, 'package'),
-    script: resolve(config.cache, 'script'),
-    style: resolve(config.cache, 'style'),
-    widget: resolve(config.cache, 'widget')
+    compose: resolve(config.cache, 'composes'),
+    package: resolve(config.cache, 'packages'),
+    script: resolve(config.cache, 'scripts'),
+    style: resolve(config.cache, 'styles'),
+    widget: resolve(config.cache, 'widgets')
 };
 
 container['Api'] = new (require('./src/Api.js'))(container);
@@ -57,7 +58,7 @@ let Command = null;
 try {
     Command = require('./src/Command/' + _.upperFirst(container.Request.command) + 'Command.js');
 } catch (e) {
-    container.Request.Output.skyflowError("Command '" + container.Request.command + "' not found.");
+    container.Output.skyflowError("Command '" + container.Request.command + "' not found.");
     process.exit(1);
 }
 
