@@ -1,11 +1,9 @@
 {
   "name": "skyflow-cli",
-  "version": "2.1.1",
+  "version": "2.1.0",
   "description": "Best friend of the developer",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/skyflow-io/npm-skyflow-cli.git"
