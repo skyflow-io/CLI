@@ -25,7 +25,7 @@ matrix:
         skip_cleanup: true
         script: ssh lewebpedagogique@51.15.187.88 mkdir -p /srv/http/skyflow/doc && rsync -r --delete-after $TRAVIS_BUILD_DIR/doc/commands.json lewebpedagogique@51.15.187.88:/srv/http/skyflow/doc/commands.json
         on:
-          branch: master
+          tags: true
     - language: node_js
       node_js:
         - "8"
