@@ -20,8 +20,8 @@ module.exports = class Api {
          * @type String
          * @default https
          */
-        this.protocol = "http";
-        // this.host = "api.v2.skyflow.io";
+        this.protocol = "https";
+        // this.protocol = "http";
 
         /**
          * API url host.
@@ -30,7 +30,8 @@ module.exports = class Api {
          * @type String
          * @default api.skyflow.io
          */
-        this.host = "localhost:4000";
+        this.host = "api.skyflow.io";
+        // this.host = "localhost:4000";
 
         this.container = container;
 
