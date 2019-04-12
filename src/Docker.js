@@ -60,7 +60,7 @@ module.exports = class Docker {
             return false;
         }
         try {
-            Shell.exec('docker-compose -p ' + projectName + ' -f ' + dockerComposeFile + ' exec ' + stringOpt + ' ' + containerName + ' \"' + command + '\"');
+            Shell.exec('docker-compose -p ' + projectName + ' -f ' + dockerComposeFile + ' exec ' + stringOpt + ' ' + containerName + ' ' + command);
             return true;
         } catch (e) {
             Output.error(e.message);
@@ -97,7 +97,7 @@ module.exports = class Docker {
         }
         let containerName = composes[compose].variables['container_name'].value;
         try {
-            Shell.exec('docker-compose -p ' + projectName + ' -f ' + dockerComposeFile + ' run ' + stringOpt + ' ' + containerName + ' \"' + command + '\"');
+            Shell.exec('docker-compose -p ' + projectName + ' -f ' + dockerComposeFile + ' run ' + stringOpt + ' ' + containerName + ' ' + command);
             return true;
         } catch (e) {
             Output.error(e.message);
