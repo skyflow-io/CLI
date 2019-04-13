@@ -15,7 +15,7 @@ module.exports = class ShCommand {
     constructor(container) {
         const {Docker, Request} = container;
         Request.consoleArguments = [Request.consoleArguments[0], 'sh'];
-        return Docker.exec(container);
+        return Docker.dockerComposeExec(container);
     }
 
 };

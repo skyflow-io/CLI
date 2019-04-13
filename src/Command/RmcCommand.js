@@ -37,7 +37,7 @@ module.exports = class RmcCommand {
             Shell.exec('docker rm ' + stringOpt);
             Output.success('Success!');
         } catch (e) {
-            Output.error(e.message);
+            Output.skyflowError(e.message);
         }
 
     }

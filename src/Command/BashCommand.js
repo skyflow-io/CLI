@@ -15,7 +15,7 @@ module.exports = class BashCommand {
     constructor(container) {
         const {Docker, Request} = container;
         Request.consoleArguments = [Request.consoleArguments[0], 'bash'];
-        return Docker.exec(container);
+        return Docker.dockerComposeExec(container);
     }
 
 };

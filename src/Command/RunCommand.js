@@ -15,7 +15,7 @@ module.exports = class RunCommand {
 
     constructor(container) {
         const {Docker} = container;
-        return Docker.run(container);
+        return Docker.dockerComposeRun(container);
     }
 
 };

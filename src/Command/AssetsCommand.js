@@ -1,4 +1,3 @@
-const {resolve} = require("path");
 const RunCommand = require('./RunCommand.js');
 const AddCommand = require('./AddCommand.js');
 const UpdateCommand = require('./UpdateCommand.js');
@@ -12,9 +11,14 @@ const UpdateCommand = require('./UpdateCommand.js');
  * @command assets
  * @argument install Install assets compose.
  * @argument update Update assets compose.
+ * @argument compile Compile assets for development environment.
+ * @argument build Compile assets for production environment.
+ * @argument watch For watching assets.
  * @option [-y,--yes] Update without prompt.
  * @example skyflow assets install
  * @example skyflow assets update
+ * @example skyflow assets update -y
+ * @example skyflow assets compile
  */
 module.exports = class AssetsCommand {
 
@@ -59,18 +63,25 @@ module.exports = class AssetsCommand {
     compile(container){
         const {Request} = container;
         Request.command = 'run';
-        Request.consoleArguments = ['assets', 'npm run compile'];
+        Request.consoleArguments = ['assets', 'node ./node_modules/.bin/webpack --mode=development --config=webpack/webpack.config.dev.js'];
         Request.commands = [Request.command, ...Request.consoleArguments];
         new RunCommand(container);
     }
 
     build(container){
-        console.log('assets build');
+        const {Request} = container;
+        Request.command = 'run';
+        Request.consoleArguments = ['assets', 'node ./node_modules/.bin/webpack --mode=production --config=webpack/webpack.config.prod.js'];
+        Request.commands = [Request.command, ...Request.consoleArguments];
+        new RunCommand(container);
     }
 
     watch(container){
-        console.log('assets watch');
+        const {Request} = container;
+        Request.command = 'run';
+        Request.consoleArguments = ['assets', 'node ./node_modules/.bin/webpack --mode=development --config=webpack/webpack.config.dev.js --watch'];
+        Request.commands = [Request.command, ...Request.consoleArguments];
+        new RunCommand(container);
     }
-
 
 };

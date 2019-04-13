@@ -37,7 +37,7 @@ module.exports = class RmiCommand {
         try {
             Shell.exec('docker rmi ' + stringOpt);
         } catch (e) {
-            Output.error(e.message);
+            Output.skyflowError(e.message);
         }
 
     }

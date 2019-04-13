@@ -11,7 +11,6 @@ let container = {
     Helper: require('./src/Helper.js'),
     Input: require('./src/Input.js'),
     Output: require('./src/Output.js'),
-    Request: require('./src/Request.js'),
     Shell: require('./src/Shell.js'),
     Style: require('./src/Style.js'),
 };
@@ -19,11 +18,16 @@ let container = {
 let config = {
     "env": "dev",
     "cache": resolve(container.Helper.getUserHome(), '.skyflow'),
+    "alias": {
+        "c": "composer",
+        "a": "assets",
+        "sf": "symfony",
+    },
     "docker": {"version": "3", "directory": "docker", "project_name": "skyflow_project_" + container.Helper.generateUniqueId(), "composes": {}},
     "assets": {"directory": "assets"},
-    "script": {"directory": "assets/scripts", "helper": "Helper.js"},
-    "style": {"directory": "assets/styles", "variable": "_variables.scss"},
-    "widget": {"directory": "assets/widgets"},
+    "script": {"directory": "scripts", "helper": "Helper.js"},
+    "style": {"directory": "styles", "variable": "_variables.scss"},
+    "widget": {"directory": "widgets"},
 };
 
 try {
@@ -48,6 +52,7 @@ container['cache'] = {
 };
 
 container['Api'] = new (require('./src/Api.js'))(container);
+container['Request'] = new (require('./src/Request.js'))(container);
 
 if (!container.Request.command) {
     container.Request.command = 'help';

@@ -15,7 +15,7 @@ module.exports = class ExecCommand {
 
     constructor(container) {
         const {Docker} = container;
-        return Docker.exec(container);
+        return Docker.dockerComposeExec(container);
     }
 
 };

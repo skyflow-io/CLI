@@ -29,7 +29,7 @@ module.exports = class LsCommand {
         try {
             Shell.exec('docker ' + what + ' ls ' + stringOpt);
         } catch (e) {
-            Output.error(e.message);
+            Output.skyflowError(e.message);
         }
 
     }

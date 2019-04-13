@@ -16,9 +16,9 @@ const Helper = require('./Helper.js');
  *      console.log(request.shortOptions); // Parsed short options
  *      console.log(request.longOptions); // Parsed long options
  */
-class Request {
+module.exports = class Request {
 
-    constructor() {
+    constructor(container) {
 
         /**
          * Parsed command.
@@ -74,6 +74,8 @@ class Request {
          */
         this.longOptions = {};
 
+        this.container = container;
+
         this.parse(process.argv.slice(2));
 
     }
@@ -86,6 +88,7 @@ class Request {
      * @returns {Request} Returns the current Request object.
      */
     parse(args){
+        const {Helper, config} = this.container;
 
         this.command = null;
         this.commands = [];
@@ -146,6 +149,10 @@ class Request {
                 option = null;
             }
 
+        }
+
+        if(Helper.hasProperty(config.value.alias, this.command)){
+            this.command = config.value.alias[this.command]
         }
 
         return this;
@@ -210,6 +217,6 @@ class Request {
         return options.trim();
     }
 
-}
+};
 
-module.exports = new Request();
+// module.exports = new Request();

@@ -27,23 +27,17 @@ module.exports = class Docker {
         return State.Running
     }
 
-    /**
-     * Executes some commands inside docker containers.
-     *
-     * @method exec
-     * @param {Object} container Skyflow objects container.
-     * @returns {Boolean}
-     */
-    static exec(container){
+    static dockerCompose(command, container, isContainerRunning = false){
+
         const {Helper, Shell, Request, Output, config} = container;
         let compose = Request.consoleArguments[0];
         if (!compose) {
-            Output.error('Compose name is missing.');
+            Output.skyflowError('Compose name is missing.');
             return false;
         }
-        let command = Request.consoleArguments[1];
-        if (!command) {
-            Output.error('Command is missing.');
+        let c = Request.consoleArguments[1];
+        if (!c) {
+            Output.skyflowError('Command is missing.');
             return false;
         }
         let stringOpt = Request.getStringOptions();
@@ -51,58 +45,51 @@ module.exports = class Docker {
         let projectName = config.value.docker['project_name'];
         let composes = config.value.docker.composes;
         if (!Helper.hasProperty(composes, compose)) {
-            Output.error('Compose \'' + compose + '\' not found.');
+            Output.skyflowError('Compose \'' + compose + '\' not found. Use \'skyflow add ' + compose + '\' command.');
             return false;
         }
         let containerName = composes[compose].variables['container_name'].value;
-        if(!Docker.isContainerRunning(containerName, container)){
+        if(isContainerRunning && !Docker.isContainerRunning(containerName, container)){
             Output.skyflowError('Compose \'' + compose + '\' is not running. Use skyflow \'' + compose + ':up\' command.');
             return false;
         }
+
+        Output.newLine();
+        Output.write("Running ");
+        Output.write(('docker-compose -p ' + projectName + ' ' + command + ' ' + (stringOpt + ' ').trim() + containerName + ' ' + c).trim(), "green");
+        Output.writeln(" command ...");
+        Output.newLine();
+
         try {
-            Shell.exec('docker-compose -p ' + projectName + ' -f ' + dockerComposeFile + ' exec ' + stringOpt + ' ' + containerName + ' ' + command);
+            Shell.exec('docker-compose -p ' + projectName + ' -f ' + dockerComposeFile + ' ' + command + ' ' + (stringOpt + ' ').trim() + containerName + ' ' + c);
             return true;
         } catch (e) {
-            Output.error(e.message);
+            Output.skyflowError(e.message);
             return false;
         }
+
     }
 
     /**
      * Executes some commands inside docker containers.
      *
-     * @method run
+     * @method dockerComposeExec
      * @param {Object} container Skyflow objects container.
      * @returns {Boolean}
      */
-    static run(container){
-        const {Helper, Shell, Request, Output, config} = container;
-        let compose = Request.consoleArguments[0];
-        if (!compose) {
-            Output.error('Compose name is missing.');
-            return false;
-        }
-        let command = Request.consoleArguments[1];
-        if (!command) {
-            Output.error('Command is missing.');
-            return false;
-        }
-        let stringOpt = Request.getStringOptions();
-        let dockerComposeFile = resolve(config.value.docker.directory, 'docker-compose.yml');
-        let projectName = config.value.docker['project_name'];
-        let composes = config.value.docker.composes;
-        if (!Helper.hasProperty(composes, compose)) {
-            Output.error('Compose \'' + compose + '\' not found.');
-            return false;
-        }
-        let containerName = composes[compose].variables['container_name'].value;
-        try {
-            Shell.exec('docker-compose -p ' + projectName + ' -f ' + dockerComposeFile + ' run ' + stringOpt + ' ' + containerName + ' ' + command);
-            return true;
-        } catch (e) {
-            Output.error(e.message);
-            return false;
-        }
+    static dockerComposeExec(container){
+        return Docker.dockerCompose('exec', container, true);
+    }
+
+    /**
+     * Executes some commands inside docker containers.
+     *
+     * @method dockerComposeRun
+     * @param {Object} container Skyflow objects container.
+     * @returns {Boolean}
+     */
+    static dockerComposeRun(container){
+        return Docker.dockerCompose('run', container, false);
     }
 
     /**
@@ -134,7 +121,7 @@ module.exports = class Docker {
             Shell.exec('docker-compose -p ' + projectName + ' -f ' + dockerComposeFile + ' ' + command + ' ' + stringOpt + ' ' + containerNames);
             return true;
         } catch (e) {
-            Output.error(e.message);
+            Output.skyflowError(e.message);
             return false;
         }
 
