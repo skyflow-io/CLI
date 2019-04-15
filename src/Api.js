@@ -40,50 +40,93 @@ module.exports = class Api {
     /**
      * Gets resources.
      *
-     * @method get
+     * @method getData
      * @param {String} resource Resource name.
      * @param {String} type Type of resource, like 'compose', 'package', 'script', 'style', 'widget'
      * @returns {Promise} Returns the current Api object. The first argument of resolve callback is the cache url.
      */
-    get(resource, type = 'compose') {
+    getData(resource, type = 'compose') {
 
         return new Promise((res, reject) => {
-
-            const {Output, Shell, cache, Directory, File} = this.container;
-
-            let resourceCacheDir = resolve(cache[type], resource);
-
+            const {Output, Shell, Directory, File, cache} = this.container;
+            let resourceCacheDir = resolve(cache[type], 'data', resource);
             if (Directory.exists(resourceCacheDir)) {
                 return res(resourceCacheDir);
             }
-
             Output.writeln("Pulling " + resource + " " + type + " from " + this.protocol + "://" + this.host + " ...", null);
-
             const query = `{ ${type}(name: ${resource}){ directory filename contents } }`;
-
             request(this.protocol + "://" + this.host, query)
                 .then(data => {
-                    let dir = resolve(cache[type], resource);
-                    Shell.mkdir("-p", dir);
+                    Shell.mkdir("-p", resourceCacheDir);
                     data[type].map((file) => {
-                        let directory = resolve(dir, file.directory);
+                        let directory = resolve(resourceCacheDir, file.directory);
                         Shell.mkdir("-p", directory);
                         let filename = resolve(directory, file.filename);
                         File.create(filename, file.contents);
                     });
-                    res(dir);
+                    res(resourceCacheDir);
                 })
-                .catch(() => {
+                .catch((e) => {
                     Output.skyflowError("Can not pull " + resource + " " + type + " from " + this.protocol + "://" + this.host, false);
-                    return reject();
+                    return reject(e);
+                });
+        });
+
+    }
+
+    /**
+     * Gets resources documentation.
+     *
+     * @method getDoc
+     * @param {String} resource Resource name.
+     * @param {String} type Type of resource, like 'compose', 'package', 'script', 'style', 'widget'
+     * @returns {Promise} Returns the current Api object. The first argument of resolve callback is the cache url.
+     */
+    getDoc(resource, type = 'compose') {
+
+        return new Promise((res, reject) => {
+            const {Output, Shell, File, cache} = this.container;
+            let docCacheDir = resolve(cache[type], 'doc');
+            let cacheFileName = resolve(docCacheDir, resource + '.json');
+            if (File.exists(cacheFileName)) {
+                return res(File.readJson(cacheFileName));
+            }
+            Output.writeln("Pulling " + resource + " " + type + " documentation from " + this.protocol + "://" + this.host + " ...", null);
+            const query = `{ ${type}Doc(name: ${resource}){ shortname version scripts styles requires extends examples } }`;
+            request(this.protocol + "://" + this.host, query)
+                .then(data => {
+                    Shell.mkdir("-p", docCacheDir);
+                    let filename = resolve(docCacheDir, resource + '.json');
+                    File.createJson(filename, data[type+'Doc']);
+                    res(data[type+'Doc']);
+                })
+                .catch((e) => {
+                    Output.skyflowError("Can not pull " + resource + " " + type + " documentation from " + this.protocol + "://" + this.host, false);
+                    return reject(e);
                 });
         });
 
     }
 
     getCompose(name) {
-        return this.get(name, 'compose');
+        return this.getData(name);
     }
+
+    getScript(name) {
+        return this.getData(name, 'script');
+    }
+    getScriptDoc(name) {
+        return this.getDoc(name, 'script');
+    }
+
+    getWidget(name) {
+        return this.getData(name, 'widget');
+    }
+    getWidgetDoc(name) {
+        return this.getDoc(name, 'widget');
+    }
+
+
 
 
 

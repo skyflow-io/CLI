@@ -25,8 +25,8 @@ let config = {
     },
     "docker": {"version": "3", "directory": "docker", "project_name": "skyflow_project_" + container.Helper.generateUniqueId(), "composes": {}},
     "assets": {"directory": "assets"},
-    "script": {"directory": "scripts", "helper": "Helper.js"},
-    "style": {"directory": "styles", "variable": "_variables.scss"},
+    "script": {"directory": "scripts"},
+    "style": {"directory": "styles"},
     "widget": {"directory": "widgets"},
 };
 

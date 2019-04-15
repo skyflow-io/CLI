@@ -13,9 +13,8 @@ $filesFinder = new Finder();
 $filesFinder->files()->name('data.json')->in('/app/doc');
 
 foreach ($filesFinder as $file) {
-
-    $result = json_decode($file->getContents(), true)['classes'];
-
+    $result = json_decode($file->getContents(), true);
 }
 
-$fileSystem->appendToFile('/app/doc/commands.json', json_encode($result));
+$fileSystem->remove(['/app/doc/commands.json']);
+$fileSystem->dumpFile('/app/doc/commands.json', json_encode($result));

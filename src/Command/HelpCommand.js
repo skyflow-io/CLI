@@ -1,14 +1,21 @@
+/**
+ * Adds resources to your project.
+ *
+ * @class HelpCommand
+ * @module Command
+ * @author Skyflow
+ * @command help
+ * @example skyflow help
+ * @example skyflow -h
+ */
 module.exports = class HelpCommand {
 
-    constructor(request) {
+    constructor(container) {
 
-        console.log('HelpCommand');
+        const {Output} = container;
+
+        Output.writeln('Coming soon !');
 
     }
-
-    help(){
-        
-    }
-
 
 };
