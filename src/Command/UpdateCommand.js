@@ -90,7 +90,7 @@ module.exports = class UpdateCommand {
                 variables = config.value.docker.composes[compose].variables;
             } catch (e) {}
 
-            let cacheComposeDir = resolve(cache.compose, compose);
+            let cacheComposeDir = resolve(cache.compose, 'data', compose);
             let cacheComposeConfig = File.readJson(resolve(cacheComposeDir, compose + '.config.json'));
             let filesToUpdate = cacheComposeConfig.update || [];
 
