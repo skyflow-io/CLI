@@ -71,7 +71,7 @@ module.exports = class UpdateCommand {
 
         const {Helper, Output, Shell, File, Directory, config, cache} = container;
         let composes = Object.keys(config.value.docker.composes);
-        let currentDockerDir = resolve(process.cwd(), config.value.docker.directory);
+        let currentDockerDir = config.value.docker.directory;
         let dockerComposeContent = '';
 
         composes.map((compose)=>{
@@ -137,6 +137,30 @@ module.exports = class UpdateCommand {
             Shell.rm('-rf', resolve(currentDockerDir, 'docker-compose.yml'));
         }catch (e) {}
         if(!Helper.isEmpty(dockerComposeContent)){
+
+            let reg = new RegExp('{{ *([a-z0-9_\-]+):([a-z0-9_-]+) *}}', 'ig');
+            dockerComposeContent = dockerComposeContent.replace(reg, (match, compose, variable)=>{
+                let composes = config.value.docker.composes;
+                let c = composes[compose];
+                if(!c){
+                    Output.skyflowWarning('Compose \'' + compose + '\' not found.');
+                    return match;
+                }
+
+                try {
+                    let v = c['variables'][variable].value;
+                    if(v){
+                        return v;
+                    }else {
+                        Output.skyflowWarning('Variable \'' + variable + '\' for \'' + compose + '\' compose not found.');
+                        return match;
+                    }
+                }catch (e) {
+                    Output.skyflowWarning('Variable \'' + variable + '\' for \'' + compose + '\' compose not found.');
+                    return match;
+                }
+            });
+
             dockerComposeContent = 'version: "' + config.value.docker.version + '"' + os.EOL.repeat(2)
                 + 'services:' + dockerComposeContent;
             Shell.mkdir('-p', currentDockerDir);
