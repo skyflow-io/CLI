@@ -20,15 +20,19 @@ module.exports = class UpdateCommand {
     constructor(container) {
 
         const {Output, Input, File, Request, config} = container;
-        if(Request.hasOption('y') || Request.hasOption('yes')){
-            return UpdateCommand.updateFiles(container);
-        }
+
+        container.composesToUpdate = {};
         let composes = Request.consoleArguments;
         if(!composes[0]){
             composes = Object.keys(config.value.docker.composes)
         }
+        if(Request.hasOption('y') || Request.hasOption('yes')){
+            composes.map((compose) => {
+                container.composesToUpdate[compose] = true;
+            });
+            return UpdateCommand.updateFiles(container);
+        }
         let questions = [];
-
         composes.map((compose) => {
 
             let variables = null;
@@ -38,6 +42,9 @@ module.exports = class UpdateCommand {
             if (!variables) {
                 return false
             }
+
+            container.composesToUpdate[compose] = true;
+
             Object.keys(variables).map((variable) => {
                 if(variable === 'container_name'){
                     return false
@@ -126,9 +133,11 @@ module.exports = class UpdateCommand {
             }
 
             try{
-                let event = cacheComposeConfig.events.update;
-                event = require(resolve(cacheComposeDir, event));
-                new event(container);
+                if(container.composesToUpdate[compose] === true){
+                    let event = cacheComposeConfig.events.update;
+                    event = require(resolve(cacheComposeDir, event));
+                    new event(container);
+                }
             }catch (e){}
 
         });
