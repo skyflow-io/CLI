@@ -11,6 +11,7 @@ const UpdateCommand = require('./UpdateCommand.js');
  * @command add
  * @argument resource Name of resource.
  * @option [-f,--force] Option to force adding resources.
+ * @option [--sync-dir] Option for synchronisation. No override existing files in docker directory.
  * @example skyflow add apache python tooltip.js grid.scss symfony.pkg modal.wgt
  * @example skyflow apache:python:add
  * @example skyflow add python -f
@@ -67,22 +68,25 @@ module.exports = class AddCommand {
     }
 
     addCompose(compose, container){
-        const {Helper, Output, Api, Shell, File, Directory, Request, config} = container;
+        const {Helper, Output, Api, Shell, File, Request, config} = container;
         Api.getCompose(compose).then((cacheDirectory)=>{
             let currentDockerDir = resolve(process.cwd(), config.value.docker.directory);
-            if (Directory.exists(resolve(currentDockerDir, compose))) {
-                if (Request.hasOption('f') || Request.hasOption('force')) {
-                    Shell.rm('-rf', resolve(currentDockerDir, compose));
-                } else {
+            if (File.exists(resolve(currentDockerDir, compose, 'docker-compose.dist'))) {
+                if (!Request.hasOption('f') && !Request.hasOption('force') && !Request.hasOption('sync-dir')) {
                     Output.skyflowWarning("'" + compose + "' compose already exists. Use '-f' or '--force' option.");
                     return false;
                 }
+                if (Request.hasOption('f') || Request.hasOption('force')) {
+                    Shell.rm('-rf', resolve(currentDockerDir, compose));
+                }
             }
             Shell.mkdir('-p', currentDockerDir);
-            Shell.cp('-R', cacheDirectory, resolve(currentDockerDir, compose));
-            try {
+            if (!Request.hasOption('sync-dir')) {
+                Shell.cp('-R', cacheDirectory, resolve(currentDockerDir, compose));
+            }
+            if(File.exists(resolve(currentDockerDir, compose, compose + '.config.json'))){
                 Shell.rm(resolve(currentDockerDir, compose, compose + '.config.json'));
-            }catch (e) {}
+            }
             let composeConfig = File.readJson(resolve(cacheDirectory, compose + '.config.json'));
             config.value.docker.composes[compose] = {
                 variables: composeConfig.variables || {},
@@ -91,7 +95,11 @@ module.exports = class AddCommand {
                 description: 'Container name',
                 value: compose + '_' + Helper.generateUniqueId()
             };
-            File.createJson(config.path, config.value);
+            File.createJson(config.filename, config.value);
+            if(Request.hasOption('sync-dir')){
+                Output.skyflowSuccess(compose + ' compose synchronized!');
+                return true;
+            }
             Output.skyflowSuccess(compose + ' compose added!');
 
             // Trigger add event
@@ -140,7 +148,7 @@ module.exports = class AddCommand {
             }).catch(()=>{});
             Shell.mkdir('-p', currentScriptsDir);
             Shell.cp('-R', resolve(cacheDirectory, script + '.js'), resolve(currentScriptsDir, script + '.js'));
-            File.createJson(config.path, config.value);
+            File.createJson(config.filename, config.value);
             Output.skyflowSuccess(script + ' script added!');
         }).catch(()=>{});
     }
@@ -186,7 +194,7 @@ module.exports = class AddCommand {
             }).catch(()=>{});
             Shell.mkdir('-p', currentWidgetsDir);
             Shell.cp('-R', cacheDirectory, resolve(currentWidgetsDir, widget));
-            File.createJson(config.path, config.value);
+            File.createJson(config.filename, config.value);
             Output.skyflowSuccess(widget + ' widget added!');
         }).catch(()=>{});
     }

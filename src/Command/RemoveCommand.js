@@ -29,7 +29,7 @@ module.exports = class RemoveCommand {
             }
             Shell.rm('-rf', resolve(currentDockerDir, resource));
             delete config.value.docker.composes[resource];
-            File.createJson(config.path, config.value);
+            File.createJson(config.filename, config.value);
             Output.skyflowSuccess(resource + ' removed!');
         }
         UpdateCommand.updateFiles(container);

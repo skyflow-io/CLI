@@ -145,9 +145,11 @@ class Directory {
      * @param {object} options Read options.
      * @returns {Array}
      */
-    read(directory, options = {directory: true, file: true, filter: /.*/}){
+    read(directory, options){
 
         if(!Helper.isObject(options)){options = {}}
+
+        options = Object.assign({}, {directory: true, file: true, filter: /.*/}, options);
 
         if(!Helper.isBoolean(options.directory)){options.directory = true}
 

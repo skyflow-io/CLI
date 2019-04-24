@@ -67,7 +67,7 @@ module.exports = class UpdateCommand {
                 let c = answer.split('__');
                 config.value.docker.composes[c[0]].variables[c[1]].value = answers[answer]
             });
-            File.createJson(config.path, config.value);
+            File.createJson(config.filename, config.value);
             Output.skyflowSuccess(composes.join(' ') + ' updated!');
             UpdateCommand.updateFiles(container);
         });

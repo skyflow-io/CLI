@@ -30,15 +30,16 @@ let config = {
     "widget": {"directory": "widgets"},
 };
 
+const configFilename = 'skyflow.json';
+
 try {
-    let conf = container.File.readJson(resolve(process.cwd(), 'skyflow.json'));
+    let conf = container.File.readJson(resolve(process.cwd(), configFilename));
     config = Object.assign({}, config, conf);
 } catch (e) {
 }
 
 container['config'] = {
-    filename: 'skyflow.json',
-    path: resolve(process.cwd(), 'skyflow.json'),
+    filename: configFilename,
     value: config
 };
 

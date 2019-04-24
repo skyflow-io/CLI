@@ -17,7 +17,7 @@
     "assets",
     "webpack"
   ],
-  "author": "Franck DIOMANDE <fkdiomande@gmail.com>",
+  "author": "Skyflow",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/skyflow-io/CLI/issues"

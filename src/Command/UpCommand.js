@@ -28,8 +28,8 @@ module.exports = class UpCommand {
         if (!Request.hasOption('build') && !Request.hasOption('no-build')) {
             stringOpt += ' --build';
         }
-        delete Request.longOptions['no-detach'];
-        delete Request.longOptions['no-build'];
+        Request.removeOption('no-detach');
+        Request.removeOption('no-build');
         stringOpt += Request.getStringOptions();
         let dockerComposeFile = resolve(config.value.docker.directory, 'docker-compose.yml');
         let composes = config.value.docker.composes;

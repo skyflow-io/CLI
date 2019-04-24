@@ -23,8 +23,8 @@ module.exports = class RmcCommand {
                 Output.info("No containers found!");
                 return this;
             }
-            delete Request.shortOptions['a'];
-            delete Request.longOptions['all'];
+            Request.removeOption('a');
+            Request.removeOption('all');
             stringOpt = Request.getStringOptions() + ' $(docker ps -a -q)';
         }else {
             if(!Request.consoleArguments[0]){

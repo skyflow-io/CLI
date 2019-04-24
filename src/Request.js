@@ -170,6 +170,44 @@ module.exports = class Request {
     }
 
     /**
+     * Gets an option.
+     *
+     * @method getOption
+     * @param {String} option Option to get.
+     * @returns {String} Returns option value.
+     */
+    getOption(option){
+        return this.options[option];
+    }
+
+    /**
+     * Removes an option.
+     *
+     * @method removeOption
+     * @param {String} option Option to get.
+     * @returns {Request} Returns the current Request object.
+     */
+    removeOption(option){
+        delete this.options[option];
+        delete this.shortOptions[option];
+        delete this.longOptions[option];
+        return this;
+    }
+
+    /**
+     * Adds an option.
+     *
+     * @method addOption
+     * @param {String} option Option name.
+     * @param {String} value Option value.
+     * @returns {Request} Returns the current Request object.
+     */
+    addOption(option, value){
+        this.options[option] = value;
+        return this;
+    }
+
+    /**
      * Checks if short option exists.
      *
      * @method hasShortOption
@@ -218,5 +256,3 @@ module.exports = class Request {
     }
 
 };
-
-// module.exports = new Request();

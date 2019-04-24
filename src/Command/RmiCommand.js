@@ -24,8 +24,8 @@ module.exports = class RmiCommand {
                 Output.info('No images found!');
                 return this;
             }
-            delete Request.shortOptions['a'];
-            delete Request.longOptions['all'];
+            Request.removeOption('a');
+            Request.removeOption('all');
             stringOpt = Request.getStringOptions() + ' $(docker images -a -q)';
         }else {
             if(!Request.consoleArguments[0]){
