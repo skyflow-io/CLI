@@ -7,6 +7,7 @@ const ExecCommand = require('./ExecCommand.js');
  * @module Command
  * @author Skyflow
  * @command symfony
+ * @example skyflow symfony cache clear --env prod
  */
 module.exports = class SymfonyCommand {
 
@@ -24,7 +25,8 @@ module.exports = class SymfonyCommand {
         const {Request} = container;
         Request.command = 'exec';
         Request.consoleArguments.shift();
-        Request.consoleArguments = ['symfony', ...Request.consoleArguments];
+        let sfCommand = Request.consoleArguments.join(' ') + ' ' + (Request.getStringOptions().replace(' ', '='));
+        Request.consoleArguments = ['symfony', sfCommand];
         let bin = 'php bin/console';
         if(Request.consoleArguments[1]){
             bin += ' ' + Request.consoleArguments[1];
