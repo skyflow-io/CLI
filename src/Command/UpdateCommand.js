@@ -98,8 +98,12 @@ module.exports = class UpdateCommand {
             } catch (e) {}
 
             let cacheComposeDir = resolve(cache.compose, 'data', compose);
-            let cacheComposeConfig = File.readJson(resolve(cacheComposeDir, compose + '.config.json'));
-            let filesToUpdate = cacheComposeConfig.update || [];
+            let filesToUpdate = [{"entry": "Dockerfile.dist", "output": "Dockerfile"}];
+            let cacheComposeConfig = {};
+            try {
+                cacheComposeConfig = File.readJson(resolve(cacheComposeDir, compose + '.config.json'));
+                filesToUpdate = cacheComposeConfig.update || [];
+            }catch (e) {}
 
             // Replace docker-compose.dist variables
             Object.keys(variables).map((variable)=>{

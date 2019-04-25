@@ -23,7 +23,7 @@ module.exports = class RemoveCommand {
         }
         for (let i = 0; i < Request.consoleArguments.length; i++) {
             let resource = Request.consoleArguments[i];
-            let currentDockerDir = resolve(process.cwd(), config.value.docker.directory);
+            let currentDockerDir = resolve(config.value.docker.directory);
             if (!Directory.exists(resolve(currentDockerDir, resource))) {
                 continue;
             }

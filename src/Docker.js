@@ -64,8 +64,8 @@ module.exports = class Docker {
             Shell.exec('docker-compose -p ' + projectName + ' -f ' + dockerComposeFile + ' ' + command + ' ' + (stringOpt + ' ').trim() + containerName + ' ' + c);
             return true;
         } catch (e) {
-            Output.skyflowError(e.message);
-            return false;
+            // Output.skyflowError(e.message);
+            // return false;
         }
 
     }
@@ -121,8 +121,8 @@ module.exports = class Docker {
             Shell.exec('docker-compose -p ' + projectName + ' -f ' + dockerComposeFile + ' ' + command + ' ' + stringOpt + ' ' + containerNames);
             return true;
         } catch (e) {
-            Output.skyflowError(e.message);
-            return false;
+            // Output.skyflowError(e.message);
+            // return false;
         }
 
     }

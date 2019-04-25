@@ -1,13 +1,16 @@
 const ExecCommand = require('./ExecCommand.js');
 
 /**
- * Adds resources to your project.
+ * Command for symfony project management.
  *
  * @class SymfonyCommand
  * @module Command
  * @author Skyflow
  * @command symfony
- * @example skyflow symfony cache clear --env prod
+ * @argument exec Execute command into symfony container.
+ * @example skyflow sf 'cache:clear -e=prod'
+ * @example skyflow symfony 'cache:clear -e=prod'
+ * @example skyflow symfony exec 'php bin/console cache:clear -e=prod'
  */
 module.exports = class SymfonyCommand {
 
@@ -34,6 +37,8 @@ module.exports = class SymfonyCommand {
         Request.consoleArguments[1] = bin;
         Request.commands = [Request.command, ...Request.consoleArguments];
         new ExecCommand(container);
+
+        return this;
     }
 
 };

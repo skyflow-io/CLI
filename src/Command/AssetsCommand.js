@@ -50,6 +50,8 @@ module.exports = class AssetsCommand {
         Request.consoleArguments = ['assets'];
         Request.commands = [Request.command, ...Request.consoleArguments];
         new AddCommand(container);
+
+        return this;
     }
 
     update(container){
@@ -58,6 +60,8 @@ module.exports = class AssetsCommand {
         Request.consoleArguments = ['assets'];
         Request.commands = [Request.command, ...Request.consoleArguments];
         new UpdateCommand(container);
+
+        return this;
     }
 
     compile(container){
@@ -66,6 +70,8 @@ module.exports = class AssetsCommand {
         Request.consoleArguments = ['assets', 'npm run compile'];
         Request.commands = [Request.command, ...Request.consoleArguments];
         new RunCommand(container);
+
+        return this;
     }
 
     build(container){
@@ -74,6 +80,8 @@ module.exports = class AssetsCommand {
         Request.consoleArguments = ['assets', 'npm run build'];
         Request.commands = [Request.command, ...Request.consoleArguments];
         new RunCommand(container);
+
+        return this;
     }
 
     watch(container){
@@ -82,6 +90,8 @@ module.exports = class AssetsCommand {
         Request.consoleArguments = ['assets', 'npm run watch'];
         Request.commands = [Request.command, ...Request.consoleArguments];
         new RunCommand(container);
+
+        return this;
     }
 
 };

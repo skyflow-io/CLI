@@ -11,6 +11,7 @@ const UpdateCommand = require('./UpdateCommand.js');
  * @command add
  * @argument resource Name of resource.
  * @option [-f,--force] Option to force adding resources.
+ * @option [--no-cache] Add resource without cache.
  * @option [--sync-dir] Option for synchronisation. No override existing files in docker directory.
  * @example skyflow add apache python tooltip.js grid.scss symfony.pkg modal.wgt
  * @example skyflow apache:python:add
@@ -69,7 +70,7 @@ module.exports = class AddCommand {
 
     addCompose(compose, container){
         const {Helper, Output, Api, Shell, File, Request, config} = container;
-        Api.getCompose(compose).then((cacheDirectory)=>{
+        Api.getCompose(compose, !Request.hasOption('no-cache')).then((cacheDirectory)=>{
             let currentDockerDir = resolve(process.cwd(), config.value.docker.directory);
             if (File.exists(resolve(currentDockerDir, compose, 'docker-compose.dist'))) {
                 if (!Request.hasOption('f') && !Request.hasOption('force') && !Request.hasOption('sync-dir')) {

@@ -43,14 +43,15 @@ module.exports = class Api {
      * @method getData
      * @param {String} resource Resource name.
      * @param {String} type Type of resource, like 'compose', 'package', 'script', 'style', 'widget'
+     * @param {Boolean} allowCache
      * @returns {Promise} Returns the current Api object. The first argument of resolve callback is the cache url.
      */
-    getData(resource, type = 'compose') {
+    getData(resource, type = 'compose', allowCache = true) {
 
         return new Promise((res, reject) => {
             const {Output, Shell, Directory, File, cache} = this.container;
             let resourceCacheDir = resolve(cache[type], 'data', resource);
-            if (Directory.exists(resourceCacheDir)) {
+            if (Directory.exists(resourceCacheDir) && allowCache) {
                 return res(resourceCacheDir);
             }
             Output.writeln("Pulling " + resource + " " + type + " from " + this.protocol + "://" + this.host + " ...", null);
@@ -108,19 +109,19 @@ module.exports = class Api {
 
     }
 
-    getCompose(name) {
-        return this.getData(name);
+    getCompose(name, allowCache = true) {
+        return this.getData(name, 'compose', allowCache);
     }
 
-    getScript(name) {
-        return this.getData(name, 'script');
+    getScript(name, allowCache = true) {
+        return this.getData(name, 'script', allowCache);
     }
     getScriptDoc(name) {
         return this.getDoc(name, 'script');
     }
 
-    getWidget(name) {
-        return this.getData(name, 'widget');
+    getWidget(name, allowCache = true) {
+        return this.getData(name, 'widget', allowCache);
     }
     getWidgetDoc(name) {
         return this.getDoc(name, 'widget');
