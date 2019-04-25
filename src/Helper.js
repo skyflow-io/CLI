@@ -12,7 +12,7 @@ module.exports = class Helper {
      *
      * @method getType
      * @param object Object we want to know the type.
-     * @returns {String} Returns the type of object.
+     * @return {String} Returns the type of object.
      */
     static getType(object) {
         if (object === null) {
@@ -39,7 +39,7 @@ module.exports = class Helper {
      *
      * @method isString
      * @param object Object we want to know the type.
-     * @returns {Boolean} Returns true if the object is a string and false otherwise.
+     * @return {Boolean} Returns true if the object is a string and false otherwise.
      */
     static isString(object) {
         return this.getType(object) === 'string';
@@ -50,7 +50,7 @@ module.exports = class Helper {
      *
      * @method isNumber
      * @param object Object we want to know the type.
-     * @returns {Boolean} Returns true if the object is a number and false otherwise.
+     * @return {Boolean} Returns true if the object is a number and false otherwise.
      */
     static isNumber(object) {
         return this.getType(object) === 'number';
@@ -61,7 +61,7 @@ module.exports = class Helper {
      *
      * @method isArray
      * @param object Object we want to know the type.
-     * @returns {Boolean} Returns true if the object is a array and false otherwise.
+     * @return {Boolean} Returns true if the object is a array and false otherwise.
      */
     static isArray(object) {
         return this.getType(object) === 'Array';
@@ -72,7 +72,7 @@ module.exports = class Helper {
      *
      * @method isObject
      * @param object Object we want to know the type.
-     * @returns {Boolean} Returns true if the object is a object and false otherwise.
+     * @return {Boolean} Returns true if the object is a object and false otherwise.
      */
     static isObject(object) {
         return this.getType(object) === 'Object';
@@ -83,7 +83,7 @@ module.exports = class Helper {
      *
      * @method isBoolean
      * @param object Object we want to know the type.
-     * @returns {Boolean} Returns true if the object is a boolean and false otherwise.
+     * @return {Boolean} Returns true if the object is a boolean and false otherwise.
      */
     static isBoolean(object) {
         return this.getType(object) === 'boolean';
@@ -94,7 +94,7 @@ module.exports = class Helper {
      *
      * @method isElement
      * @param object Object we want to know the type.
-     * @returns {Boolean} Returns true if the object is a DOM element and false otherwise.
+     * @return {Boolean} Returns true if the object is a DOM element and false otherwise.
      */
     static isElement(object) {
         return this.getType(object) === 'Element';
@@ -105,7 +105,7 @@ module.exports = class Helper {
      *
      * @method isFunction
      * @param object Object we want to know the type.
-     * @returns {Boolean} Returns true if the object is a function and false otherwise.
+     * @return {Boolean} Returns true if the object is a function and false otherwise.
      */
     static isFunction(object) {
         return this.getType(object) === 'function';
@@ -116,7 +116,7 @@ module.exports = class Helper {
      *
      * @method isCallback
      * @param object Object we want to know the type.
-     * @returns {Boolean} Returns true if the object is a function and false otherwise.
+     * @return {Boolean} Returns true if the object is a function and false otherwise.
      */
     static isCallback(object) {
         return this.isFunction(object);
@@ -127,7 +127,7 @@ module.exports = class Helper {
      *
      * @method isEmpty
      * @param object Object we want to know the type.
-     * @returns {Boolean} Returns true for empty array, string, object, false, undefined, 0, null, NaN and false otherwise.
+     * @return {Boolean} Returns true for empty array, string, object, false, undefined, 0, null, NaN and false otherwise.
      */
     static isEmpty(object) {
         if (!object) {
@@ -151,7 +151,7 @@ module.exports = class Helper {
      *
      * @method isNull
      * @param object Object we want to know the type.
-     * @returns {Boolean} Returns true if the object is null and false otherwise.
+     * @return {Boolean} Returns true if the object is null and false otherwise.
      */
     static isNull(object) {
         return object === null;
@@ -162,7 +162,7 @@ module.exports = class Helper {
      *
      * @method isFalse
      * @param object Object we want to know the type.
-     * @returns {Boolean} Returns true if the object is false and false otherwise.
+     * @return {Boolean} Returns true if the object is false and false otherwise.
      */
     static isFalse(object) {
         return object === false;
@@ -173,7 +173,7 @@ module.exports = class Helper {
      *
      * @method isTrue
      * @param object Object we want to know the type.
-     * @returns {Boolean} Returns true if the object is true and false otherwise.
+     * @return {Boolean} Returns true if the object is true and false otherwise.
      */
     static isTrue(object) {
         return object === true;
@@ -184,7 +184,7 @@ module.exports = class Helper {
      *
      * @method isBlank
      * @param object Object we want to know the type.
-     * @returns {Boolean} Returns true if the string is blank and false otherwise.
+     * @return {Boolean} Returns true if the string is blank and false otherwise.
      */
     static isBlank(object) {
         return this.isString(object) && object.trim() === '';
@@ -195,7 +195,7 @@ module.exports = class Helper {
      *
      * @method isRegExp
      * @param object Object we want to know the type.
-     * @returns {Boolean} Returns true if the object is regular expression and false otherwise.
+     * @return {Boolean} Returns true if the object is regular expression and false otherwise.
      */
     static isRegExp(object) {
         return this.getType(object) === 'RegExp';
@@ -206,7 +206,7 @@ module.exports = class Helper {
      *
      * @method convertToArray
      * @param object Object to convert.
-     * @returns {Array} Returns the resulting array.
+     * @return {Array} Returns the resulting array.
      */
     static convertToArray(object) {
 
@@ -223,7 +223,7 @@ module.exports = class Helper {
      *
      * @method slugify
      * @param {String} text The string to convert.
-     * @returns {String} Returns the converted string.
+     * @return {String} Returns the converted string.
      */
     static slugify(text) {
         return text.toLowerCase()
@@ -245,7 +245,7 @@ module.exports = class Helper {
      * @method hasProperty
      * @param {Object} object Object.
      * @param {String} property Property to check.
-     * @returns {Boolean} Returns true if object has property and false otherwise.
+     * @return {Boolean} Returns true if object has property and false otherwise.
      */
     static hasProperty(object, property) {
         return Object.prototype.hasOwnProperty.call(object, property);
@@ -256,7 +256,7 @@ module.exports = class Helper {
      *
      * @method generateUniqueId
      * @param {Number} count Length of id.
-     * @returns {Number} Returns generated id.
+     * @return {Number} Returns generated id.
      */
     static generateUniqueId(count = 6) {
         return Math.floor(Math.random() * Math.pow(10, count));
@@ -266,7 +266,7 @@ module.exports = class Helper {
      * Check if platform is windows.
      *
      * @method isWindows
-     * @returns {Boolean} Returns true if the platform is windows and false otherwise.
+     * @return {Boolean} Returns true if the platform is windows and false otherwise.
      */
     static isWindows() {
         return process.platform === 'win32';
@@ -276,7 +276,7 @@ module.exports = class Helper {
      * Check if platform is linux.
      *
      * @method isLinux
-     * @returns {Boolean} Returns true if the platform is linux and false otherwise.
+     * @return {Boolean} Returns true if the platform is linux and false otherwise.
      */
     static isLinux() {
         return process.platform === 'linux';
@@ -286,7 +286,7 @@ module.exports = class Helper {
      * Check if platform is mac.
      *
      * @method isMac
-     * @returns {Boolean} Returns true if the platform is mac and false otherwise.
+     * @return {Boolean} Returns true if the platform is mac and false otherwise.
      */
     static isMac() {
         return process.platform === 'darwin';
@@ -296,7 +296,7 @@ module.exports = class Helper {
      * Check if platform is linux or mac.
      *
      * @method isInux
-     * @returns {Boolean} Returns true if the platform is linux or mac and false otherwise.
+     * @return {Boolean} Returns true if the platform is linux or mac and false otherwise.
      */
     static isInux() {
         return this.isLinux() || this.isMac();
@@ -306,7 +306,7 @@ module.exports = class Helper {
      * Get current user directory.
      *
      * @method getUserHome
-     * @returns {String} Returns true if the platform is windows and false otherwise.
+     * @return {String} Returns true if the platform is windows and false otherwise.
      */
     static getUserHome() {
         return process.env[this.isWindows() ? 'USERPROFILE' : 'HOME'];

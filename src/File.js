@@ -17,7 +17,7 @@ class File {
      * @method create
      * @param {String|Buffer|URL|int} file Filename or file descriptor
      * @param {String} content File content.
-     * @returns {File} Returns the current File object.
+     * @return {File} Returns the current File object.
      */
     create(file, content = ''){
         return this.write(file, content, {encoding : 'utf8', flag : 'w'});
@@ -31,7 +31,7 @@ class File {
      * @param {String} content File content.
      * @param {String|Object} options Write options.
      * @link https://nodejs.org/dist/latest-v8.x/docs/api/fs.html#fs_fs_writefilesync_file_data_options
-     * @returns {File} Returns the current File object.
+     * @return {File} Returns the current File object.
      */
     write(file, content = '', options = {encoding : 'utf8', flag : 'a'}){
         fs.writeFileSync(file, content, options);
@@ -46,7 +46,7 @@ class File {
      * @param {String} content
      * @param {String|Object} options
      * @link https://nodejs.org/dist/latest-v8.x/docs/api/fs.html#fs_fs_writefilesync_file_data_options
-     * @returns {File} Returns the current File object.
+     * @return {File} Returns the current File object.
      */
     writeln(file, content = '', options){
         return this.write(file, content+os.EOL, options)
@@ -58,7 +58,7 @@ class File {
      * @method newLine
      * @param {String|Buffer|URL|int} file Filename or file descriptor
      * @param {int} count Number of lines.
-     * @returns {File} Returns the current File object.
+     * @return {File} Returns the current File object.
      */
     newLine(file, count = 1){
         return this.write(file, os.EOL.repeat(count))
@@ -69,7 +69,7 @@ class File {
      *
      * @method delete
      * @param {String|Buffer|URL|int} file Filename or file descriptor
-     * @returns {File} Returns the current File object.
+     * @return {File} Returns the current File object.
      */
     delete(file){
         fs.unlinkSync(file);
@@ -81,7 +81,7 @@ class File {
      *
      * @method remove
      * @param {String|Buffer|URL|int} file Filename or file descriptor
-     * @returns {File} Returns the current File object.
+     * @return {File} Returns the current File object.
      */
     remove(file){
         return this.delete(file)
@@ -93,7 +93,7 @@ class File {
      * @method copy
      * @param {String|Buffer|URL|int} source Filename or file descriptor
      * @param {String|Buffer|URL|int} destination Filename or file descriptor
-     * @returns {File} Returns the current File object.
+     * @return {File} Returns the current File object.
      */
     copy(source, destination){
         // fs.createReadStream(source).pipe(fs.createWriteStream(resolve(destination)));
@@ -107,7 +107,7 @@ class File {
      * @method rename
      * @param {String|Buffer|URL|int} oldFile Filename or file descriptor
      * @param {String|Buffer|URL|int} newFile Filename or file descriptor
-     * @returns {File} Returns the current File object.
+     * @return {File} Returns the current File object.
      */
     rename(oldFile, newFile){
         fs.renameSync(oldFile, newFile);
@@ -119,7 +119,7 @@ class File {
      *
      * @method exists
      * @param {String|Buffer|URL|int} file Filename or file descriptor
-     * @returns {Boolean}
+     * @return {Boolean}
      */
     exists(file){
         try{
@@ -135,7 +135,7 @@ class File {
      * @method read
      * @param {String|Buffer|URL|int} file Filename or file descriptor
      * @param {String|Object} options
-     * @returns {String}
+     * @return {String}
      */
     read(file, options = {encoding : 'utf8'}){
          return fs.readFileSync(file, options)
@@ -147,7 +147,7 @@ class File {
      * @method createJson
      * @param {String} file
      * @param {object} json
-     * @returns {File} Returns the current File object.
+     * @return {File} Returns the current File object.
      */
     createJson(file, json = {}){
         jsonfile.writeFileSync(file, json, { spaces: 4, EOL: '\r\n' });
@@ -159,7 +159,7 @@ class File {
      *
      * @method readJson
      * @param {String|Buffer|URL|int} file Filename or file descriptor
-     * @returns {Object}
+     * @return {Object}
      */
     readJson(file){
         return jsonfile.readFileSync(file);
@@ -171,7 +171,7 @@ class File {
      * @method appendJson
      * @param {String} file
      * @param {object} json
-     * @returns {File} Returns the current File object.
+     * @return {File} Returns the current File object.
      */
     appendJson(file, json = {}){
         jsonfile.writeFileSync(file, json, { spaces: 4, EOL: '\r\n', flag: 'a' });

@@ -17,7 +17,7 @@ class Directory {
      *
      * @method create
      * @param {String} directory Directory name.
-     * @returns {Directory} Returns the current Directory object.
+     * @return {Directory} Returns the current Directory object.
      */
     create(directory){
 
@@ -39,7 +39,7 @@ class Directory {
      *
      *  @method delete
      * @param {String} directory Directory name.
-     * @returns {Directory} Returns the current Directory object.
+     * @return {Directory} Returns the current Directory object.
      */
     delete(directory){
 
@@ -71,7 +71,7 @@ class Directory {
      *
      * @method remove
      * @param {String} directory Directory name.
-     * @returns {Directory} Returns the current Directory object.
+     * @return {Directory} Returns the current Directory object.
      */
     remove(directory){
         return this.delete(directory)
@@ -83,7 +83,7 @@ class Directory {
      * @method copy
      * @param {String} source
      * @param {String} destination
-     * @returns {Directory} Returns the current Directory object.
+     * @return {Directory} Returns the current Directory object.
      */
     copy(source, destination){
 
@@ -115,7 +115,7 @@ class Directory {
      * @method rename
      * @param {String} oldDirectory
      * @param {String} newDirectory
-     * @returns {Directory} Returns the current Directory object.
+     * @return {Directory} Returns the current Directory object.
      */
     rename(oldDirectory, newDirectory){
         fs.renameSync(oldDirectory, newDirectory);
@@ -127,7 +127,7 @@ class Directory {
      *
      * @method exists
      * @param {String} directory Directory name.
-     * @returns {Boolean}
+     * @return {Boolean}
      */
     exists(directory){
         try{
@@ -143,7 +143,7 @@ class Directory {
      * @method read
      * @param {String} directory Directory name.
      * @param {object} options Read options.
-     * @returns {Array}
+     * @return {Array}
      */
     read(directory, options){
 

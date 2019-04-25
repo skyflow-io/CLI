@@ -16,7 +16,7 @@ class Shell {
      * @method run
      * @param {string} command
      * @param {array} options
-     * @returns {Shell}
+     * @return {Shell}
      */
     run(command, options = []) {
 
@@ -46,7 +46,7 @@ class Shell {
      *
      * @method exec
      * @param {string} command
-     * @returns {Shell}
+     * @return {Shell}
      */
     exec(command) {
         execSync(command, {stdio: [process.stdin, process.stdout, process.stderr]});
@@ -70,7 +70,7 @@ class Shell {
      * Checks if shell has error.
      *
      * @method hasError
-     * @returns {Boolean}
+     * @return {Boolean}
      */
     hasError() {
         return this.error !== false;
@@ -80,7 +80,7 @@ class Shell {
      * Gets shell error.
      *
      * @method getError
-     * @returns {String}
+     * @return {String}
      */
     getError() {
         return this.error;
@@ -90,7 +90,7 @@ class Shell {
      * Gets shell result.
      *
      * @method getResult
-     * @returns {String}
+     * @return {String}
      */
     getResult() {
         return this.result;
@@ -101,7 +101,7 @@ class Shell {
      *
      *
      * @method getStatus
-     * @returns {Array}
+     * @return {Array}
      */
     getStatus() {
         return this.status;
@@ -111,7 +111,7 @@ class Shell {
      * Gets shell result as array.
      *
      * @method getArrayResult
-     * @returns {Boolean}
+     * @return {Boolean}
      */
     getArrayResult() {
         return this.arrayResult;

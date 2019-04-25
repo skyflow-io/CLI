@@ -85,7 +85,7 @@ module.exports = class Request {
      *
      * @method parse
      * @param {Array} args Request arguments.
-     * @returns {Request} Returns the current Request object.
+     * @return {Request} Returns the current Request object.
      */
     parse(args){
         const {Helper, config} = this.container;
@@ -163,7 +163,7 @@ module.exports = class Request {
      *
      * @method hasOption
      * @param {String} option Option to check.
-     * @returns {Boolean} Returns true if an option exists and false otherwise.
+     * @return {Boolean} Returns true if an option exists and false otherwise.
      */
     hasOption(option){
         return Helper.hasProperty(this.options, option);
@@ -174,7 +174,7 @@ module.exports = class Request {
      *
      * @method getOption
      * @param {String} option Option to get.
-     * @returns {String} Returns option value.
+     * @return {String} Returns option value.
      */
     getOption(option){
         return this.options[option];
@@ -185,7 +185,7 @@ module.exports = class Request {
      *
      * @method removeOption
      * @param {String} option Option to get.
-     * @returns {Request} Returns the current Request object.
+     * @return {Request} Returns the current Request object.
      */
     removeOption(option){
         delete this.options[option];
@@ -200,7 +200,7 @@ module.exports = class Request {
      * @method addOption
      * @param {String} option Option name.
      * @param {String} value Option value.
-     * @returns {Request} Returns the current Request object.
+     * @return {Request} Returns the current Request object.
      */
     addOption(option, value){
         this.options[option] = value;
@@ -212,7 +212,7 @@ module.exports = class Request {
      *
      * @method hasShortOption
      * @param {String} option Option to check.
-     * @returns {Boolean} Returns true if short option exists and false otherwise.
+     * @return {Boolean} Returns true if short option exists and false otherwise.
      */
     hasShortOption(option){
         return Helper.hasProperty(this.shortOptions, option);
@@ -223,7 +223,7 @@ module.exports = class Request {
      *
      * @method hasLongOption
      * @param {String} option Option to check.
-     * @returns {Boolean} Returns true if long option exists and false otherwise.
+     * @return {Boolean} Returns true if long option exists and false otherwise.
      */
     hasLongOption(option){
         return Helper.hasProperty(this.longOptions, option);
@@ -233,7 +233,7 @@ module.exports = class Request {
      * Contacts short and long options as string.
      *
      * @method getStringOptions
-     * @returns {String} Returns true if long option exists and false otherwise.
+     * @return {String} Returns true if long option exists and false otherwise.
      */
     getStringOptions() {
         let options = '';

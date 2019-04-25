@@ -18,7 +18,7 @@ class Output {
      * @param {String|null} color Font color.
      * @param {String|null} bg Font background color.
      * @param {String|null} style Font style.
-     * @returns {Output} Returns the current Output object.
+     * @return {Output} Returns the current Output object.
      */
     write(message, color, bg, style) {
         Style.setColor(color).setBackground(bg).addStyle(style);
@@ -34,7 +34,7 @@ class Output {
      * @param {String|null} color Font color.
      * @param {String|null} bg Font background color.
      * @param {String|null} style Font style.
-     * @returns {Output} Returns the current Output object.
+     * @return {Output} Returns the current Output object.
      */
     writeln(message, color, bg, style) {
         return this.write(message, color, bg, style).newLine();
@@ -45,7 +45,7 @@ class Output {
      *
      * @method newLine
      * @param {Number} count Number of new line.
-     * @returns {Output} Returns the current Output object.
+     * @return {Output} Returns the current Output object.
      */
     newLine(count = 1) {
         process.stdout.write(require("os").EOL.repeat(count));
@@ -57,7 +57,7 @@ class Output {
      *
      * @method space
      * @param {Number} count Number of spaces.
-     * @returns {Output} Returns the current Output object.
+     * @return {Output} Returns the current Output object.
      */
     space(count = 1) {
         process.stdout.write(' '.repeat(count));
@@ -69,7 +69,7 @@ class Output {
      *
      * @method error
      * @param {String} message
-     * @returns {Output} Returns the current Output object.
+     * @return {Output} Returns the current Output object.
      */
     error(message) {
         return this.writeln(message, 'red', null, null);
@@ -80,7 +80,7 @@ class Output {
      *
      * @method skyflowError
      * @param {String} message
-     * @returns {Output} Returns the current Output object.
+     * @return {Output} Returns the current Output object.
      */
     skyflowError(message) {
         return this.write('Skyflow Error: ', 'red', null, 'bold').writeln(message, 'red', null, null);
@@ -91,7 +91,7 @@ class Output {
      *
      * @method success
      * @param {String} message
-     * @returns {Output} Returns the current Output object.
+     * @return {Output} Returns the current Output object.
      */
     success(message) {
         return this.writeln(message, 'green', null, null);
@@ -102,7 +102,7 @@ class Output {
      *
      * @method skyflowSuccess
      * @param {String} message
-     * @returns {Output} Returns the current Output object.
+     * @return {Output} Returns the current Output object.
      */
     skyflowSuccess(message) {
         return this.write('✓ ', 'green', null, 'bold').writeln(message, 'green', null, null);
@@ -113,7 +113,7 @@ class Output {
      *
      * @method info
      * @param {String} message
-     * @returns {Output} Returns the current Output object.
+     * @return {Output} Returns the current Output object.
      */
     info(message) {
         return this.writeln(message, 'blue', null, null);
@@ -124,7 +124,7 @@ class Output {
      *
      * @method skyflowInfo
      * @param {String} message
-     * @returns {Output} Returns the current Output object.
+     * @return {Output} Returns the current Output object.
      */
     skyflowInfo(message) {
         return this.write('Skyflow Info: ', 'blue', null, 'bold').writeln(message, 'blue', null, null);
@@ -135,7 +135,7 @@ class Output {
      *
      * @method warning
      * @param {String} message
-     * @returns {Output} Returns the current Output object.
+     * @return {Output} Returns the current Output object.
      */
     warning(message) {
         return this.writeln(message, 'yellow', null, null);
@@ -146,7 +146,7 @@ class Output {
      *
      * @method skyflowWarning
      * @param {String} message
-     * @returns {Output} Returns the current Output object.
+     * @return {Output} Returns the current Output object.
      */
     skyflowWarning(message) {
         return this.write('Skyflow Warning: ', 'yellow', null, 'bold').writeln(message, 'yellow', null, null);

@@ -15,7 +15,7 @@ module.exports = class Docker {
      * @method isContainerRunning
      * @param {String} containerName Name of container to check.
      * @param {Object} container Skyflow objects container.
-     * @returns {Boolean} Returns true if container is running and false otherwise.
+     * @return {Boolean} Returns true if container is running and false otherwise.
      */
     static isContainerRunning(containerName, container) {
         const {Shell} = container;
@@ -75,7 +75,7 @@ module.exports = class Docker {
      *
      * @method dockerComposeExec
      * @param {Object} container Skyflow objects container.
-     * @returns {Boolean}
+     * @return {Boolean}
      */
     static dockerComposeExec(container){
         return Docker.dockerCompose('exec', container, true);
@@ -86,7 +86,7 @@ module.exports = class Docker {
      *
      * @method dockerComposeRun
      * @param {Object} container Skyflow objects container.
-     * @returns {Boolean}
+     * @return {Boolean}
      */
     static dockerComposeRun(container){
         return Docker.dockerCompose('run', container, false);
@@ -98,7 +98,7 @@ module.exports = class Docker {
      * @method composeExec
      * @param {String} command Command to execute.
      * @param {Object} container Skyflow objects container.
-     * @returns {Boolean}
+     * @return {Boolean}
      */
     static composeExec(command, container){
 

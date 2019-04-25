@@ -44,7 +44,7 @@ module.exports = class Api {
      * @param {String} resource Resource name.
      * @param {String} type Type of resource, like 'compose', 'package', 'script', 'style', 'widget'
      * @param {Boolean} allowCache
-     * @returns {Promise} Returns the current Api object. The first argument of resolve callback is the cache url.
+     * @return {Promise} Returns the current Api object. The first argument of resolve callback is the cache url.
      */
     getData(resource, type = 'compose', allowCache = true) {
 
@@ -81,7 +81,7 @@ module.exports = class Api {
      * @method getDoc
      * @param {String} resource Resource name.
      * @param {String} type Type of resource, like 'compose', 'package', 'script', 'style', 'widget'
-     * @returns {Promise} Returns the current Api object. The first argument of resolve callback is the cache url.
+     * @return {Promise} Returns the current Api object. The first argument of resolve callback is the cache url.
      */
     getDoc(resource, type = 'compose') {
 

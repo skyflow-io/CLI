@@ -20,7 +20,7 @@ class Style {
      *
      * @method setColor
      * @param {String} color Values can be 'redBright' 'green' ...
-     * @returns {Style} Returns the current Style object.
+     * @return {Style} Returns the current Style object.
      */
     setColor(color) {
         if (!color) {
@@ -44,7 +44,7 @@ class Style {
      *
      * @method addStyle
      * @param {String} style Format can be 'inverse' 'bold.underline' 'bold hidden'
-     * @returns {Style} Returns the current Style object.
+     * @return {Style} Returns the current Style object.
      */
     addStyle(style) {
         if (!style) {
@@ -63,7 +63,7 @@ class Style {
      *
      * @method removeStyle
      * @param {String} style Format can be 'inverse' 'bold' 'underline'
-     * @returns {Style} Returns the current Style object.
+     * @return {Style} Returns the current Style object.
      */
     removeStyle(style) {
         delete this.styles[style];
@@ -75,7 +75,7 @@ class Style {
      *
      * @method setBackground
      * @param {String} color Values can be 'cyan' 'magentaBright' ...
-     * @returns {Style} Returns the current Style object.
+     * @return {Style} Returns the current Style object.
      */
     setBackground(color) {
         if (!color) {
@@ -99,7 +99,7 @@ class Style {
      *
      * @method apply
      * @param text Text to format
-     * @returns {String} Returns the formatted text.
+     * @return {String} Returns the formatted text.
      */
     apply(text) {
         const chalk = require('chalk');

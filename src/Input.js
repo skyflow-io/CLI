@@ -16,7 +16,7 @@ class Input {
      * @method ask
      * @param {Array} questions
      * @param {Function} callback Callback to run after obtaining data. The first argument of this callback is the data.
-     * @returns {Input} Returns the current Input object.
+     * @return {Input} Returns the current Input object.
      */
     ask(questions, callback){
 
