@@ -1,3 +1,4 @@
+const {resolve} = require("path");
 const AddCommand = require('./AddCommand.js');
 
 /**
@@ -14,26 +15,35 @@ const AddCommand = require('./AddCommand.js');
 module.exports = class SyncCommand {
 
     constructor(container) {
-        const {Request, config} = container;
+        const {Request, File, config} = container;
         if(Request.hasOption('dir')){
             return this.syncFromDir(container);
         }
         // Sync
+        Request.consoleArguments = [];
         let composes = Object.keys(config.value.docker.composes);
+        composes.map((compose)=>{
+            if(!File.exists(resolve(config.value.docker.directory, compose, 'docker-compose.dist'))){
+                Request.consoleArguments.push(compose);
+            }
+        });
         Request.command = 'add';
-        Request.consoleArguments = composes;
         Request.commands = [Request.command, ...Request.consoleArguments];
         new AddCommand(container);
     }
 
     syncFromDir(container){
-        const {Directory, Request, config} = container;
-        config.value.docker.composes = {};
+        const {Directory, Request, Helper, config} = container;
         let currentDockerDir = Request.getOption('dir');
         let composes = Directory.read(currentDockerDir, {file: false});
+        Request.consoleArguments = [];
+        composes.map((compose)=>{
+            if(!Helper.hasProperty(config.value.docker.composes, compose)){
+                Request.consoleArguments.push(compose);
+            }
+        });
         Request.command = 'add';
         Request.addOption('sync-dir', true);
-        Request.consoleArguments = composes;
         Request.commands = [Request.command, ...Request.consoleArguments];
         new AddCommand(container);
     }
