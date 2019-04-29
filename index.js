@@ -50,13 +50,22 @@ container['cache'] = {
     script: resolve(config.cache, 'scripts'),
     style: resolve(config.cache, 'styles'),
     widget: resolve(config.cache, 'widgets')
-};
 
+};
 container['Api'] = new (require('./src/Api.js'))(container);
 container['Request'] = new (require('./src/Request.js'))(container);
 
+container['Skyflow'] = require('./package.json');
+
 if (!container.Request.command) {
+    let request = container.Request;
     container.Request.command = 'help';
+    if(request.hasShortOption('h') || request.hasLongOption('help')){
+        container.Request.command = 'help';
+    }
+    if(request.hasShortOption('v') || request.hasLongOption('version')){
+        container.Request.command = 'version';
+    }
 }
 
 let Command = null;

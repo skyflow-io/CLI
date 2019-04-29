@@ -159,6 +159,16 @@ module.exports = class Request {
     }
 
     /**
+     * Checks if options array is empty.
+     *
+     * @method hasOption
+     * @return {Boolean} Returns true if options array is empty and false otherwise.
+     */
+    isOptionsEmpty(){
+        return Helper.isEmpty(this.options);
+    }
+
+    /**
      * Checks if an option exists.
      *
      * @method hasOption

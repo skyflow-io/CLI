@@ -12,10 +12,10 @@ module.exports = class HelpCommand {
 
     constructor(container) {
 
-        const {Output} = container;
+        const {Output, Skyflow} = container;
 
-        Output.writeln('Coming soon !');
-
+        // Output.write('skyflow v' + Skyflow.version + ' ', 'green').writeln('[' + Skyflow.license + ']');
+        console.log('Coming soon !');
     }
 
 };
