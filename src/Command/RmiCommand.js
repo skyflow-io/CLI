@@ -5,11 +5,14 @@
  * @module Command
  * @author Skyflow
  * @command rmi
- * @option [-a, --all] Remove all images.
+ * @options
+ *      [-a, --all] Remove all images.
  * @see https://docs.docker.com/engine/reference/commandline/image_rm
  * @see https://docs.docker.com/engine/reference/commandline/rmi
- * @example skyflow rmi -a -f
- * @example skyflow rmi postgres_564358 -f
+ * @examples
+ *      skyflow rmi -a -f
+ *      skyflow rmi postgres_564358 -f
+ * @since 1.0.0
  */
 module.exports = class RmiCommand {
 

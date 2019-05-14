@@ -9,14 +9,18 @@ const UpdateCommand = require('./UpdateCommand.js');
  * @module Command
  * @author Skyflow
  * @command add
- * @argument resource Name of resource.
- * @option [-f,--force] Option to force adding resources.
- * @option [--no-cache] Add resource without cache.
- * @option [--pull] Pull resource from skyflow API.
- * @option [--sync-dir] Option for synchronisation. No override existing files in docker directory.
- * @example skyflow add apache python tooltip.js grid.scss symfony.pkg modal.wgt
- * @example skyflow apache:python:add
- * @example skyflow add python -f
+ * @arguments resource Name of resource.
+ * @options
+ *      [-f,--force] Option to force adding resources.
+ *      [--no-cache] Add resource without cache.
+ *      [--pull] Pull resource from skyflow API.
+ *      [--sync-dir] Option for synchronisation. No override existing files in docker directory.
+ * @examples
+ *      skyflow add apache python
+ *      skyflow apache:python:add
+ *      skyflow add python -f
+ * @related update up down
+ * @since 1.0.0
  */
 module.exports = class AddCommand {
 

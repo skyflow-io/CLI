@@ -1,13 +1,15 @@
 /**
- * Adds resources to your project.
+ * Displays command line version.
  *
  * @class VersionCommand
  * @module Command
  * @author Skyflow
  * @command version
- * @example skyflow version
- * @example skyflow -v
- * @example skyflow --version
+ * @examples
+ *      skyflow version
+ *      skyflow -v
+ *      skyflow --version
+ * @since 1.0.0
  */
 module.exports = class VersionCommand {
 

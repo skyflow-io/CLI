@@ -8,9 +8,12 @@ const AddCommand = require('./AddCommand.js');
  * @module Command
  * @author Skyflow
  * @command sync
- * @option [--dir] Synchronise from directory.
- * @example skyflow sync
- * @example skyflow sync --dir my_dir
+ * @options
+ *      [--dir] Synchronise from directory.
+ * @examples
+ *      skyflow sync
+ *      skyflow sync --dir my_dir
+ * @since 1.0.0
  */
 module.exports = class SyncCommand {
 

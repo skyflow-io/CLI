@@ -8,7 +8,9 @@ const {resolve} = require("path");
  * @author Skyflow
  * @command down
  * @see https://docs.docker.com/compose/reference/down
- * @example skyflow down
+ * @examples
+ *      skyflow down
+ * @since 1.0.0
  */
 module.exports = class DownCommand {
 

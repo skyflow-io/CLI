@@ -5,10 +5,13 @@
  * @module Command
  * @author Skyflow
  * @command bash
- * @argument compose Name of compose.
+ * @arguments
+ *      compose Name of compose.
  * @see https://docs.docker.com/compose/reference/exec
- * @example skyflow bash postgres
- * @example skyflow postgres:bash
+ * @examples
+ *      skyflow bash postgres
+ *      skyflow postgres:bash
+ * @since 1.0.0
  */
 module.exports = class BashCommand {
 

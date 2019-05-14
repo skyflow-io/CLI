@@ -7,10 +7,12 @@
  * @command ls
  * @see https://docs.docker.com/engine/reference/commandline/image_ls
  * @see https://docs.docker.com/engine/reference/commandline/container_ls
- * @example skyflow ls
- * @example skyflow ls -a
- * @example skyflow image:ls -a
- * @example skyflow ls image -a
+ * @examples
+ *      skyflow ls
+ *      skyflow ls -a
+ *      skyflow image:ls -a
+ *      skyflow ls image -a
+ * @since 1.0.0
  */
 module.exports = class LsCommand {
 

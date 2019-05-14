@@ -6,9 +6,11 @@
  * @author Skyflow
  * @command logs
  * @see https://docs.docker.com/compose/reference/logs
- * @example skyflow logs
- * @example skyflow logs postgres
- * @example skyflow postgres:logs
+ * @examples
+ *      skyflow logs
+ *      skyflow logs postgres
+ *      skyflow postgres:logs
+ * @since 1.0.0
  */
 module.exports = class LogsCommand {
 

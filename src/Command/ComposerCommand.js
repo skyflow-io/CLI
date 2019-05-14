@@ -15,17 +15,18 @@ function runComposerCommand(command, container){
  * @module Command
  * @author Skyflow
  * @command composer
- * @argument init Create a composer.json. See https://getcomposer.org/doc/03-cli.md#init
- * @argument install The install command reads the composer.json file from the current directory, resolves the dependencies, and installs them into vendor.
- *      See https://getcomposer.org/doc/03-cli.md#install-i
- * @argument update Get the latest versions of the dependencies. See https://getcomposer.org/doc/03-cli.md#update-u
- * @argument require Adds new packages to the composer.json file from the current directory. If no file exists one will be created on the fly.
- *      See https://getcomposer.org/doc/03-cli.md#require
- * @argument remove Removes packages from the composer.json file from the current directory. See https://getcomposer.org/doc/03-cli.md#remove
- * @argument exec Execute composer command.
- * @example skyflow composer exec 'install --prefer-dist'
- * @example skyflow composer exec update
- * @example skyflow composer update --dev
+ * @arguments
+ *      init Create a composer.json. See https://getcomposer.org/doc/03-cli.md#init
+ *      install The install command reads the composer.json file from the current directory, resolves the dependencies, and installs them into vendor. See https://getcomposer.org/doc/03-cli.md#install-i
+ *      update Get the latest versions of the dependencies. See https://getcomposer.org/doc/03-cli.md#update-u
+ *      require Adds new packages to the composer.json file from the current directory. If no file exists one will be created on the fly. See https://getcomposer.org/doc/03-cli.md#require
+ *      remove Removes packages from the composer.json file from the current directory. See https://getcomposer.org/doc/03-cli.md#remove
+ *      exec Execute composer command.
+ * @examples
+ *      skyflow composer exec 'install --prefer-dist'
+ *      skyflow composer exec update
+ *      skyflow composer update --dev
+ * @since 1.0.0
  */
 module.exports = class ComposerCommand {
 

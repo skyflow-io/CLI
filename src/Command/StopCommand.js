@@ -6,9 +6,11 @@
  * @author Skyflow
  * @command stop
  * @see https://docs.docker.com/compose/reference/stop
- * @example skyflow stop
- * @example skyflow stop postgres
- * @example skyflow postgres:stop
+ * @examples
+ *      skyflow stop
+ *      skyflow stop postgres
+ *      skyflow postgres:stop
+ * @since 1.0.0
  */
 module.exports = class StopCommand {
 

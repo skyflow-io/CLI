@@ -7,14 +7,18 @@ const {resolve} = require("path");
  * @module Command
  * @author Skyflow
  * @command up
- * @argument [compose1, compose2, ...] Name of resource.
- * @option [--no-detach] By default, detach mode is enabled. This option disabled detach mode.
- * @option [--no-build] No build images before starting containers. By default, images are built.
+ * @arguments
+ *      [compose1, compose2, ...] Name of resource.
+ * @options
+ *      [--no-detach] By default, detach mode is enabled. This option disabled detach mode.
+ *      [--no-build] No build images before starting containers. By default, images are built.
  * @see https://docs.docker.com/compose/reference/up
- * @example skyflow up
- * @example skyflow up postgres python
- * @example skyflow python:up
- * @example skyflow postgres:python:up
+ * @examples
+ *      skyflow up
+ *      skyflow up postgres python
+ *      skyflow python:up
+ *      skyflow postgres:python:up
+ * @since 1.0.0
  */
 module.exports = class UpCommand {
 

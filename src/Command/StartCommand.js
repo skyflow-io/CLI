@@ -6,9 +6,11 @@
  * @author Skyflow
  * @command start
  * @see https://docs.docker.com/compose/reference/start
- * @example skyflow start
- * @example skyflow start postgres
- * @example skyflow postgres:start
+ * @examples
+ *      skyflow start
+ *      skyflow start postgres
+ *      skyflow postgres:start
+ * @since 1.0.0
  */
 module.exports = class StartCommand {
 

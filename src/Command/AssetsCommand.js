@@ -3,22 +3,26 @@ const AddCommand = require('./AddCommand.js');
 const UpdateCommand = require('./UpdateCommand.js');
 
 /**
- * Adds resources to your project.
+ * Manages your assets.
  *
  * @class AssetsCommand
  * @module Command
  * @author Skyflow
  * @command assets
- * @argument install Install assets compose.
- * @argument update Update assets compose.
- * @argument compile Compile assets for development environment.
- * @argument build Compile assets for production environment.
- * @argument watch For watching assets.
- * @option [-y,--yes] Update without prompt.
- * @example skyflow assets install
- * @example skyflow assets update
- * @example skyflow assets update -y
- * @example skyflow assets compile
+ * @arguments
+ *      install Install assets compose.
+ *      update Update assets compose.
+ *      compile Compile assets for development environment.
+ *      build Compile assets for production environment.
+ *      watch For watching assets.
+ * @options
+ *      [-y,--yes] Update without prompt.
+ * @examples
+ *      skyflow assets install
+ *      skyflow assets update
+ *      skyflow assets update -y
+ *      skyflow assets compile
+ * @since 1.0.0
  */
 module.exports = class AssetsCommand {
 

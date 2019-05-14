@@ -5,11 +5,14 @@
  * @module Command
  * @author Skyflow
  * @command run
- * @argument compose Name of compose.
- * @argument command Command to execute.
+ * @arguments
+ *      compose Name of compose.
+ *      command Command to execute.
  * @see https://docs.docker.com/compose/reference/run
- * @example skyflow run composer "composer install"
- * @example skyflow composer:run "composer install"
+ * @examples
+ *      skyflow run composer "composer install"
+ *      skyflow composer:run "composer install"
+ * @since 1.0.0
  */
 module.exports = class RunCommand {
 

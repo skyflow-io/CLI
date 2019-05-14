@@ -1,12 +1,14 @@
 /**
- * Adds resources to your project.
+ * Displays command line help.
  *
  * @class HelpCommand
  * @module Command
  * @author Skyflow
  * @command help
- * @example skyflow help
- * @example skyflow -h
+ * @examples
+ *      skyflow help
+ *      skyflow -h
+ * @since 1.0.0
  */
 module.exports = class HelpCommand {
 

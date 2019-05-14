@@ -6,9 +6,11 @@
  * @author Skyflow
  * @command build
  * @see https://docs.docker.com/compose/reference/build
- * @example skyflow build
- * @example skyflow build python
- * @example skyflow python:build
+ * @examples
+ *      skyflow build
+ *      skyflow build python
+ *      skyflow python:build
+ * @since 1.0.0
  */
 module.exports = class BuildCommand {
 

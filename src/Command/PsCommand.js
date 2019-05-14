@@ -6,9 +6,11 @@
  * @author Skyflow
  * @command ps
  * @see https://docs.docker.com/compose/reference/ps
- * @example skyflow ps
- * @example skyflow ps postgres
- * @example skyflow postgres:ps
+ * @examples
+ *      skyflow ps
+ *      skyflow ps postgres
+ *      skyflow postgres:ps
+ * @since 1.0.0
  */
 module.exports = class PsCommand {
 

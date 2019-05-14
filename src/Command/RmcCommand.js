@@ -5,10 +5,13 @@
  * @module Command
  * @author Skyflow
  * @command rmc
- * @option [-a, --all] Remove all containers.
+ * @options
+ *      [-a, --all] Remove all containers.
  * @see https://docs.docker.com/engine/reference/commandline/rm
- * @example skyflow rmc -a -f
- * @example skyflow rmc postgres_564358 -f
+ * @examples
+ *      skyflow rmc -a -f
+ *      skyflow rmc postgres_564358 -f
+ * @since 1.0.0
  */
 module.exports = class RmcCommand {
 

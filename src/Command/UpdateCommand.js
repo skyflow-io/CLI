@@ -8,12 +8,16 @@ const os = require("os");
  * @module Command
  * @author Skyflow
  * @command update
- * @argument [compose1, compose2, ...] Name of resource.
- * @option [-y,--yes] Update without prompt.
- * @example skyflow update
- * @example skyflow update -y
- * @example skyflow update postgres python
- * @example skyflow postgres:python:update
+ * @arguments
+ *      [compose1, compose2, ...] Name of resource.
+ * @options
+ *      [-y,--yes] Update without prompt.
+ * @examples
+ *      skyflow update
+ *      skyflow update -y
+ *      skyflow update postgres python
+ *      skyflow postgres:python:update
+ * @since 1.0.0
  */
 module.exports = class UpdateCommand {
 

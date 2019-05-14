@@ -127,10 +127,4 @@ module.exports = class Api {
         return this.getDoc(name, 'widget');
     }
 
-
-
-
-
-
-
 };

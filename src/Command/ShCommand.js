@@ -5,10 +5,13 @@
  * @module Command
  * @author Skyflow
  * @command sh
- * @argument compose Name of compose.
+ * @arguments
+ *      compose Name of compose.
  * @see https://docs.docker.com/compose/reference/exec
- * @example skyflow sh postgres
- * @example skyflow postgres:sh
+ * @examples
+ *      skyflow sh postgres
+ *      skyflow postgres:sh
+ * @since 1.0.0
  */
 module.exports = class ShCommand {
 

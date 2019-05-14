@@ -5,13 +5,16 @@
  * @module Command
  * @author Skyflow
  * @command rm
- * @option [-f, --force] Don't ask to confirm removal.
- * @option [-s, --stop] Stop the containers, if required, before removing.
- * @option [-v] Remove any anonymous volumes attached to containers.
+ * @options
+ *      [-f, --force] Don't ask to confirm removal.
+ *      [-s, --stop] Stop the containers, if required, before removing.
+ *      [-v] Remove any anonymous volumes attached to containers.
  * @see https://docs.docker.com/compose/reference/rm
- * @example skyflow rm
- * @example skyflow rm python
- * @example skyflow python:rm -f -s
+ * @examples
+ *      skyflow rm
+ *      skyflow rm python
+ *      skyflow python:rm -f -s
+ * @since 1.0.0
  */
 module.exports = class RmCommand {
 

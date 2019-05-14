@@ -1,14 +1,16 @@
 /**
  * Restarts all stopped and running services.
  *
- * @class LogsCommand
+ * @class RestartCommand
  * @module Command
  * @author Skyflow
  * @command restart
  * @see https://docs.docker.com/compose/reference/restart
- * @example skyflow restart
- * @example skyflow restart postgres
- * @example skyflow postgres:restart
+ * @examples
+ *      skyflow restart
+ *      skyflow restart postgres
+ *      skyflow postgres:restart
+ * @since 1.0.0
  */
 module.exports = class RestartCommand {
 

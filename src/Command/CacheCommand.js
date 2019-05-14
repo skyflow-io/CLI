@@ -7,10 +7,13 @@ const {resolve} = require("path");
  * @module Command
  * @author Skyflow
  * @command cache
- * @argument clear Clear cache.
- * @example skyflow cache clear
- * @example skyflow cache clear --compose
- * @example skyflow cache clear --compose kibana
+ * @arguments
+ *      clear Clear cache.
+ * @examples
+ *      skyflow cache clear
+ *      skyflow cache clear --compose
+ *      skyflow cache clear --compose kibana
+ * @since 1.0.0
  */
 module.exports = class CacheCommand {
 
