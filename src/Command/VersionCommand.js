@@ -9,6 +9,7 @@
  *      skyflow version
  *      skyflow -v
  *      skyflow --version
+ * @related help
  * @since 1.0.0
  */
 module.exports = class VersionCommand {

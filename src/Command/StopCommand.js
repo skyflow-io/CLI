@@ -10,6 +10,7 @@
  *      skyflow stop
  *      skyflow stop postgres
  *      skyflow postgres:stop
+ * @related start restart
  * @since 1.0.0
  */
 module.exports = class StopCommand {

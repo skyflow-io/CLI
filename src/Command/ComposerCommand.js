@@ -26,6 +26,7 @@ function runComposerCommand(command, container){
  *      skyflow composer exec 'install --prefer-dist'
  *      skyflow composer exec update
  *      skyflow composer update --dev
+ * @related symfony exec
  * @since 1.0.0
  */
 module.exports = class ComposerCommand {

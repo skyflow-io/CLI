@@ -12,6 +12,7 @@
  * @examples
  *      skyflow exec composer "composer install"
  *      skyflow composer:exec "composer install"
+ * @related run bash sh
  * @since 1.0.0
  */
 module.exports = class ExecCommand {

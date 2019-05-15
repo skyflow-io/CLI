@@ -13,6 +13,7 @@ const ExecCommand = require('./ExecCommand.js');
  *      skyflow sf 'cache:clear -e=prod'
  *      skyflow symfony 'cache:clear -e=prod'
  *      skyflow symfony exec 'php bin/console cache:clear -e=prod'
+ * @related composer exec bash sh
  * @since 1.0.0
  */
 module.exports = class SymfonyCommand {

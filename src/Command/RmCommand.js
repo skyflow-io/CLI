@@ -14,6 +14,7 @@
  *      skyflow rm
  *      skyflow rm python
  *      skyflow python:rm -f -s
+ * @related rmc rmi
  * @since 1.0.0
  */
 module.exports = class RmCommand {

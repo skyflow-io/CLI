@@ -17,6 +17,7 @@ const os = require("os");
  *      skyflow update -y
  *      skyflow update postgres python
  *      skyflow postgres:python:update
+ * @related up remove
  * @since 1.0.0
  */
 module.exports = class UpdateCommand {

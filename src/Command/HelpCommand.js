@@ -8,6 +8,7 @@
  * @examples
  *      skyflow help
  *      skyflow -h
+ * @related version
  * @since 1.0.0
  */
 module.exports = class HelpCommand {

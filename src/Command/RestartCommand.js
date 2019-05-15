@@ -10,6 +10,7 @@
  *      skyflow restart
  *      skyflow restart postgres
  *      skyflow postgres:restart
+ * @related stop start down
  * @since 1.0.0
  */
 module.exports = class RestartCommand {

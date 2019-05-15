@@ -11,6 +11,7 @@
  * @examples
  *      skyflow rmc -a -f
  *      skyflow rmc postgres_564358 -f
+ * @related rmi rm
  * @since 1.0.0
  */
 module.exports = class RmcCommand {

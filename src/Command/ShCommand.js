@@ -11,6 +11,7 @@
  * @examples
  *      skyflow sh postgres
  *      skyflow postgres:sh
+ * @related bash run exec
  * @since 1.0.0
  */
 module.exports = class ShCommand {

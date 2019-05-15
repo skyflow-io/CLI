@@ -22,6 +22,7 @@ const UpdateCommand = require('./UpdateCommand.js');
  *      skyflow assets update
  *      skyflow assets update -y
  *      skyflow assets compile
+ * @related build
  * @since 1.0.0
  */
 module.exports = class AssetsCommand {

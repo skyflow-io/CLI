@@ -10,6 +10,7 @@
  *      skyflow logs
  *      skyflow logs postgres
  *      skyflow postgres:logs
+ * @related ls ps bash sh
  * @since 1.0.0
  */
 module.exports = class LogsCommand {

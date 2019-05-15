@@ -10,6 +10,7 @@ const {resolve} = require("path");
  * @see https://docs.docker.com/compose/reference/down
  * @examples
  *      skyflow down
+ * @related up stop
  * @since 1.0.0
  */
 module.exports = class DownCommand {

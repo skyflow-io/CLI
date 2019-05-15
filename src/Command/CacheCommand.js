@@ -13,6 +13,7 @@ const {resolve} = require("path");
  *      skyflow cache clear
  *      skyflow cache clear --compose
  *      skyflow cache clear --compose kibana
+ * @related add
  * @since 1.0.0
  */
 module.exports = class CacheCommand {

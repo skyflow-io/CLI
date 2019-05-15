@@ -13,6 +13,7 @@ const AddCommand = require('./AddCommand.js');
  * @examples
  *      skyflow sync
  *      skyflow sync --dir my_dir
+ * @related add remove
  * @since 1.0.0
  */
 module.exports = class SyncCommand {

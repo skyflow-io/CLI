@@ -13,6 +13,7 @@ const UpdateCommand = require('./UpdateCommand.js');
  * @examples
  *      skyflow remove apache python
  *      skyflow apache:python:remove
+ * @related add
  * @since 1.0.0
  */
 module.exports = class RemoveCommand {

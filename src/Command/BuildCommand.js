@@ -10,6 +10,7 @@
  *      skyflow build
  *      skyflow build python
  *      skyflow python:build
+ * @related assets up
  * @since 1.0.0
  */
 module.exports = class BuildCommand {

@@ -18,6 +18,7 @@ const {resolve} = require("path");
  *      skyflow up postgres python
  *      skyflow python:up
  *      skyflow postgres:python:up
+ * @related down rm rmc
  * @since 1.0.0
  */
 module.exports = class UpCommand {

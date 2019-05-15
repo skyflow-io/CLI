@@ -9,7 +9,8 @@ const UpdateCommand = require('./UpdateCommand.js');
  * @module Command
  * @author Skyflow
  * @command add
- * @arguments resource Name of resource.
+ * @arguments
+ *      resource Name of resource.
  * @options
  *      [-f,--force] Option to force adding resources.
  *      [--no-cache] Add resource without cache.

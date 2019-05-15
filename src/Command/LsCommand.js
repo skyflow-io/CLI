@@ -12,6 +12,7 @@
  *      skyflow ls -a
  *      skyflow image:ls -a
  *      skyflow ls image -a
+ * @related logs ps bash sh
  * @since 1.0.0
  */
 module.exports = class LsCommand {
