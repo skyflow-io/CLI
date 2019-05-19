@@ -23,6 +23,8 @@ function runComposerCommand(command, container){
  *      remove Removes packages from the composer.json file from the current directory. See https://getcomposer.org/doc/03-cli.md#remove
  *      exec Execute composer command.
  * @examples
+ *      skyflow composer require symfony/filesystem symfony/finder
+ *      skyflow composer remove symfony/finder
  *      skyflow composer exec 'install --prefer-dist'
  *      skyflow composer exec update
  *      skyflow composer update --dev
@@ -65,11 +67,11 @@ module.exports = class ComposerCommand {
     }
 
     require(container){
-        return runComposerCommand('require', container);
+        return runComposerCommand(container.Request.consoleArguments.join(' '), container);
     }
 
     remove(container){
-        return runComposerCommand('remove', container);
+        return runComposerCommand(container.Request.consoleArguments.join(' '), container);
     }
 
     exec(container){

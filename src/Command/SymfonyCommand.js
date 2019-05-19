@@ -10,9 +10,9 @@ const ExecCommand = require('./ExecCommand.js');
  * @arguments
  *      exec Execute command into symfony container.
  * @examples
- *      skyflow sf 'cache:clear -e=prod'
- *      skyflow symfony 'cache:clear -e=prod'
- *      skyflow symfony exec 'php bin/console cache:clear -e=prod'
+ *      skyflow sf 'cache:clear --env=prod'
+ *      skyflow symfony 'cache:clear --env=prod'
+ *      skyflow symfony exec 'php bin/console cache:clear --env=prod'
  * @related composer exec bash sh
  * @since 1.0.0
  */
