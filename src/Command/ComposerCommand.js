@@ -16,12 +16,17 @@ function runComposerCommand(command, container){
  * @author Skyflow
  * @command composer
  * @arguments
- *      init Create a composer.json. See https://getcomposer.org/doc/03-cli.md#init
- *      install The install command reads the composer.json file from the current directory, resolves the dependencies, and installs them into vendor. See https://getcomposer.org/doc/03-cli.md#install-i
- *      update Get the latest versions of the dependencies. See https://getcomposer.org/doc/03-cli.md#update-u
- *      require Adds new packages to the composer.json file from the current directory. If no file exists one will be created on the fly. See https://getcomposer.org/doc/03-cli.md#require
- *      remove Removes packages from the composer.json file from the current directory. See https://getcomposer.org/doc/03-cli.md#remove
+ *      init Create a composer.json.
+ *      install The install command reads the composer.json file from the current directory, resolves the dependencies, and installs them into vendor.
+ *      update Get the latest versions of the dependencies.
+ *      require Adds new packages to the composer.json file from the current directory. If no file exists one will be created on the fly.
+ *      remove Removes packages from the composer.json file from the current directory.
  *      exec Execute composer command.
+ * @see https://getcomposer.org/doc/03-cli.md#init
+ * @see https://getcomposer.org/doc/03-cli.md#install-i
+ * @see https://getcomposer.org/doc/03-cli.md#update-u
+ * @see https://getcomposer.org/doc/03-cli.md#require
+ * @see https://getcomposer.org/doc/03-cli.md#remove
  * @examples
  *      skyflow composer require symfony/filesystem symfony/finder
  *      skyflow composer remove symfony/finder
