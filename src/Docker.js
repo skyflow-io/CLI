@@ -56,12 +56,12 @@ module.exports = class Docker {
 
         Output.newLine();
         Output.write("Running ");
-        Output.write(('docker-compose -p ' + projectName + ' ' + command + ' ' + (stringOpt + ' ').trim() + containerName + ' ' + c).trim(), "green");
+        Output.write(('docker-compose -p ' + projectName + ' ' + command.trim() + ' ' + stringOpt.trim() + ' ' + containerName.trim() + ' ' + c).trim(), "green");
         Output.writeln(" command ...");
         Output.newLine();
 
         try {
-            Shell.exec('docker-compose -p ' + projectName + ' -f ' + dockerComposeFile + ' ' + command + ' ' + (stringOpt + ' ').trim() + containerName + ' ' + c);
+            Shell.exec('docker-compose -p ' + projectName + ' -f ' + dockerComposeFile + ' ' + command.trim() + ' ' + stringOpt.trim() + ' ' + containerName + ' ' + c);
             return true;
         } catch (e) {
             // Output.skyflowError(e.message);

@@ -72,6 +72,7 @@ module.exports = class AssetsCommand {
     compile(container){
         const {Request} = container;
         Request.command = 'run';
+        Request.longOptions['rm'] = true;
         Request.consoleArguments = ['assets', 'npm run compile'];
         Request.commands = [Request.command, ...Request.consoleArguments];
         new RunCommand(container);
@@ -82,6 +83,7 @@ module.exports = class AssetsCommand {
     build(container){
         const {Request} = container;
         Request.command = 'run';
+        Request.longOptions['rm'] = true;
         Request.consoleArguments = ['assets', 'npm run build'];
         Request.commands = [Request.command, ...Request.consoleArguments];
         new RunCommand(container);
@@ -92,6 +94,7 @@ module.exports = class AssetsCommand {
     watch(container){
         const {Request} = container;
         Request.command = 'run';
+        Request.longOptions['rm'] = true;
         Request.consoleArguments = ['assets', 'npm run watch'];
         Request.commands = [Request.command, ...Request.consoleArguments];
         new RunCommand(container);
