@@ -15,12 +15,9 @@ const {resolve} = require("path");
  *      compile Compile assets for development environment.
  *      build Compile assets for production environment.
  *      watch For watching assets.
- * @options
- *      [-y,--yes] Update without prompt.
  * @examples
- *      skyflow assets install
- *      skyflow assets update
- *      skyflow assets update -y
+ *      skyflow assets add lodash
+ *      skyflow assets remove lodash
  *      skyflow assets compile
  * @related build
  * @since 1.0.0
@@ -76,6 +73,7 @@ module.exports = class AssetsCommand {
         const {Request, Shell} = container;
         Request.consoleArguments.shift();
         Request.consoleArguments = ['run', 'npm', 'install', ...Request.consoleArguments];
+        this.run(container);
         Shell.exec('skyflow build assets --force-rm');
 
         return this;
@@ -85,6 +83,7 @@ module.exports = class AssetsCommand {
         const {Request, Shell} = container;
         Request.consoleArguments.shift();
         Request.consoleArguments = ['run', 'npm', 'uninstall', ...Request.consoleArguments];
+        this.run(container);
         Shell.exec('skyflow build assets --force-rm');
 
         return this;
