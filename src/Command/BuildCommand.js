@@ -16,7 +16,8 @@
 module.exports = class BuildCommand {
 
     constructor(container) {
-        const {Docker} = container;
+        const {Request, Docker} = container;
+        Request.longOptions['force-rm'] = true;
         Docker.composeExec('build', container);
     }
 

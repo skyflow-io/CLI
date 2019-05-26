@@ -1,12 +1,12 @@
 {
   "name": "skyflow-cli",
   "version": "2.2.5",
-  "description": "Best friend of the developer",
+  "description": "Environment manager for your projects.",
   "main": "index.js",
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/skyflow-io/npm-skyflow-cli.git"
+    "url": "git@github.com:skyflow-io/CLI.git"
   },
   "keywords": [
     "cli",
