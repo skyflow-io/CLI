@@ -102,18 +102,17 @@ module.exports = class AddCommand {
                 Shell.rm(resolve(currentDockerDir, compose, compose + '.config.json'));
             }
 
-            if(!config.value.docker.composes[compose].variables){
+            if(!config.value.docker.composes[compose] || Helper.isEmpty(config.value.docker.composes[compose].variables)){
                 let composeConfig = File.readJson(resolve(cacheDirectory, compose + '.config.json'));
                 config.value.docker.composes[compose] = {
                     variables: composeConfig.variables || {},
                 };
-
-                config.value.docker.composes[compose].variables['container_name'] = {
-                    description: 'Container name',
-                    value: compose + '_' + Helper.generateUniqueId()
-                };
-                File.createJson(config.filename, config.value);
             }
+            config.value.docker.composes[compose].variables['container_name'] = {
+                description: 'Container name',
+                value: compose + '_' + Helper.generateUniqueId()
+            };
+            File.createJson(config.filename, config.value);
 
             if(Request.hasOption('sync-dir')){
                 Output.skyflowSuccess(compose + ' compose synchronized!');
