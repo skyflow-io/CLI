@@ -68,6 +68,7 @@ module.exports = class Api {
                     res(resourceCacheDir);
                 })
                 .catch((e) => {
+                    Output.skyflowError(e.message, false);
                     Output.skyflowError("Can not pull " + resource + " " + type + " from " + this.protocol + "://" + this.host, false);
                     return reject(e);
                 });
