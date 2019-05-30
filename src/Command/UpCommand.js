@@ -33,6 +33,9 @@ module.exports = class UpCommand {
         if (!Request.hasOption('build') && !Request.hasOption('no-build')) {
             stringOpt += ' --build';
         }
+        if (!Request.hasOption('remove-orphans')) {
+            stringOpt += ' --remove-orphans';
+        }
         Request.removeOption('no-detach');
         Request.removeOption('no-build');
         stringOpt += Request.getStringOptions();

@@ -21,6 +21,9 @@ module.exports = class DownCommand {
         let stringOpt = Request.getStringOptions();
         let dockerComposeFile = resolve(config.value.docker.directory, 'docker-compose.yml');
         let projectName = config.value.docker['project_name'];
+        if (!Request.hasOption('remove-orphans')) {
+            stringOpt += ' --remove-orphans';
+        }
         try {
             Shell.exec('docker-compose -p ' + projectName + ' -f ' + dockerComposeFile + ' down ' + stringOpt);
         } catch (e) {
