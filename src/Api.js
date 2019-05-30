@@ -113,6 +113,10 @@ module.exports = class Api {
         return this.getData(name, 'compose', allowCache);
     }
 
+    getPackage(name, allowCache = true) {
+        return this.getData(name, 'package', allowCache);
+    }
+
     getScript(name, allowCache = true) {
         return this.getData(name, 'script', allowCache);
     }

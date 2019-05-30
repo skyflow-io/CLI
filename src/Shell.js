@@ -1,6 +1,8 @@
 const {execSync, spawnSync, spawn} = require('child_process'),
     shx = require('shelljs');
 
+shx.config.silent = true;
+
 class Shell {
 
     constructor() {
@@ -225,6 +227,10 @@ class Shell {
 
     popd(){
         shx.popd(...arguments)
+    }
+
+    test(){
+        shx.test(...arguments)
     }
 
 }

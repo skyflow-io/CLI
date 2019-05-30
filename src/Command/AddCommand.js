@@ -75,7 +75,7 @@ module.exports = class AddCommand {
     }
 
     addCompose(compose, container){
-        const {Helper, Output, Api, Shell, File, Request, config} = container;
+        const {Helper, Output, Api, Shell, File, Request, config, cache} = container;
         if(Request.hasOption('pull')){
             Request.addOption('no-cache', true);
         }
@@ -100,6 +100,13 @@ module.exports = class AddCommand {
             }
             if(File.exists(resolve(currentDockerDir, compose, compose + '.config.json'))){
                 Shell.rm(resolve(currentDockerDir, compose, compose + '.config.json'));
+            }
+
+            // if package
+            if(Request.hasOption('package')){
+                let pkg = Request.getOption('package');
+                let pkgCacheDir = resolve(cache.package, 'data', pkg);
+                Shell.cp('-R', resolve(pkgCacheDir, compose), currentDockerDir);
             }
 
             if(!config.value.docker.composes[compose] || Helper.isEmpty(config.value.docker.composes[compose].variables)){
@@ -134,6 +141,23 @@ module.exports = class AddCommand {
     }
 
     addPackage(pkg, container){
+        const {Output, Api, File, Request} = container;
+        if(Request.hasOption('pull')){
+            Request.addOption('no-cache', true);
+        }
+        pkg = pkg.replace(/\.pkg$/i, '');
+        Api.getPackage(pkg, !Request.hasOption('no-cache')).then((cacheDirectory)=>{
+            if(Request.hasOption('pull')){
+                Output.success('Done!');
+                return this;
+            }
+            let pkgConfig = File.readJson(resolve(cacheDirectory, pkg + '.config.json'));
+            pkgConfig.composes.map((compose)=>{
+                Request.addOption('package', pkg);
+                this.addCompose(compose, container);
+            });
+
+        }).catch(()=>{});
 
     }
 

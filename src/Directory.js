@@ -88,13 +88,10 @@ class Directory {
     copy(source, destination){
 
         this.create(destination);
-
         const files = fs.readdirSync(source);
-
         files.every((dir)=>{
             let dest = destination + path.sep + dir;
             dir = source + path.sep + dir;
-
             if(this.exists(dir)){
                 this.copy(dir, dest)
             }else {
@@ -102,11 +99,9 @@ class Directory {
             }
 
             return true
-
         });
 
         return this
-
     }
 
     /**
