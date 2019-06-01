@@ -33,6 +33,7 @@ module.exports = class LsCommand {
             Shell.exec('docker ' + what + ' ls ' + stringOpt);
         } catch (e) {
             Output.skyflowError(e.message);
+            process.exit(1);
         }
 
     }

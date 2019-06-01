@@ -56,6 +56,7 @@ module.exports = class UpCommand {
             } catch (e) {
                 Output.skyflowError('Can not up \'' + compose + '\' compose.');
                 Output.skyflowError(e.message);
+                process.exit(1);
             }
         });
 
@@ -65,6 +66,7 @@ module.exports = class UpCommand {
             Shell.exec('docker-compose -p ' + projectName + ' -f ' + dockerComposeFile + ' ps ');
         } catch (e) {
             Output.skyflowError(e.message);
+            process.exit(1);
         }
 
     }

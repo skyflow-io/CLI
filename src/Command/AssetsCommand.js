@@ -59,6 +59,7 @@ module.exports = class AssetsCommand {
             Shell.exec('docker run --rm -v ' + resolve(config.value.docker.directory, 'assets') + ':/src -w /src node:alpine sh -c \'' + args.join(' ') + '\'');
         }catch (e) {
             Output.error(e.message);
+            process.exit(1);
         }
         try {
             Shell.rm('-rf', resolve(config.value.docker.directory, 'assets', 'node_modules'));

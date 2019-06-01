@@ -32,7 +32,7 @@ module.exports = class AddCommand {
         // Resource is required
         if (Helper.isEmpty(Request.consoleArguments[0])) {
             Output.skyflowError('Resource name is missing!');
-            return this;
+            process.exit(1);
         }
 
         for (let i = 0; i < Request.consoleArguments.length; i++) {

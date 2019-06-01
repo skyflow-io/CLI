@@ -28,6 +28,7 @@ module.exports = class DownCommand {
             Shell.exec('docker-compose -p ' + projectName + ' -f ' + dockerComposeFile + ' down ' + stringOpt);
         } catch (e) {
             Output.skyflowError(e.message);
+            process.exit(1);
         }
 
     }

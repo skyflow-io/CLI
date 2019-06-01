@@ -9,9 +9,11 @@ const {resolve} = require("path");
  * @command cache
  * @arguments
  *      clear Clear cache.
+ *      set Set cache path.
  * @examples
  *      skyflow cache clear
  *      skyflow cache clear --compose
+ *      skyflow cache clear --compose kibana
  *      skyflow cache clear --compose kibana
  * @related add
  * @since 1.0.0
@@ -23,6 +25,8 @@ module.exports = class CacheCommand {
         switch (Request.consoleArguments[0]) {
             case 'clear':
                 return this.clear(container);
+            case 'set':
+                return this.set(container);
         }
     }
 
@@ -44,6 +48,22 @@ module.exports = class CacheCommand {
                 }
             }
         });
+
+        return this;
+    }
+
+    set(container){
+        const {File, Request, Output, config} = container;
+
+        let cachePath = Request.consoleArguments[1];
+        if(!cachePath){
+            Output.skyflowError('Cache path missing!');
+            process.exit(1);
+        }
+        config.value.cache = cachePath;
+        File.createJson(config.filename, config.value);
+        Output.skyflowSuccess('Cache path changed!');
+        Output.success(cachePath);
 
         return this;
     }

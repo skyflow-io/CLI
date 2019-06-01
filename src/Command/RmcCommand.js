@@ -42,6 +42,7 @@ module.exports = class RmcCommand {
             Output.success('Success!');
         } catch (e) {
             Output.skyflowError(e.message);
+            process.exit(1);
         }
 
     }
