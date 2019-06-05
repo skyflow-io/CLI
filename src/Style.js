@@ -32,10 +32,9 @@ class Style {
             this.color.type = 'hex';
             this.color.value = color;
             return this
-        } else {
-            this.color.type = null;
-            this.color.value = color;
         }
+        this.color.type = null;
+        this.color.value = color;
         return this
     }
 
@@ -52,7 +51,7 @@ class Style {
             return this
         }
         const styles = ('' + style).split(/[ \.]/);
-        styles.forEach((style) => {
+        styles.map((style) => {
             this.styles[style] = true;
         });
         return this
@@ -87,10 +86,10 @@ class Style {
             this.bg.type = 'bgHex';
             this.bg.value = color;
             return this
-        } else {
-            this.bg.type = null;
-            this.bg.value = 'bg' + c.toUpperCase() + ('' + color).slice(1);
         }
+
+        this.bg.type = null;
+        this.bg.value = 'bg' + c.toUpperCase() + ('' + color).slice(1);
         return this
     }
 

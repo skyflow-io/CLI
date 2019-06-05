@@ -147,10 +147,6 @@ module.exports = class AddCommand {
         }
         pkg = pkg.replace(/\.pkg$/i, '');
         Api.getPackage(pkg, !Request.hasOption('no-cache')).then((cacheDirectory)=>{
-            if(Request.hasOption('pull')){
-                Output.success('Done!');
-                return this;
-            }
             let pkgConfig = File.readJson(resolve(cacheDirectory, pkg + '.config.json'));
             pkgConfig.composes.map((compose)=>{
                 Request.addOption('package', pkg);

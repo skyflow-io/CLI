@@ -11,23 +11,45 @@ const {resolve} = require("path");
  *      clear Clear cache.
  *      set Set cache path.
  * @examples
+ *      skyflow cache
  *      skyflow cache clear
  *      skyflow cache clear --compose
  *      skyflow cache clear --compose kibana
- *      skyflow cache clear --compose kibana
+ *      skyflow cache clear --package symfony
+ *      skyflow cache set my_cache_path
  * @related add
  * @since 1.0.0
  */
 module.exports = class CacheCommand {
 
     constructor(container) {
-        const {Request} = container;
+
+        const {Request, Output, cache} = container;
         switch (Request.consoleArguments[0]) {
             case 'clear':
                 return this.clear(container);
             case 'set':
                 return this.set(container);
         }
+
+        let composeCache = cache.compose.slice(cache.compose.indexOf(cache.skyflow));
+        let packageCache = cache.package.slice(cache.package.indexOf(cache.skyflow));
+
+        Output.newLine();
+        Output.writeln('Cache path:', null, null, 'bold');
+        Output.info(cache.skyflow);
+        Output.writeln('> skyflow cache clear', 'grey', null, null);
+
+        Output.newLine();
+        Output.writeln('Compose cache path:', null, null, 'bold');
+        Output.info(composeCache);
+        Output.writeln('> skyflow cache clear --compose <compose_name>', 'grey', null, null);
+
+        Output.newLine();
+        Output.writeln('Package cache path:', null, null, 'bold');
+        Output.info(packageCache);
+        Output.writeln('> skyflow cache clear --package <package_name>', 'grey', null, null);
+
     }
 
     clear(container){
