@@ -9,6 +9,7 @@ const ExecCommand = require('./ExecCommand.js');
  * @command symfony
  * @arguments
  *      exec Execute command into symfony container.
+ *      create Create Symfony project
  * @examples
  *      skyflow sf 'cache:clear --env=prod'
  *      skyflow symfony 'cache:clear --env=prod'
@@ -23,6 +24,8 @@ module.exports = class SymfonyCommand {
         switch (Request.consoleArguments[0]) {
             case 'exec':
                 return this.exec(container);
+            case 'create':
+                return this.create(container);
         }
         container.Request.consoleArguments = ['', Request.consoleArguments.join(':')];
         this.exec(container);
@@ -44,5 +47,25 @@ module.exports = class SymfonyCommand {
 
         return this;
     }
+
+    create(container){
+        const {Shell, Output, Helper} = container;
+        let projectDir = 'Symfony_' + Helper.generateUniqueId();
+        Shell.exec('skyflow add composer');
+        Shell.exec('skyflow composer exec \'create-project symfony/website-skeleton ' + projectDir + '\'');
+        Shell.exec('skyflow rm composer -f -s');
+        Shell.exec('skyflow remove composer');
+        Shell.cp('-rf', projectDir + '/*', '.');
+        Shell.rm('-rf', projectDir);
+
+        Output.newLine();
+        Output.writeln('Next step', 'blue', null, 'bold');
+        Output.write('Use ');
+        Output.write('skyflow add symfony.pkg ', 'blue', null, 'bold');
+        Output.writeln('to install symfony environment');
+
+        return this;
+    }
+
 
 };
