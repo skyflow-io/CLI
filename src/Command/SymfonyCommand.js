@@ -9,7 +9,7 @@ const ExecCommand = require('./ExecCommand.js');
  * @command symfony
  * @arguments
  *      exec Execute command into symfony container.
- *      create Create Symfony project
+ *      create Create Symfony project.
  * @examples
  *      skyflow sf 'cache:clear --env=prod'
  *      skyflow symfony 'cache:clear --env=prod'
@@ -66,6 +66,5 @@ module.exports = class SymfonyCommand {
 
         return this;
     }
-
 
 };

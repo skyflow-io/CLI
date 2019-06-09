@@ -312,4 +312,25 @@ module.exports = class Helper {
         return process.env[this.isWindows() ? 'USERPROFILE' : 'HOME'];
     }
 
+    /**
+     * Get array object value by key.
+     *
+     * @method getByKey
+     * @param {Object} object Array object.
+     * @param {String} key Key.
+     */
+    static getByKey(object, key){
+        let keys = key.split('.');
+
+        for (let i = 0; i < keys.length; i++) {
+            key = keys[i];
+            if(!object || !Helper.hasProperty(object, key)){
+                return null;
+            }
+            object = object[key];
+        }
+
+        return object;
+    }
+
 };

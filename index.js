@@ -7,6 +7,7 @@ const _ = require('lodash'), resolve = require('path').resolve;
 let container = {
     Directory: require('./src/Directory.js'),
     Docker: require('./src/Docker.js'),
+    Event: require('./src/Event.js'),
     File: require('./src/File.js'),
     Helper: require('./src/Helper.js'),
     Input: require('./src/Input.js'),
@@ -24,10 +25,10 @@ let config = {
         "sf": "symfony",
     },
     "docker": {"version": "3", "directory": "docker", "project_name": "skyflow_project_" + container.Helper.generateUniqueId(), "composes": {}},
-    "assets": {"directory": "assets"},
-    "script": {"directory": "scripts"},
-    "style": {"directory": "styles"},
-    "widget": {"directory": "widgets"},
+    "scripts": {"directory": "scripts"},
+    "styles": {"directory": "styles"},
+    "widgets": {"directory": "widgets"},
+    "fonts": {"directory": "fonts"},
 };
 
 const configFilename = 'skyflow.json';
@@ -45,11 +46,12 @@ container['config'] = {
 
 container['cache'] = {
     skyflow: config.cache,
-    compose: resolve(config.cache, 'composes'),
-    package: resolve(config.cache, 'packages'),
-    script: resolve(config.cache, 'scripts'),
-    style: resolve(config.cache, 'styles'),
-    widget: resolve(config.cache, 'widgets')
+    composes: resolve(config.cache, 'composes'),
+    packages: resolve(config.cache, 'packages'),
+    scripts: resolve(config.cache, 'scripts'),
+    styles: resolve(config.cache, 'styles'),
+    widgets: resolve(config.cache, 'widgets'),
+    fonts: resolve(config.cache, 'fonts')
 
 };
 container['Api'] = new (require('./src/Api.js'))(container);

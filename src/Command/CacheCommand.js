@@ -32,8 +32,8 @@ module.exports = class CacheCommand {
                 return this.set(container);
         }
 
-        let composeCache = cache.compose.slice(cache.compose.indexOf(cache.skyflow));
-        let packageCache = cache.package.slice(cache.package.indexOf(cache.skyflow));
+        let composeCache = cache.composes.slice(cache.composes.indexOf(cache.skyflow));
+        let packageCache = cache.packages.slice(cache.packages.indexOf(cache.skyflow));
 
         Output.newLine();
         Output.writeln('Cache path:', null, null, 'bold');

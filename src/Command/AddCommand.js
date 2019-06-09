@@ -35,53 +35,42 @@ module.exports = class AddCommand {
             process.exit(1);
         }
 
-        for (let i = 0; i < Request.consoleArguments.length; i++) {
-
-            let resource = Request.consoleArguments[i];
-
+        Request.consoleArguments.map((resource)=>{
             // Compose
             if(!/\.[a-zA-Z]+$/.test(resource)){
-                this.addCompose(resource, container);
-                continue;
+                return this.addCompose(resource, container);
             }
-
             // Add packages
             if(/\.pkg$/i.test(resource)){
-                this.addPackage(resource, container);
-                continue;
+                return this.addPackage(resource, container);
             }
-
-            // Add script
+            // Add scripts
             if(/\.js$/i.test(resource)){
                 resource = resource.replace(/.js$/i, '');
-                this.addScript(resource, container);
-                continue;
+                return this.addScript(resource, container);
             }
-
-            // Add style
+            // Add styles
             if(/\.css$/i.test(resource)){
                 resource = resource.replace(/.css$/i, '');
-                this.addStyle(resource, container);
-                continue;
+                return this.addStyle(resource, container);
             }
-
-            // Add widget
+            // Add widgets
             if(/\.wgt$/i.test(resource)){
                 resource = resource.replace(/.wgt$/i, '');
                 this.addWidget(resource, container);
             }
+        });
 
-        }
     }
 
     addCompose(compose, container){
-        const {Helper, Output, Api, Shell, File, Request, config, cache} = container;
+        const {Helper, Output, Api, Shell, File, Request, Event, config, cache} = container;
         if(Request.hasOption('pull')){
             Request.addOption('no-cache', true);
         }
         Api.getCompose(compose, !Request.hasOption('no-cache')).then((cacheDirectory)=>{
             if(Request.hasOption('pull')){
-                Output.success('Done!');
+                Output.skyflowSuccess(compose + ' cached!');
                 return this;
             }
             let currentDockerDir = resolve(process.cwd(), config.value.docker.directory);
@@ -94,6 +83,12 @@ module.exports = class AddCommand {
                     Shell.rm('-rf', resolve(currentDockerDir, compose));
                 }
             }
+
+            let composeConfig = File.readJson(resolve(cacheDirectory, compose + '.config.json'));
+
+            // Trigger before add event
+            Event.runEvent(composeConfig, cacheDirectory, container, 'before_add');
+
             Shell.mkdir('-p', currentDockerDir);
             if (!Request.hasOption('sync-dir')) {
                 Shell.cp('-R', cacheDirectory, resolve(currentDockerDir, compose));
@@ -105,12 +100,12 @@ module.exports = class AddCommand {
             // if package
             if(Request.hasOption('package')){
                 let pkg = Request.getOption('package');
-                let pkgCacheDir = resolve(cache.package, 'data', pkg);
+                let pkgCacheDir = resolve(cache.packages, 'data', pkg);
                 Shell.cp('-R', resolve(pkgCacheDir, compose), currentDockerDir);
             }
 
+            // let composeConfig = File.readJson(resolve(cacheDirectory, compose + '.config.json'));
             if(!config.value.docker.composes[compose] || Helper.isEmpty(config.value.docker.composes[compose].variables)){
-                let composeConfig = File.readJson(resolve(cacheDirectory, compose + '.config.json'));
                 config.value.docker.composes[compose] = {
                     variables: composeConfig.variables || {},
                 };
@@ -127,21 +122,16 @@ module.exports = class AddCommand {
             }
             Output.skyflowSuccess(compose + ' compose added!');
 
-            // Trigger add event
-            try{
-                let event = composeConfig.events.add;
-                event = require(resolve(cacheDirectory, event));
-                new event(container, UpdateCommand);
-                return this;
-            }catch (e) {}
+            // Trigger after add event
+            Event.runEvent(composeConfig, cacheDirectory, container, 'after_add');
 
             UpdateCommand.updateFiles(container);
 
-        }).catch(()=>{});
+        }).catch((e)=>{});
     }
 
     addPackage(pkg, container){
-        const {Output, Api, File, Request} = container;
+        const {Api, File, Request} = container;
         if(Request.hasOption('pull')){
             Request.addOption('no-cache', true);
         }
@@ -161,7 +151,7 @@ module.exports = class AddCommand {
         script = _.upperFirst(script);
         const {Output, Api, Shell, File, Request, config} = container;
         Api.getScript(script).then((cacheDirectory)=>{
-            let currentScriptsDir = resolve(config.value.assets.directory, config.value.script.directory);
+            let currentScriptsDir = resolve(config.value.assets.directory, config.value.scripts.directory);
             if (File.exists(resolve(currentScriptsDir, script + '.js'))) {
                 if (Request.hasOption('f') || Request.hasOption('force')) {
                     Shell.rm('-rf', resolve(currentScriptsDir, script));
@@ -199,7 +189,7 @@ module.exports = class AddCommand {
         widget = _.upperFirst(widget);
         const {Output, Api, Shell, File, Directory, Request, config} = container;
         Api.getWidget(widget).then((cacheDirectory)=>{
-            let currentWidgetsDir = resolve(config.value.assets.directory, config.value.widget.directory);
+            let currentWidgetsDir = resolve(config.value.assets.directory, config.value.widgets.directory);
             if (Directory.exists(resolve(currentWidgetsDir, widget))) {
                 if (Request.hasOption('f') || Request.hasOption('force')) {
                     Shell.rm('-rf', resolve(currentWidgetsDir, widget));
@@ -222,7 +212,7 @@ module.exports = class AddCommand {
                     }
                 });
                 if(data.scripts){
-                    let currentScriptsDir = resolve(config.value.assets.directory, config.value.script.directory);
+                    let currentScriptsDir = resolve(config.value.assets.directory, config.value.scripts.directory);
                     data.scripts.map((s)=>{
                         if (!File.exists(resolve(currentScriptsDir, s + '.js'))) {
                             this.addScript(s, container);
@@ -236,5 +226,9 @@ module.exports = class AddCommand {
             Output.skyflowSuccess(widget + ' widget added!');
         }).catch(()=>{});
     }
+
+    /*** Start events ***/
+
+    /*** End events ***/
 
 };

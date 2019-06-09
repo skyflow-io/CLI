@@ -50,7 +50,7 @@ module.exports = class Api {
 
         return new Promise((res, reject) => {
             const {Output, Shell, Directory, File, cache} = this.container;
-            let resourceCacheDir = resolve(cache[type], 'data', resource);
+            let resourceCacheDir = resolve(cache[type + 's'], 'data', resource);
             if (Directory.exists(resourceCacheDir) && allowCache) {
                 return res(resourceCacheDir);
             }
@@ -88,7 +88,7 @@ module.exports = class Api {
 
         return new Promise((res, reject) => {
             const {Output, Shell, File, cache} = this.container;
-            let docCacheDir = resolve(cache[type], 'doc');
+            let docCacheDir = resolve(cache[type + 's'], 'doc');
             let cacheFileName = resolve(docCacheDir, resource + '.json');
             if (File.exists(cacheFileName)) {
                 return res(File.readJson(cacheFileName));

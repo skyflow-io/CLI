@@ -81,7 +81,7 @@ module.exports = class UpdateCommand {
 
     static updateFiles(container){
 
-        const {Helper, Output, Shell, File, Directory, config, cache} = container;
+        const {Helper, Output, Shell, File, Directory, Event, config, cache} = container;
         let composes = Object.keys(config.value.docker.composes);
         let currentDockerDir = config.value.docker.directory;
         let dockerComposeContent = '';
@@ -102,13 +102,16 @@ module.exports = class UpdateCommand {
                 variables = config.value.docker.composes[compose].variables;
             } catch (e) {}
 
-            let cacheComposeDir = resolve(cache.compose, 'data', compose);
+            let cacheComposeDir = resolve(cache.composes, 'data', compose);
             let filesToUpdate = [{"entry": "Dockerfile.dist", "output": "Dockerfile"}];
             let cacheComposeConfig = {};
             try {
                 cacheComposeConfig = File.readJson(resolve(cacheComposeDir, compose + '.config.json'));
                 filesToUpdate = cacheComposeConfig.update || [];
             }catch (e) {}
+
+            // Trigger before update event
+            Event.runEvent(cacheComposeConfig, cacheComposeDir, container, 'before_update');
 
             // Replace docker-compose.dist variables
             Object.keys(variables).map((variable)=>{
@@ -149,13 +152,15 @@ module.exports = class UpdateCommand {
                 }
             }catch (e){}
 
+            // Trigger after update event
+            Event.runEvent(cacheComposeConfig, cacheComposeDir, container, 'after_update');
+
         });
 
         try {
             Shell.rm('-rf', resolve(currentDockerDir, 'docker-compose.yml'));
         }catch (e) {}
         if(!Helper.isEmpty(dockerComposeContent)){
-
             let reg = new RegExp('{{ *([a-z0-9_\-]+):([a-z0-9_-]+) *}}', 'ig');
             dockerComposeContent = dockerComposeContent.replace(reg, (match, compose, variable)=>{
                 let composes = config.value.docker.composes;
