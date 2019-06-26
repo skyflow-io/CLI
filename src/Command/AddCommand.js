@@ -120,7 +120,7 @@ module.exports = class AddCommand {
                 Output.skyflowSuccess(compose + ' compose synchronized!');
                 return true;
             }
-            Output.skyflowSuccess(compose + ' compose added!');
+            Output.skyflowSuccess(compose + ' compose added');
 
             // Trigger after add event
             Event.runEvent(composeConfig, cacheDirectory, container, 'after_add');
@@ -177,7 +177,7 @@ module.exports = class AddCommand {
             Shell.mkdir('-p', currentScriptsDir);
             Shell.cp('-R', resolve(cacheDirectory, script + '.js'), resolve(currentScriptsDir, script + '.js'));
             File.createJson(config.filename, config.value);
-            Output.skyflowSuccess(script + ' script added!');
+            Output.skyflowSuccess(script + ' script added');
         }).catch(()=>{});
     }
 
@@ -223,7 +223,7 @@ module.exports = class AddCommand {
             Shell.mkdir('-p', currentWidgetsDir);
             Shell.cp('-R', cacheDirectory, resolve(currentWidgetsDir, widget));
             File.createJson(config.filename, config.value);
-            Output.skyflowSuccess(widget + ' widget added!');
+            Output.skyflowSuccess(widget + ' widget added');
         }).catch(()=>{});
     }
 
