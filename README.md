@@ -30,14 +30,13 @@ The complete details of each command are available [here][docs-website-url].
 
 ## Contributing
 
-Skyflow composes is an open source. Anyone can contribute
+Skyflow Command Line is an open source. Anyone can contribute
 Would you like to help improve the project? Thank you. Follow our [contribution guide][docs-contribution-url] to submit your creations. 
 
 ## License
 
-Skyflow Composes is [Apache licensed](LICENSE).
+Skyflow Command Line is [Apache licensed](LICENSE).
 
 [docs-website-url]: https://skyflow.io/docs/commands
-[npm-url]: https://www.npmjs.com/package/skyflow-cli
 [docs-contribution-url]: https://skyflow.io/docs/contribution/commands
 [slack-url]: https://join.slack.com/t/skyflow-cli/shared_invite/enQtNDg4MDIyODQ3Njg0LWYwMTUxZGM3NmQ3MGJhZTA3MDAzNTcwYWM2MzFjNzZmNzAzOWUxZjQ1YTkwMjVkNzU1NjUyMmM2Yjc1ZDI3NzQ
