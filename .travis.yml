@@ -33,8 +33,8 @@ matrix:
         - provider: script
           script:
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin &&
-            docker build --pull --rm -t $DOCKER_USERNAME/cli:$TRAVIS_JOB_NUMBER -f $TRAVIS_BUILD_DIR/ci/Dockerfile . &&
-            docker images && docker push $DOCKER_USERNAME/cli:$TRAVIS_JOB_NUMBER
+            docker build --pull --rm -t $DOCKER_USERNAME/cli:$TRAVIS_TAG -f $TRAVIS_BUILD_DIR/ci/Dockerfile . &&
+            docker images && docker push $DOCKER_USERNAME/cli:$TRAVIS_TAG
           on:
             tags: true
     - language: node_js
