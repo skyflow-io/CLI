@@ -9,6 +9,7 @@
 [![Skyflow website](https://skyflow.io/badges/skyflow/site.svg)][docs-website-url]
 [![npm version](https://badge.fury.io/js/skyflow-cli.svg)](https://badge.fury.io/js/skyflow-cli)
 [![Join the chat](https://skyflow.io/badges/skyflow/slack.svg)][slack-url]
+
 [![NPM](https://nodei.co/npm/skyflow-cli.png?compact=true)](https://nodei.co/npm/skyflow-cli/)
 </div>
 
