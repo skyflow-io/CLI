@@ -22,7 +22,7 @@ module.exports = class RemoveCommand {
 
         const {Helper, Output, Shell, File, Directory, Request, config} = container;
         if (Helper.isEmpty(Request.consoleArguments[0])) {
-            Output.skyflowError("Compose name is missing!");
+            Output.skyflowError("Compose name is missing");
             return this;
         }
         for (let i = 0; i < Request.consoleArguments.length; i++) {
@@ -34,7 +34,7 @@ module.exports = class RemoveCommand {
             Shell.rm('-rf', resolve(currentDockerDir, resource));
             delete config.value.docker.composes[resource];
             File.createJson(config.filename, config.value);
-            Output.skyflowSuccess(resource + ' removed!');
+            Output.skyflowSuccess(resource + ' removed');
         }
         UpdateCommand.updateFiles(container);
 

@@ -31,7 +31,7 @@ module.exports = class AddCommand {
 
         // Resource is required
         if (Helper.isEmpty(Request.consoleArguments[0])) {
-            Output.skyflowError('Resource name is missing!');
+            Output.skyflowError('Resource name is missing');
             process.exit(1);
         }
 
@@ -70,7 +70,7 @@ module.exports = class AddCommand {
         }
         Api.getCompose(compose, !Request.hasOption('no-cache')).then((cacheDirectory)=>{
             if(Request.hasOption('pull')){
-                Output.skyflowSuccess(compose + ' cached!');
+                Output.skyflowSuccess(compose + ' cached');
                 return this;
             }
             let currentDockerDir = resolve(process.cwd(), config.value.docker.directory);
@@ -117,7 +117,7 @@ module.exports = class AddCommand {
             File.createJson(config.filename, config.value);
 
             if(Request.hasOption('sync-dir')){
-                Output.skyflowSuccess(compose + ' compose synchronized!');
+                Output.skyflowSuccess(compose + ' compose synchronized');
                 return true;
             }
             Output.skyflowSuccess(compose + ' compose added');
@@ -226,9 +226,5 @@ module.exports = class AddCommand {
             Output.skyflowSuccess(widget + ' widget added');
         }).catch(()=>{});
     }
-
-    /*** Start events ***/
-
-    /*** End events ***/
 
 };

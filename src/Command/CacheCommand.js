@@ -56,7 +56,7 @@ module.exports = class CacheCommand {
         const {Helper, Output, Request, Directory, cache} = container;
         if(Helper.isEmpty(Request.options)){
             Directory.remove(cache.skyflow);
-            Output.skyflowSuccess('done!');
+            Output.skyflowSuccess('done');
             return this;
         }
         Object.keys(Request.options).map((option)=>{
@@ -79,12 +79,12 @@ module.exports = class CacheCommand {
 
         let cachePath = Request.consoleArguments[1];
         if(!cachePath){
-            Output.skyflowError('Cache path missing!');
+            Output.skyflowError('Cache path missing');
             process.exit(1);
         }
         config.value.cache = cachePath;
         File.createJson(config.filename, config.value);
-        Output.skyflowSuccess('Cache path changed!');
+        Output.skyflowSuccess('Cache path changed');
         Output.success(cachePath);
 
         return this;

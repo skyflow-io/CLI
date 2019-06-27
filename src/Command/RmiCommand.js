@@ -25,7 +25,7 @@ module.exports = class RmiCommand {
             Shell.run('docker', ['images', '-a', '-q']);
             let images = Shell.getArrayResult();
             if (!images[0]) {
-                Output.info('No images found!');
+                Output.info('No images found');
                 return this;
             }
             Request.removeOption('a');
@@ -33,7 +33,7 @@ module.exports = class RmiCommand {
             stringOpt = Request.getStringOptions() + ' $(docker images -a -q)';
         }else {
             if(!Request.consoleArguments[0]){
-                Output.info('No images found!');
+                Output.info('No images found');
                 return this;
             }
             stringOpt = Request.getStringOptions() + ' ' + (Request.consoleArguments.join(' '));

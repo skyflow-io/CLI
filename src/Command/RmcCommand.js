@@ -24,7 +24,7 @@ module.exports = class RmcCommand {
             Shell.run("docker", ["ps", "-a", "-q"]);
             let containers = Shell.getArrayResult();
             if (!containers[0]) {
-                Output.info("No containers found!");
+                Output.info("No containers found");
                 return this;
             }
             Request.removeOption('a');
@@ -32,14 +32,14 @@ module.exports = class RmcCommand {
             stringOpt = Request.getStringOptions() + ' $(docker ps -a -q)';
         }else {
             if(!Request.consoleArguments[0]){
-                Output.info('No containers found!');
+                Output.info('No containers found');
                 return this;
             }
             stringOpt = Request.getStringOptions() + ' ' + (Request.consoleArguments.join(' '));
         }
         try {
             Shell.exec('docker rm ' + stringOpt);
-            Output.success('Success!');
+            Output.success('Success');
         } catch (e) {
             Output.skyflowError(e.message);
             process.exit(1);

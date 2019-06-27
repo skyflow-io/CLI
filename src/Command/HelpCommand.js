@@ -18,7 +18,7 @@ module.exports = class HelpCommand {
         const {Output, Skyflow} = container;
 
         // Output.write('skyflow v' + Skyflow.version + ' ', 'green').writeln('[' + Skyflow.license + ']');
-        console.log('Coming soon !');
+        console.log('Coming soon ');
     }
 
 };

@@ -36,8 +36,7 @@ const configFilename = 'skyflow.json';
 try {
     let conf = container.File.readJson(resolve(process.cwd(), configFilename));
     config = Object.assign({}, config, conf);
-} catch (e) {
-}
+} catch (e) {}
 
 container['config'] = {
     filename: configFilename,
@@ -51,11 +50,22 @@ container['cache'] = {
     scripts: resolve(config.cache, 'scripts'),
     styles: resolve(config.cache, 'styles'),
     widgets: resolve(config.cache, 'widgets'),
-    fonts: resolve(config.cache, 'fonts')
+    fonts: resolve(config.cache, 'fonts'),
+    token: resolve(config.cache, 'token.json')
 
 };
 container['Api'] = new (require('./src/Api.js'))(container);
 container['Request'] = new (require('./src/Request.js'))(container);
+
+try {
+    container['token'] = container.File.readJson(container.cache.token);
+} catch (e) {
+    container['token'] = {
+        value:  null,
+        startAt: null,
+        endAt: null
+    };
+}
 
 container['Skyflow'] = require('./package.json');
 
