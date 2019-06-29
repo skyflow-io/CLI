@@ -21,8 +21,8 @@ module.exports = class Api {
          * @type String
          * @default https
          */
-        // this.protocol = "https";
-        this.protocol = "http";
+        this.protocol = "https";
+        // this.protocol = "http";
 
         /**
          * API url host.
@@ -34,8 +34,8 @@ module.exports = class Api {
         this.host = "api.skyflow.io";
         // this.host = "localhost:4000";
 
-        this.privateHost = "localhost:8000";
-        // this.privateHost = "skyflow.io";
+        // this.privateHost = "localhost:8000";
+        this.privateHost = "skyflow.io";
 
         this.options = {
             method: 'GET',
