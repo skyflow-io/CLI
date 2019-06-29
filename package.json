@@ -1,6 +1,6 @@
 {
   "name": "skyflow-cli",
-  "version": "2.2.23",
+  "version": "2.2.24",
   "description": "Environment manager for your projects.",
   "main": "index.js",
   "scripts": {},
