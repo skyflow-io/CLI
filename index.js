@@ -46,6 +46,10 @@ container['config'] = {
 container['cache'] = {
     skyflow: config.cache,
     composes: resolve(config.cache, 'composes'),
+    mine: {
+        composes: resolve(config.cache, 'mine', 'composes'),
+        packages: resolve(config.cache, 'mine', 'packages'),
+    },
     packages: resolve(config.cache, 'packages'),
     scripts: resolve(config.cache, 'scripts'),
     styles: resolve(config.cache, 'styles'),

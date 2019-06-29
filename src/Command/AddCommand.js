@@ -68,66 +68,78 @@ module.exports = class AddCommand {
         if(Request.hasOption('pull')){
             Request.addOption('no-cache', true);
         }
-        Api.getCompose(compose, !Request.hasOption('no-cache')).then((cacheDirectory)=>{
-            if(Request.hasOption('pull')){
-                Output.skyflowSuccess(compose + ' cached');
-                return this;
-            }
-            let currentDockerDir = resolve(process.cwd(), config.value.docker.directory);
-            if (File.exists(resolve(currentDockerDir, compose, 'docker-compose.dist'))) {
-                if (!Request.hasOption('f') && !Request.hasOption('force') && !Request.hasOption('sync-dir')) {
-                    Output.skyflowWarning("'" + compose + "' compose already exists. Use '-f' or '--force' option.");
-                    return false;
+
+        compose = compose.split('/');
+        let username = null;
+        if(compose[1]){
+            username = compose[0];
+            compose = compose[1];
+        }else {
+            compose = compose[0]
+        }
+
+        Api[username ? 'getPrivateCompose' : 'getCompose'](compose, !Request.hasOption('no-cache'), username)
+            .then((cacheDirectory) => {
+                if (Request.hasOption('pull')) {
+                    Output.skyflowSuccess(compose + ' cached');
+                    return this;
                 }
-                if (Request.hasOption('f') || Request.hasOption('force')) {
-                    Shell.rm('-rf', resolve(currentDockerDir, compose));
+                let currentDockerDir = resolve(process.cwd(), config.value.docker.directory);
+                if (File.exists(resolve(currentDockerDir, compose, 'docker-compose.dist'))) {
+                    if (!Request.hasOption('f') && !Request.hasOption('force') && !Request.hasOption('sync-dir')) {
+                        Output.skyflowWarning("'" + compose + "' compose already exists. Use '-f' or '--force' option.");
+                        return false;
+                    }
+                    if (Request.hasOption('f') || Request.hasOption('force')) {
+                        Shell.rm('-rf', resolve(currentDockerDir, compose));
+                    }
                 }
-            }
 
-            let composeConfig = File.readJson(resolve(cacheDirectory, compose + '.config.json'));
+                let composeConfig = File.readJson(resolve(cacheDirectory, compose + '.config.json'));
 
-            // Trigger before add event
-            Event.runEvent(composeConfig, cacheDirectory, container, 'before_add');
+                // Trigger before add event
+                Event.runEvent(composeConfig, cacheDirectory, container, 'before_add');
 
-            Shell.mkdir('-p', currentDockerDir);
-            if (!Request.hasOption('sync-dir')) {
-                Shell.cp('-R', cacheDirectory, resolve(currentDockerDir, compose));
-            }
-            if(File.exists(resolve(currentDockerDir, compose, compose + '.config.json'))){
-                Shell.rm(resolve(currentDockerDir, compose, compose + '.config.json'));
-            }
+                Shell.mkdir('-p', currentDockerDir);
+                if (!Request.hasOption('sync-dir')) {
+                    Shell.cp('-R', cacheDirectory, resolve(currentDockerDir, compose));
+                }
+                if (File.exists(resolve(currentDockerDir, compose, compose + '.config.json'))) {
+                    Shell.rm(resolve(currentDockerDir, compose, compose + '.config.json'));
+                }
 
-            // if package
-            if(Request.hasOption('package')){
-                let pkg = Request.getOption('package');
-                let pkgCacheDir = resolve(cache.packages, 'data', pkg);
-                Shell.cp('-R', resolve(pkgCacheDir, compose), currentDockerDir);
-            }
+                // if package
+                if (Request.hasOption('package')) {
+                    let pkg = Request.getOption('package');
+                    let pkgCacheDir = resolve(cache.packages, 'data', pkg);
+                    Shell.cp('-R', resolve(pkgCacheDir, compose), currentDockerDir);
+                }
 
-            // let composeConfig = File.readJson(resolve(cacheDirectory, compose + '.config.json'));
-            if(!config.value.docker.composes[compose] || Helper.isEmpty(config.value.docker.composes[compose].variables)){
-                config.value.docker.composes[compose] = {
-                    variables: composeConfig.variables || {},
+                // let composeConfig = File.readJson(resolve(cacheDirectory, compose + '.config.json'));
+                if (!config.value.docker.composes[compose] || Helper.isEmpty(config.value.docker.composes[compose].variables)) {
+                    config.value.docker.composes[compose] = {
+                        variables: composeConfig.variables || {},
+                    };
+                }
+                config.value.docker.composes[compose].variables['container_name'] = {
+                    description: 'Container name',
+                    value: compose + '_' + Helper.generateUniqueId()
                 };
-            }
-            config.value.docker.composes[compose].variables['container_name'] = {
-                description: 'Container name',
-                value: compose + '_' + Helper.generateUniqueId()
-            };
-            File.createJson(config.filename, config.value);
+                File.createJson(config.filename, config.value);
 
-            if(Request.hasOption('sync-dir')){
-                Output.skyflowSuccess(compose + ' compose synchronized');
-                return true;
-            }
-            Output.skyflowSuccess(compose + ' compose added');
+                if (Request.hasOption('sync-dir')) {
+                    Output.skyflowSuccess(compose + ' compose synchronized');
+                    return true;
+                }
+                Output.skyflowSuccess(compose + ' compose added');
 
-            // Trigger after add event
-            Event.runEvent(composeConfig, cacheDirectory, container, 'after_add');
+                // Trigger after add event
+                Event.runEvent(composeConfig, cacheDirectory, container, 'after_add');
 
-            UpdateCommand.updateFiles(container);
+                UpdateCommand.updateFiles(container);
 
-        }).catch((e)=>{});
+            })
+            .catch((e) => {});
     }
 
     addPackage(pkg, container){

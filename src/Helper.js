@@ -123,6 +123,18 @@ module.exports = class Helper {
     }
 
     /**
+     * Checks if an object is a FormData.
+     *
+     * @method isFormData
+     * @param object Object we want to know the type.
+     * @since 1.0.0
+     * @return {Boolean} Returns true if the object is a FormData and false otherwise.
+     */
+    static isFormData(object) {
+        return this.getType(object) === 'FormData';
+    }
+
+    /**
      * Checks if an object is empty.
      *
      * @method isEmpty

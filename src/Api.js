@@ -1,5 +1,6 @@
 const {resolve} = require("path");
 const {request} = require('graphql-request');
+const Helper = require('./Helper.js');
 
 /**
  * Get resource from Skyflow API.
@@ -33,8 +34,126 @@ module.exports = class Api {
         this.host = "api.skyflow.io";
         // this.host = "localhost:4000";
 
-        this.container = container;
+        // this.privateHost = "localhost:8000";
+        this.privateHost = "skyflow.io";
 
+        this.options = {
+            method: 'GET',
+            headers: new Headers(),
+            // mode: 'cors',
+            cache: 'default'
+        };
+        this.options.headers.append("Accept", "application/json");
+        this.options.headers.append("X-Requested-With", "XMLHttpRequest");
+
+        this.container = container;
+    }
+
+    get(url, params = {}) {
+        return new Promise((resolve, reject) => {
+            this.options.method = 'GET';
+            delete this.options.body;
+
+            let esc = encodeURIComponent;
+            let query = Object.keys(params).map(k => esc(k) + '=' + esc(params[k])).join('&');
+
+            fetch(url += '?' + query, this.options)
+                .then((response) => {
+                    response.json()
+                        .then((data) => {
+                            return (response.ok && !data.error) ? resolve(data) : reject(data);
+                        })
+                        .catch((error)=>{
+                            return reject(error)
+                        });
+                })
+                .catch((response) => {
+                    response.json()
+                        .then((data) => {
+                            return reject(data)
+                        })
+                        .catch((error)=>{
+                            return reject(error)
+                        });
+                })
+        });
+    }
+
+    post(url, params = {}) {
+        return new Promise((resolve, reject) => {
+            this.options.method = 'POST';
+            let formData = null;
+            if(Helper.isFormData(params)){
+                formData = params;
+            }else {
+                formData = new FormData();
+                Object.keys(params).map((key) => {
+                    formData.append(key, params[key]);
+                });
+            }
+            this.options.body = formData;
+
+            fetch(url, this.options)
+                .then((response) => {
+                    response.json()
+                        .then((data) => {
+                            return (response.ok && !data.error) ? resolve(data) : reject(data);
+                        })
+                        .catch((error)=>{
+                            return reject(error)
+                        });
+                })
+                .catch((response) => {
+                    response.json()
+                        .then((data) => {
+                            return reject(data)
+                        })
+                        .catch((error)=>{
+                            return reject(error)
+                        });
+                });
+        });
+    }
+
+    getPrivateData(resource, type = 'compose', allowCache = true, username){
+
+        return new Promise((res, reject) => {
+            const {Output, Shell, Directory, File, cache, token} = this.container;
+            let resourceCacheDir = resolve(cache['mine'][type + 's'], 'data', resource);
+            if (Directory.exists(resourceCacheDir) && allowCache) {
+                return res(resourceCacheDir);
+            }
+            Output.writeln("Pulling " + resource + " private " + type + " from " + this.protocol + "://" + this.privateHost + " ...", null);
+
+            let params = {
+                username,
+                token: token.value,
+            };
+
+            let url = '/api/cli/' + type + '/' + resource;
+            this.get(this.protocol + "://" + this.privateHost + url, params)
+                .then((data)=>{
+                    Shell.mkdir("-p", resourceCacheDir);
+                    data.data[type].map((file) => {
+                        let directory = resolve(resourceCacheDir, file.directory);
+                        Shell.mkdir("-p", directory);
+                        let filename = resolve(directory, file.filename);
+                        File.create(filename, file.contents);
+                    });
+                    res(resourceCacheDir);
+                })
+                .catch((data)=>{
+                    Output.skyflowError(data.message);
+                    Output.skyflowError("Can not pull " + resource + " private " + type + " from " + this.protocol + "://" + this.privateHost);
+                    return reject(data);
+                })
+
+        });
+
+    }
+
+    getPrivateCompose(name, allowCache = true, username){
+        return this.getPrivateData(name, 'compose', allowCache, username);
     }
 
     /**
@@ -68,8 +187,8 @@ module.exports = class Api {
                     res(resourceCacheDir);
                 })
                 .catch((e) => {
-                    Output.skyflowError(e.message, false);
-                    Output.skyflowError("Can not pull " + resource + " " + type + " from " + this.protocol + "://" + this.host, false);
+                    Output.skyflowError(e.message);
+                    Output.skyflowError("Can not pull " + resource + " " + type + " from " + this.protocol + "://" + this.host);
                     return reject(e);
                 });
         });
@@ -103,7 +222,7 @@ module.exports = class Api {
                     res(data[type+'Doc']);
                 })
                 .catch((e) => {
-                    Output.skyflowError("Can not pull " + resource + " " + type + " documentation from " + this.protocol + "://" + this.host, false);
+                    Output.skyflowError("Can not pull " + resource + " " + type + " documentation from " + this.protocol + "://" + this.host);
                     return reject(e);
                 });
         });
