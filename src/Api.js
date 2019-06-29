@@ -21,8 +21,8 @@ module.exports = class Api {
          * @type String
          * @default https
          */
-        this.protocol = "https";
-        // this.protocol = "http";
+        // this.protocol = "https";
+        this.protocol = "http";
 
         /**
          * API url host.
@@ -34,8 +34,8 @@ module.exports = class Api {
         this.host = "api.skyflow.io";
         // this.host = "localhost:4000";
 
-        // this.privateHost = "localhost:8000";
-        this.privateHost = "skyflow.io";
+        this.privateHost = "localhost:8000";
+        // this.privateHost = "skyflow.io";
 
         this.options = {
             method: 'GET',
@@ -143,6 +143,7 @@ module.exports = class Api {
                     res(resourceCacheDir);
                 })
                 .catch((data)=>{
+                    console.log(data);
                     Output.skyflowError(data.message);
                     Output.skyflowError("Can not pull " + resource + " private " + type + " from " + this.protocol + "://" + this.privateHost);
                     return reject(data);
@@ -154,6 +155,10 @@ module.exports = class Api {
 
     getPrivateCompose(name, allowCache = true, username){
         return this.getPrivateData(name, 'compose', allowCache, username);
+    }
+
+    getPrivatePackage(name, allowCache = true, username){
+        return this.getPrivateData(name, 'package', allowCache, username);
     }
 
     /**

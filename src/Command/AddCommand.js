@@ -20,7 +20,7 @@ const UpdateCommand = require('./UpdateCommand.js');
  *      skyflow add apache python
  *      skyflow apache:python:add
  *      skyflow add python -f
- * @related update up down
+ * @related update up down token
  * @since 1.0.0
  */
 module.exports = class AddCommand {
@@ -148,11 +148,21 @@ module.exports = class AddCommand {
             Request.addOption('no-cache', true);
         }
         pkg = pkg.replace(/\.pkg$/i, '');
-        Api.getPackage(pkg, !Request.hasOption('no-cache')).then((cacheDirectory)=>{
+
+        pkg = pkg.split('/');
+        let username = null;
+        if(pkg[1]){
+            username = pkg[0];
+            pkg = pkg[1];
+        }else {
+            pkg = pkg[0]
+        }
+
+        Api[username ? 'getPrivatePackage' : 'getPackage'](pkg, !Request.hasOption('no-cache'), username).then((cacheDirectory)=>{
             let pkgConfig = File.readJson(resolve(cacheDirectory, pkg + '.config.json'));
             pkgConfig.composes.map((compose)=>{
                 Request.addOption('package', pkg);
-                this.addCompose(compose, container);
+                this.addCompose(username ? (username + '/' + compose) : compose, container);
             });
 
         }).catch(()=>{});

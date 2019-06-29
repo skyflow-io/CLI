@@ -7,7 +7,7 @@
  * @command token
  * @examples
  *      skyflow token set 162d63a0-132e-4f17-bc2d-e15fcedf7d09
- * @related login
+ * @related add
  * @since 1.0.0
  */
 module.exports = class TokenCommand {
