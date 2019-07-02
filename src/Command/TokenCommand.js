@@ -27,7 +27,7 @@ module.exports = class TokenCommand {
 
     set(tokenValue, container){
 
-        const {Helper, Output, File, cache, token} = container;
+        const {Helper, Output, File, Shell, cache, token} = container;
 
         if(!Helper.isString(tokenValue) || Helper.isEmpty(tokenValue)){
             Output.skyflowError('Token value is missing');
@@ -43,6 +43,7 @@ module.exports = class TokenCommand {
         today.setDate(day + 1);
         token.endAt = today.toISOString().substring(0, 10);
 
+        Shell.mkdir('-p', cache.skyflow);
         File.createJson(cache.token, token);
 
         Output.skyflowSuccess('Token ' + tokenValue + ' added');
