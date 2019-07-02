@@ -143,7 +143,6 @@ module.exports = class Api {
                     res(resourceCacheDir);
                 })
                 .catch((data)=>{
-                    console.log(data);
                     Output.skyflowError(data.message);
                     Output.skyflowError("Can not pull " + resource + " private " + type + " from " + this.protocol + "://" + this.privateHost);
                     return reject(data);
