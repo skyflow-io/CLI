@@ -35,17 +35,6 @@ module.exports = class Helper {
     }
 
     /**
-     * Checks if an object is a string.
-     *
-     * @method isString
-     * @param object Object we want to know the type.
-     * @return {Boolean} Returns true if the object is a string and false otherwise.
-     */
-    static isString(object) {
-        return this.getType(object) === 'string';
-    }
-
-    /**
      * Checks if an object is a number.
      *
      * @method isNumber
@@ -54,17 +43,6 @@ module.exports = class Helper {
      */
     static isNumber(object) {
         return this.getType(object) === 'number';
-    }
-
-    /**
-     * Checks if an object is a array.
-     *
-     * @method isArray
-     * @param object Object we want to know the type.
-     * @return {Boolean} Returns true if the object is a array and false otherwise.
-     */
-    static isArray(object) {
-        return this.getType(object) === 'Array';
     }
 
     /**
@@ -90,51 +68,6 @@ module.exports = class Helper {
     }
 
     /**
-     * Checks if an object is a DOM element.
-     *
-     * @method isElement
-     * @param object Object we want to know the type.
-     * @return {Boolean} Returns true if the object is a DOM element and false otherwise.
-     */
-    static isElement(object) {
-        return this.getType(object) === 'Element';
-    }
-
-    /**
-     * Checks if an object is a function.
-     *
-     * @method isFunction
-     * @param object Object we want to know the type.
-     * @return {Boolean} Returns true if the object is a function and false otherwise.
-     */
-    static isFunction(object) {
-        return this.getType(object) === 'function';
-    }
-
-    /**
-     * Checks if an object is a function.
-     *
-     * @method isCallback
-     * @param object Object we want to know the type.
-     * @return {Boolean} Returns true if the object is a function and false otherwise.
-     */
-    static isCallback(object) {
-        return this.isFunction(object);
-    }
-
-    /**
-     * Checks if an object is a FormData.
-     *
-     * @method isFormData
-     * @param object Object we want to know the type.
-     * @since 1.0.0
-     * @return {Boolean} Returns true if the object is a FormData and false otherwise.
-     */
-    static isFormData(object) {
-        return this.getType(object) === 'FormData';
-    }
-
-    /**
      * Checks if an object is empty.
      *
      * @method isEmpty
@@ -151,55 +84,7 @@ module.exports = class Helper {
             }
         }
 
-        if (object === true || this.isNumber(object)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Checks if an object is null.
-     *
-     * @method isNull
-     * @param object Object we want to know the type.
-     * @return {Boolean} Returns true if the object is null and false otherwise.
-     */
-    static isNull(object) {
-        return object === null;
-    }
-
-    /**
-     * Checks if an object is false.
-     *
-     * @method isFalse
-     * @param object Object we want to know the type.
-     * @return {Boolean} Returns true if the object is false and false otherwise.
-     */
-    static isFalse(object) {
-        return object === false;
-    }
-
-    /**
-     * Checks if an object is true.
-     *
-     * @method isTrue
-     * @param object Object we want to know the type.
-     * @return {Boolean} Returns true if the object is true and false otherwise.
-     */
-    static isTrue(object) {
-        return object === true;
-    }
-
-    /**
-     * Checks if a string is blank.
-     *
-     * @method isBlank
-     * @param object Object we want to know the type.
-     * @return {Boolean} Returns true if the string is blank and false otherwise.
-     */
-    static isBlank(object) {
-        return this.isString(object) && object.trim() === '';
+        return !((object === true) || this.isNumber(object));
     }
 
     /**
@@ -211,44 +96,6 @@ module.exports = class Helper {
      */
     static isRegExp(object) {
         return this.getType(object) === 'RegExp';
-    }
-
-    /**
-     * Converts an object to array.
-     *
-     * @method convertToArray
-     * @param object Object to convert.
-     * @return {Array} Returns the resulting array.
-     */
-    static convertToArray(object) {
-
-        if (this.isObject(object)) {
-            return Object.keys(object);
-        }
-
-        return [].slice.call(object);
-
-    }
-
-    /**
-     * Converts text to slug.
-     *
-     * @method slugify
-     * @param {String} text The string to convert.
-     * @return {String} Returns the converted string.
-     */
-    static slugify(text) {
-        return text.toLowerCase()
-            .replace(/[\u00C0-\u00C5]/ig, 'a')
-            .replace(/[\u00C8-\u00CB]/ig, 'e')
-            .replace(/[\u00CC-\u00CF]/ig, 'i')
-            .replace(/[\u00D2-\u00D6]/ig, 'o')
-            .replace(/[\u00D9-\u00DC]/ig, 'u')
-            .replace(/[\u00D1]/ig, 'n')
-            .replace(/[^a-z0-9 ]+/gi, '')
-            .trim().replace(/ /g, '-')
-            .replace(/[\-]{2}/g, '')
-            .replace(/[^a-z\- ]*/gi, '');
     }
 
     /**
@@ -302,16 +149,6 @@ module.exports = class Helper {
      */
     static isMac() {
         return process.platform === 'darwin';
-    }
-
-    /**
-     * Check if platform is linux or mac.
-     *
-     * @method isInux
-     * @return {Boolean} Returns true if the platform is linux or mac and false otherwise.
-     */
-    static isInux() {
-        return this.isLinux() || this.isMac();
     }
 
     /**

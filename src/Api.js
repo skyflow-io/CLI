@@ -34,9 +34,6 @@ module.exports = class Api {
         this.host = "api.skyflow.io";
         // this.host = "localhost:4000";
 
-        // this.privateHost = "localhost:8000";
-        this.privateHost = "skyflow.io";
-
         this.options = {
             method: 'GET',
             headers: new Headers(),
@@ -82,15 +79,10 @@ module.exports = class Api {
     post(url, params = {}) {
         return new Promise((resolve, reject) => {
             this.options.method = 'POST';
-            let formData = null;
-            if(Helper.isFormData(params)){
-                formData = params;
-            }else {
-                formData = new FormData();
-                Object.keys(params).map((key) => {
-                    formData.append(key, params[key]);
-                });
-            }
+            let formData = new FormData();
+            Object.keys(params).map((key) => {
+                formData.append(key, params[key]);
+            });
             this.options.body = formData;
 
             fetch(url, this.options)
@@ -113,51 +105,6 @@ module.exports = class Api {
                         });
                 });
         });
-    }
-
-    getPrivateData(resource, type = 'compose', allowCache = true, username){
-
-        return new Promise((res, reject) => {
-            const {Output, Shell, Directory, File, cache, token} = this.container;
-            let resourceCacheDir = resolve(cache['mine'][type + 's'], 'data', resource);
-            if (Directory.exists(resourceCacheDir) && allowCache) {
-                return res(resourceCacheDir);
-            }
-            Output.writeln("Pulling " + resource + " private " + type + " from " + this.protocol + "://" + this.privateHost + " ...", null);
-
-            let params = {
-                username,
-                token: token.value,
-            };
-
-            let url = '/api/cli/' + type + '/' + resource;
-            this.get(this.protocol + "://" + this.privateHost + url, params)
-                .then((data)=>{
-                    Shell.mkdir("-p", resourceCacheDir);
-                    data.data[type].map((file) => {
-                        let directory = resolve(resourceCacheDir, file.directory);
-                        Shell.mkdir("-p", directory);
-                        let filename = resolve(directory, file.filename);
-                        File.create(filename, file.contents);
-                    });
-                    res(resourceCacheDir);
-                })
-                .catch((data)=>{
-                    Output.skyflowError(data.message);
-                    Output.skyflowError("Can not pull " + resource + " private " + type + " from " + this.protocol + "://" + this.privateHost);
-                    return reject(data);
-                })
-
-        });
-
-    }
-
-    getPrivateCompose(name, allowCache = true, username){
-        return this.getPrivateData(name, 'compose', allowCache, username);
-    }
-
-    getPrivatePackage(name, allowCache = true, username){
-        return this.getPrivateData(name, 'package', allowCache, username);
     }
 
     /**
@@ -239,6 +186,10 @@ module.exports = class Api {
 
     getPackage(name, allowCache = true) {
         return this.getData(name, 'package', allowCache);
+    }
+
+    getTemplate(name, allowCache = true) {
+        return this.getData(name, 'template', allowCache);
     }
 
     getScript(name, allowCache = true) {

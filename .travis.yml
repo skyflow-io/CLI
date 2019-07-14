@@ -10,8 +10,7 @@ matrix:
       addons:
         ssh_known_hosts: 51.15.187.88
       before_script:
-      - docker run --rm --volume $TRAVIS_BUILD_DIR:/app composer:latest bash -c "composer
-        require symfony/filesystem symfony/finder"
+      - docker run --rm --volume $TRAVIS_BUILD_DIR:/app composer:latest bash -c "composer require symfony/filesystem symfony/finder"
       script:
       - docker run --rm -v $TRAVIS_BUILD_DIR/src/Command:/src -v $TRAVIS_BUILD_DIR/doc:/doc -w /src node:alpine sh -c "yarn global add yuidocjs && yuidoc . -o /doc -p"
       - docker run --rm -v $TRAVIS_BUILD_DIR:/app -w /app php:7.3-rc-cli-alpine sh -c "php ci/build.php"
@@ -27,7 +26,9 @@ matrix:
             ssh lewebpedagogique@51.15.187.88 mkdir -p /srv/http/skyflow/doc &&
             rsync -r --delete-after $TRAVIS_BUILD_DIR/doc/commands.json lewebpedagogique@51.15.187.88:/srv/http/skyflow/doc/commands.json &&
             ssh lewebpedagogique@51.15.187.88 docker restart skyflow_master &&
-            ssh lewebpedagogique@51.15.187.88 docker restart skyflow_develop
+            ssh lewebpedagogique@51.15.187.88 docker restart skyflow_develop &&
+            ssh lewebpedagogique@51.15.187.88 docker restart skyflow_api &&
+            ssh lewebpedagogique@51.15.187.88 docker restart skyflow_api_dev
           on:
             branch: master
         - provider: script
