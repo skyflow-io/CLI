@@ -21,7 +21,7 @@ module.exports = class RmiCommand {
 
         const {Shell, Request, Output} = container;
         let stringOpt = '';
-        if(Request.hasShortOption('a') || Request.hasLongOption('all')){
+        if(Request.hasOption('a') || Request.hasOption('all')){
             Shell.run('docker', ['images', '-a', '-q']);
             let images = Shell.getArrayResult();
             if (!images[0]) {

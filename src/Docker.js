@@ -37,8 +37,7 @@ module.exports = class Docker {
         }
         let c = Request.consoleArguments[1];
         if (!c) {
-            Output.skyflowError('Command is missing.');
-            return false;
+            c = compose;
         }
         let stringOpt = Request.getStringOptions();
         let dockerComposeFile = resolve(config.value.docker.directory, 'docker-compose.yml');

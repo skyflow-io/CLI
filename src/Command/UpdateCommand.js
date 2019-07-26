@@ -188,6 +188,7 @@ module.exports = class UpdateCommand {
                 'version: "' + config.value.docker.version + '"' + os.EOL.repeat(2) +
                 'services:' + dockerComposeContent;
             Shell.mkdir('-p', currentDockerDir);
+            dockerComposeContent = dockerComposeContent.replace('.././', '../');
             File.create(resolve(currentDockerDir, 'docker-compose.yml'), dockerComposeContent);
             Output.success('Your docker-compose.yml file has been updated.');
         }

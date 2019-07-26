@@ -10,6 +10,7 @@ matrix:
       addons:
         ssh_known_hosts: 51.15.187.88
       before_script:
+      - docker run --rm -w="/app" -v $TRAVIS_BUILD_DIR:/app node:alpine sh -c "npm install && npm test"
       - docker run --rm --volume $TRAVIS_BUILD_DIR:/app composer:latest bash -c "composer require symfony/filesystem symfony/finder"
       script:
       - docker run --rm -v $TRAVIS_BUILD_DIR/src/Command:/src -v $TRAVIS_BUILD_DIR/doc:/doc -w /src node:alpine sh -c "yarn global add yuidocjs && yuidoc . -o /doc -p"

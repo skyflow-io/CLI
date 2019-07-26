@@ -20,11 +20,11 @@ module.exports = class RmcCommand {
 
         const {Shell, Request, Output} = container;
         let stringOpt = '';
-        if(Request.hasShortOption('a') || Request.hasLongOption('all')){
-            Shell.run("docker", ["ps", "-a", "-q"]);
+        if(Request.hasOption('a') || Request.hasOption('all')){
+            Shell.run('docker', ['ps', '-a', '-q']);
             let containers = Shell.getArrayResult();
             if (!containers[0]) {
-                Output.info("No containers found");
+                Output.info('No containers found');
                 return this;
             }
             Request.removeOption('a');
