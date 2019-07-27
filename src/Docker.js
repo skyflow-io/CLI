@@ -31,25 +31,31 @@ module.exports = class Docker {
 
         const {Helper, Shell, Request, Output, config} = container;
         let compose = Request.consoleArguments[0];
+        let composes = config.value.docker.composes;
         if (!compose) {
             Output.skyflowError('Compose name is missing.');
             return false;
         }
         let c = Request.consoleArguments[1];
         if (!c) {
-            c = compose;
+            let defaultCommand = Helper.getByKey(composes, compose + '.command.default');
+            if(!defaultCommand){
+                Output.skyflowError('Command is missing.');
+                return false;
+            }
+            c = defaultCommand;
         }
         let stringOpt = Request.getStringOptions();
         let dockerComposeFile = resolve(config.value.docker.directory, 'docker-compose.yml');
         let projectName = config.value.docker['project_name'];
-        let composes = config.value.docker.composes;
+
         if (!Helper.hasProperty(composes, compose)) {
             Output.skyflowError('Compose \'' + compose + '\' not found. Use \'skyflow add ' + compose + '\' command.');
             return false;
         }
         let containerName = composes[compose].variables['container_name'].value;
         if(isContainerRunning && !Docker.isContainerRunning(containerName, container)){
-            Output.skyflowError('Compose \'' + compose + '\' is not running. Use skyflow \'' + compose + ':up\' command.');
+            Output.skyflowError('Compose \'' + compose + '\' is not running. Use \'skyflow ' + compose + ':run\' command.');
             return false;
         }
 
@@ -101,7 +107,7 @@ module.exports = class Docker {
      */
     static composeExec(command, container){
 
-        const {Helper, Shell, Request, Output, config} = container;
+        const {Helper, Shell, Request, config} = container;
         let stringOpt = Request.getStringOptions();
         let dockerComposeFile = resolve(config.value.docker.directory, 'docker-compose.yml');
         let projectName = config.value.docker['project_name'];

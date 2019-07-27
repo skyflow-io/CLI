@@ -24,11 +24,13 @@ let config = {
         "a": "assets",
         "sf": "symfony",
     },
-    "docker": {"version": "3", "directory": "docker", "project_name": "skyflow_project_" + container.Helper.generateUniqueId(), "composes": {}},
+    "docker": {"version": "3", "directory": "docker", "project_name": "p_" + container.Helper.generateUniqueId(), "composes": {}},
     "scripts": {"directory": "scripts"},
     "styles": {"directory": "styles"},
     "widgets": {"directory": "widgets"},
     "fonts": {"directory": "fonts"},
+    "components": {"directory": "components"},
+    "containers": {"directory": "containers"},
 };
 
 const configFilename = 'skyflow.json';
@@ -55,8 +57,8 @@ container['cache'] = {
     styles: resolve(config.cache, 'styles'),
     widgets: resolve(config.cache, 'widgets'),
     fonts: resolve(config.cache, 'fonts'),
-    token: resolve(config.cache, 'token.json')
-
+    components: resolve(config.cache, 'components'),
+    containers: resolve(config.cache, 'containers'),
 };
 container['Api'] = new (require('./src/Api.js'))(container);
 container['Request'] = new (require('./src/Request.js'))(container);

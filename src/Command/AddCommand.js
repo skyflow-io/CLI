@@ -69,16 +69,7 @@ module.exports = class AddCommand {
             Request.addOption('no-cache', true);
         }
 
-        compose = compose.split('/');
-        let username = null;
-        if(compose[1]){
-            username = compose[0];
-            compose = compose[1];
-        }else {
-            compose = compose[0]
-        }
-
-        Api[username ? 'getPrivateCompose' : 'getCompose'](compose, !Request.hasOption('no-cache'), username)
+        Api.getCompose(compose, !Request.hasOption('no-cache'))
             .then((cacheDirectory) => {
                 if (Request.hasOption('pull')) {
                     Output.skyflowSuccess(compose + ' cached');
@@ -123,8 +114,17 @@ module.exports = class AddCommand {
                 }
                 config.value.docker.composes[compose].variables['container_name'] = {
                     description: 'Container name',
-                    value: compose + '_' + Helper.generateUniqueId()
+                    value: compose + '_' + Helper.generateUniqueId(3)
                 };
+
+                if(Helper.getByKey(composeConfig, 'command.default')){
+                    config.value.docker.composes[compose] = {
+                        command: {
+                            default: composeConfig.command.default
+                        }
+                    };
+                }
+
                 File.createJson(config.filename, config.value);
 
                 if (Request.hasOption('sync-dir')) {
@@ -149,20 +149,11 @@ module.exports = class AddCommand {
         }
         pkg = pkg.replace(/\.pkg$/i, '');
 
-        pkg = pkg.split('/');
-        let username = null;
-        if(pkg[1]){
-            username = pkg[0];
-            pkg = pkg[1];
-        }else {
-            pkg = pkg[0]
-        }
-
-        Api[username ? 'getPrivatePackage' : 'getPackage'](pkg, !Request.hasOption('no-cache'), username).then((cacheDirectory)=>{
+        Api.getPackage(pkg, !Request.hasOption('no-cache')).then((cacheDirectory)=>{
             let pkgConfig = File.readJson(resolve(cacheDirectory, pkg + '.config.json'));
             pkgConfig.composes.map((compose)=>{
                 Request.addOption('package', pkg);
-                this.addCompose(username ? (username + '/' + compose) : compose, container);
+                this.addCompose(compose, container);
             });
 
         }).catch(()=>{});
