@@ -24,7 +24,7 @@ module.exports = class UpdateCommand {
 
     constructor(container) {
 
-        const {Output, Input, File, Request, config} = container;
+        const {Helper, Output, Input, File, Request, config, cache} = container;
 
         container.composesToUpdate = {};
         let composes = Request.consoleArguments;
@@ -50,15 +50,37 @@ module.exports = class UpdateCommand {
 
             container.composesToUpdate[compose] = true;
 
+            let cacheComposeConfig = {};
+            try {
+                cacheComposeConfig = require(resolve(cache.composes, 'data', compose, compose + '.config.json'));
+            }catch (e) {}
+
             Object.keys(variables).map((variable) => {
                 if(variable === 'container_name'){
                     return false
                 }
                 let question = {
-                    name: compose + '__' + variable
+                    type: Helper.getByKey(cacheComposeConfig, 'variables.' + variable + '.type') || 'input',
+                    name: compose + '__' + variable,
+                    choices: (
+                        Helper.getByKey(cacheComposeConfig, 'variables.' + variable + '.choices') ||
+                        Helper.getByKey(cacheComposeConfig, 'variables.' + variable + '.values')||
+                        null
+                    ),
                 };
-                question.message = '[' + compose + '] ' + variables[variable].description;
-                question.default = variables[variable].value;
+                question.message = '[' + compose + '] ' + (
+                    Helper.getByKey(cacheComposeConfig, 'variables.' + variable + '.description') ||
+                    Helper.getByKey(cacheComposeConfig, 'variables.' + variable + '.message') ||
+                    'Enter ' + variable
+                );
+                question.default = variables[variable] ||
+                    Helper.getByKey(cacheComposeConfig, 'variables.' + variable + '.value') ||
+                    Helper.getByKey(cacheComposeConfig, 'variables.' + variable + '.default');
+
+                if(question.choices){
+                    question.message += ' Choose from values:'
+                }
+
                 questions.push(question);
             });
 
@@ -70,7 +92,7 @@ module.exports = class UpdateCommand {
         Input.ask(questions, (answers) => {
             Object.keys(answers).map((answer) => {
                 let c = answer.split('__');
-                config.value.docker.composes[c[0]].variables[c[1]].value = answers[answer]
+                config.value.docker.composes[c[0]].variables[c[1]] = answers[answer]
             });
             File.createJson(config.filename, config.value);
             Output.skyflowSuccess(composes.join(' ') + ' updated');
@@ -117,7 +139,11 @@ module.exports = class UpdateCommand {
             Object.keys(variables).map((variable)=>{
                 let reg = new RegExp('{{ *' + variable + ' *}}', 'ig');
                 try {
-                    content = content.replace(reg, variables[variable].value);
+                    let value = variables[variable];
+                    if(Helper.isArray(value)){
+                        value = '\'' + value.join(' ') + '\'';
+                    }
+                    content = content.replace(reg, value);
                 }catch (e) {}
             });
 
@@ -131,7 +157,11 @@ module.exports = class UpdateCommand {
 
                 Object.keys(variables).map((variable)=>{
                     let reg = new RegExp('{{ *' + variable + ' *}}', 'ig');
-                    c = c.replace(reg, variables[variable].value);
+                    let value = variables[variable];
+                    if(Helper.isArray(value)){
+                        value = '\'' + value.join(' ') + '\'';
+                    }
+                    c = c.replace(reg, value);
                 });
                 File.create(resolve(composeDir, file.output), c);
 
@@ -171,15 +201,18 @@ module.exports = class UpdateCommand {
                 }
 
                 try {
-                    let v = c['variables'][variable].value;
+                    let v = c['variables'][variable];
+                    if(Helper.isArray(v)){
+                        v = '\'' + v.join(' ') + '\'';
+                    }
                     if(v){
                         return v;
                     }else {
-                        Output.skyflowWarning('Variable \'' + variable + '\' for \'' + compose + '\' compose not found.');
+                        Output.skyflowWarning('Variable \'' + variable + '\' for \'' + compose + '\' compose not found');
                         return match;
                     }
                 }catch (e) {
-                    Output.skyflowWarning('Variable \'' + variable + '\' for \'' + compose + '\' compose not found.');
+                    Output.skyflowWarning('Variable \'' + variable + '\' for \'' + compose + '\' compose not found');
                     return match;
                 }
             });
@@ -190,7 +223,7 @@ module.exports = class UpdateCommand {
             Shell.mkdir('-p', currentDockerDir);
             dockerComposeContent = dockerComposeContent.replace(/\.\.\/\.\//g, '../');
             File.create(resolve(currentDockerDir, 'docker-compose.yml'), dockerComposeContent);
-            Output.success('Your docker-compose.yml file has been updated.');
+            Output.success('Your docker-compose.yml file has been updated');
         }
 
     }

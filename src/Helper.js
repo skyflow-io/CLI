@@ -88,6 +88,18 @@ module.exports = class Helper {
     }
 
     /**
+     * Checks if an object is a array.
+     *
+     * @method isArray
+     * @param object Object we want to know the type.
+     * @since 1.0.0
+     * @return {Boolean} Returns true if the object is a array and false otherwise.
+     */
+    static isArray(object) {
+        return this.getType(object) === 'Array';
+    }
+
+    /**
      * Checks if an object is regular expression.
      *
      * @method isRegExp

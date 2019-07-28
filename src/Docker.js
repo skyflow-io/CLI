@@ -33,14 +33,14 @@ module.exports = class Docker {
         let compose = Request.consoleArguments[0];
         let composes = config.value.docker.composes;
         if (!compose) {
-            Output.skyflowError('Compose name is missing.');
+            Output.skyflowError('Compose name is missing');
             return false;
         }
         let c = Request.consoleArguments[1];
         if (!c) {
             let defaultCommand = Helper.getByKey(composes, compose + '.command.default');
             if(!defaultCommand){
-                Output.skyflowError('Command is missing.');
+                Output.skyflowError('Command is missing');
                 return false;
             }
             c = defaultCommand;
@@ -50,12 +50,12 @@ module.exports = class Docker {
         let projectName = config.value.docker['project_name'];
 
         if (!Helper.hasProperty(composes, compose)) {
-            Output.skyflowError('Compose \'' + compose + '\' not found. Use \'skyflow add ' + compose + '\' command.');
+            Output.skyflowError('Compose \'' + compose + '\' not found. Use \'skyflow add ' + compose + '\' command');
             return false;
         }
         let containerName = composes[compose].variables['container_name'].value;
         if(isContainerRunning && !Docker.isContainerRunning(containerName, container)){
-            Output.skyflowError('Compose \'' + compose + '\' is not running. Use \'skyflow ' + compose + ':run\' command.');
+            Output.skyflowError('Compose \'' + compose + '\' is not running. Use \'skyflow ' + compose + ':run\' command');
             return false;
         }
 

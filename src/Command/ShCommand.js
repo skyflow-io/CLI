@@ -26,7 +26,7 @@ module.exports = class ShCommand {
             composeContainerName = config.value.docker.composes[compose].variables['container_name'].value;
         }catch (e) {}
         if(!composeContainerName){
-            Output.skyflowError('Container name not found for \'' + compose + '\' compose.');
+            Output.skyflowError('Container name not found for \'' + compose + '\' compose');
             process.exit(1);
         }
 

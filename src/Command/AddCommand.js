@@ -106,16 +106,18 @@ module.exports = class AddCommand {
                     Shell.cp('-R', resolve(pkgCacheDir, compose), currentDockerDir);
                 }
 
-                // let composeConfig = File.readJson(resolve(cacheDirectory, compose + '.config.json'));
-                if (!config.value.docker.composes[compose] || Helper.isEmpty(config.value.docker.composes[compose].variables)) {
-                    config.value.docker.composes[compose] = {
-                        variables: composeConfig.variables || {},
-                    };
+                let composeVariables = Helper.getByKey(config, 'value.docker.composes.' + compose + '.variables') || {};
+                if (!config.value.docker.composes[compose] || Helper.isEmpty(composeVariables)) {
+                    composeVariables = composeConfig.variables || {};
                 }
-                config.value.docker.composes[compose].variables['container_name'] = {
+                composeVariables['container_name'] = {
                     description: 'Container name',
                     value: compose + '_' + Helper.generateUniqueId(3)
                 };
+
+                Object.keys(composeVariables).map((variable)=>{
+                    composeVariables[variable] = composeVariables[variable].value;
+                });
 
                 if(Helper.getByKey(composeConfig, 'command.default')){
                     config.value.docker.composes[compose] = {
@@ -125,6 +127,9 @@ module.exports = class AddCommand {
                     };
                 }
 
+                config.value.docker.composes[compose] = {
+                    variables: composeVariables
+                };
                 File.createJson(config.filename, config.value);
 
                 if (Request.hasOption('sync-dir')) {
@@ -139,7 +144,10 @@ module.exports = class AddCommand {
                 UpdateCommand.updateFiles(container);
 
             })
-            .catch((e) => {});
+            .catch((e) => {
+                console.log(e.message);
+                Output.skyflowError('Compose \'' + compose + '\' not found');
+            });
     }
 
     addPackage(pkg, container){
@@ -207,7 +215,7 @@ module.exports = class AddCommand {
                 if (Request.hasOption('f') || Request.hasOption('force')) {
                     Shell.rm('-rf', resolve(currentWidgetsDir, widget));
                 } else {
-                    Output.skyflowWarning("'" + widget + "' widget already exists. Use '-f' or '--force' option.");
+                    Output.skyflowWarning("'" + widget + "' widget already exists. Use '-f' or '--force' option");
                     return false;
                 }
             }
