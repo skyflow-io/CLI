@@ -16,5 +16,7 @@ foreach ($filesFinder as $file) {
     $result = json_decode($file->getContents(), true);
 }
 
+$fileSystem->remove(['/app/doc/commands.js']);
 $fileSystem->remove(['/app/doc/commands.json']);
+$fileSystem->dumpFile('/app/doc/commands.js', 'var COMMANDS_DOC = ' . json_encode($result) . ';');
 $fileSystem->dumpFile('/app/doc/commands.json', json_encode($result));
