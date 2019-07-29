@@ -19,7 +19,7 @@ const AddCommand = require('./AddCommand.js');
 module.exports = class SyncCommand {
 
     constructor(container) {
-        const {Request, File, config} = container;
+        const {Output, Helper, Request, File, config} = container;
         if(Request.hasOption('dir')){
             return this.syncFromDir(container);
         }
@@ -31,13 +31,18 @@ module.exports = class SyncCommand {
                 Request.consoleArguments.push(compose);
             }
         });
+        if(Helper.isEmpty(Request.consoleArguments)){
+            Output.info('No composes to synchronize');
+            process.exit(0);
+        }
         Request.command = 'add';
+        Request.addOption('sync', true);
         Request.commands = [Request.command, ...Request.consoleArguments];
         new AddCommand(container);
     }
 
     syncFromDir(container){
-        const {Directory, Request, Helper, config} = container;
+        const {Output, Directory, Request, Helper, config} = container;
         let currentDockerDir = Request.getOption('dir');
         let composes = Directory.read(currentDockerDir, {file: false});
         Request.consoleArguments = [];
@@ -46,6 +51,12 @@ module.exports = class SyncCommand {
                 Request.consoleArguments.push(compose);
             }
         });
+
+        if(Helper.isEmpty(Request.consoleArguments)){
+            Output.info('No composes to synchronize');
+            process.exit(0);
+        }
+
         Request.command = 'add';
         Request.addOption('sync-dir', true);
         Request.commands = [Request.command, ...Request.consoleArguments];

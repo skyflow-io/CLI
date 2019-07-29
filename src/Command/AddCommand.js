@@ -15,6 +15,7 @@ const UpdateCommand = require('./UpdateCommand.js');
  *      [-f,--force] Option to force adding resources.
  *      [--no-cache] Add resource without cache.
  *      [--pull] Pull resource from skyflow API.
+ *      [--sync] Option for synchronisation.
  *      [--sync-dir] Option for synchronisation. No override existing files in docker directory.
  * @examples
  *      skyflow add apache python
@@ -107,17 +108,23 @@ module.exports = class AddCommand {
                 }
 
                 let composeVariables = Helper.getByKey(config, 'value.docker.composes.' + compose + '.variables') || {};
-                if (!config.value.docker.composes[compose] || Helper.isEmpty(composeVariables)) {
-                    composeVariables = composeConfig.variables || {};
-                }
-                composeVariables['container_name'] = {
-                    description: 'Container name',
-                    value: compose + '_' + Helper.generateUniqueId(3)
-                };
 
-                Object.keys(composeVariables).map((variable)=>{
-                    composeVariables[variable] = composeVariables[variable].value;
-                });
+                if (!Request.hasOption('sync')) {
+                    if (!config.value.docker.composes[compose] || Helper.isEmpty(composeVariables)) {
+                        composeVariables = composeConfig.variables || {};
+                        Object.keys(composeVariables).map((variable)=>{
+                            composeVariables[variable] = composeVariables[variable].value;
+                        });
+                    }
+                    if(!Helper.hasProperty(composeVariables, 'container_name')){
+                        composeVariables['container_name'] = compose + '_' + Helper.generateUniqueId(3);
+                    }
+                    Object.keys(composeConfig.variables).map((variable)=>{
+                        if(!Helper.hasProperty(composeVariables, variable)){
+                            composeVariables[variable] = composeConfig.variables[variable].value;
+                        }
+                    });
+                }
 
                 if(Helper.getByKey(composeConfig, 'command.default')){
                     config.value.docker.composes[compose] = {
