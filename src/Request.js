@@ -229,6 +229,19 @@ module.exports = class Request {
     }
 
     /**
+     * Adds a short option.
+     *
+     * @method addShortOption
+     * @param {String} option Option name.
+     * @param {String} value Option value.
+     * @return {Request} Returns the current Request object.
+     */
+    addShortOption(option, value){
+        this.shortOptions[option] = value;
+        return this;
+    }
+
+    /**
      * Checks if long option exists.
      *
      * @method hasLongOption
@@ -237,6 +250,19 @@ module.exports = class Request {
      */
     hasLongOption(option){
         return Helper.hasProperty(this.longOptions, option);
+    }
+
+    /**
+     * Adds a long option.
+     *
+     * @method addLongOption
+     * @param {String} option Option name.
+     * @param {String} value Option value.
+     * @return {Request} Returns the current Request object.
+     */
+    addLongOption(option, value){
+        this.longOptions[option] = value;
+        return this;
     }
 
     /**

@@ -45,6 +45,10 @@ module.exports = class Docker {
             }
             c = defaultCommand;
         }
+        if(!Request.hasOption('rm')){
+            Request.addOption('rm', true);
+            Request.addLongOption('rm', true);
+        }
         let stringOpt = Request.getStringOptions();
         let dockerComposeFile = resolve(config.value.docker.directory, 'docker-compose.yml');
         let projectName = config.value.docker['project_name'];
@@ -55,7 +59,7 @@ module.exports = class Docker {
         }
         let containerName = composes[compose].variables['container_name'];
         if(isContainerRunning && !Docker.isContainerRunning(containerName, container)){
-            Output.skyflowError('Compose \'' + compose + '\' is not running. Use \'skyflow ' + compose + ':run\' command');
+            Output.skyflowError('Compose \'' + compose + '\' is not running. Use \'skyflow run ' + compose + '\' command');
             return false;
         }
 

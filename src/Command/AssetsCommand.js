@@ -63,8 +63,6 @@ module.exports = class AssetsCommand {
         }
         try {
             Shell.rm('-rf', resolve(config.value.docker.directory, 'assets', 'node_modules'));
-            Shell.rm('-rf', resolve(config.value.docker.directory, 'assets', 'package-lock.json'));
-            Shell.rm('-rf', resolve(config.value.docker.directory, 'assets', 'yarn.lock'));
         }catch (e) {}
 
         return this;
@@ -73,9 +71,10 @@ module.exports = class AssetsCommand {
     install(container){
         const {Request, Shell} = container;
         Request.consoleArguments.shift();
+        // Shell.exec('skyflow run assets \'npm install ' + Request.consoleArguments.join(' ') + '\' --rm');
         Request.consoleArguments = ['run', 'npm', 'install', ...Request.consoleArguments];
         this.run(container);
-        Shell.exec('skyflow build assets --force-rm');
+        Shell.exec('skyflow build assets');
 
         return this;
     }
@@ -83,9 +82,10 @@ module.exports = class AssetsCommand {
     uninstall(container){
         const {Request, Shell} = container;
         Request.consoleArguments.shift();
+        // Shell.exec('skyflow run assets \'npm uninstall ' + Request.consoleArguments.join(' ') + '\' --rm');
         Request.consoleArguments = ['run', 'npm', 'uninstall', ...Request.consoleArguments];
         this.run(container);
-        Shell.exec('skyflow build assets --force-rm');
+        Shell.exec('skyflow build assets');
 
         return this;
     }
