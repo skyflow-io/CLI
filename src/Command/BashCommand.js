@@ -23,7 +23,7 @@ module.exports = class BashCommand {
 
         let composeContainerName = null;
         try {
-            composeContainerName = config.value.docker.composes[compose].variables['container_name'].value;
+            composeContainerName = config.value.docker.composes[compose].variables['container_name'];
         }catch (e) {}
         if(!composeContainerName){
             Output.skyflowError('Container name not found for \'' + compose + '\' compose');
