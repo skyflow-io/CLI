@@ -53,7 +53,7 @@ module.exports = class Docker {
             Output.skyflowError('Compose \'' + compose + '\' not found. Use \'skyflow add ' + compose + '\' command');
             return false;
         }
-        let containerName = composes[compose].variables['container_name'].value;
+        let containerName = composes[compose].variables['container_name'];
         if(isContainerRunning && !Docker.isContainerRunning(containerName, container)){
             Output.skyflowError('Compose \'' + compose + '\' is not running. Use \'skyflow ' + compose + ':run\' command');
             return false;
@@ -119,7 +119,7 @@ module.exports = class Docker {
         let containerNames = '';
         composeNames.map((name)=>{
             if(Helper.hasProperty(composes, name)){
-                containerNames += ' ' + composes[name].variables['container_name'].value;
+                containerNames += ' ' + composes[name].variables['container_name'];
             }
         });
         try {

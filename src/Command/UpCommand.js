@@ -50,7 +50,7 @@ module.exports = class UpCommand {
         composeNames.map((compose) => {
             Output.newLine();
             try {
-                let containerName = composes[compose].variables['container_name'].value;
+                let containerName = composes[compose].variables['container_name'];
                 Shell.exec('docker-compose -p ' + projectName + ' -f ' + dockerComposeFile + ' up ' + stringOpt + ' ' + containerName);
                 Output.skyflowSuccess(compose + ' up');
             } catch (e) {
