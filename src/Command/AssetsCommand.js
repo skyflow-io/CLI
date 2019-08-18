@@ -17,7 +17,9 @@ const {resolve} = require("path");
  *      build Compile assets for production environment.
  *      watch For watching assets.
  * @examples
+ *      # Add/install lodash package
  *      skyflow assets add lodash
+ *      # remove/uninstall lodash package
  *      skyflow assets remove lodash
  *      skyflow assets compile
  * @related build
@@ -52,19 +54,31 @@ module.exports = class AssetsCommand {
     }
 
     run(container){
-        const {Request, Shell, Output, config} = container;
+        const {Helper, Directory, Request, Shell, Output, config} = container;
+        let currentAssetsDir = Helper.getByKey(config, 'value.docker.directory');
+
+        if(currentAssetsDir){
+            currentAssetsDir = resolve(currentAssetsDir, 'assets');
+        }
+
+        if(!currentAssetsDir || !Directory.exists(currentAssetsDir)){
+            Output.skyflowError('Compose assets not found');
+            process.exit(1);
+        }
         Request.args.shift();
         let args = Request.args;
         Shell.exec('skyflow rm assets -f');
         try {
-            Shell.exec('docker run --rm -v ' + resolve(config.value.docker.directory, 'assets') + ':/src -w /src node:alpine sh -c \'' + args.join(' ') + '\'');
+            Shell.exec(
+                'docker run --rm -v ' + resolve(currentAssetsDir, 'package.json') + ':/src/package.json '+
+                '-v ' + resolve(currentAssetsDir, 'package-lock.json') + ':/src/package-lock.json '+
+                '-w /src node:alpine sh -c \'' +
+                args.join(' ') + '\''
+            );
         }catch (e) {
             Output.error(e.message);
             process.exit(1);
         }
-        try {
-            Shell.rm('-rf', resolve(config.value.docker.directory, 'assets', 'node_modules'));
-        }catch (e) {}
 
         return this;
     }
@@ -72,7 +86,6 @@ module.exports = class AssetsCommand {
     install(container){
         const {Request, Shell} = container;
         Request.args.shift();
-        // Shell.exec('skyflow run assets \'npm install ' + Request.args.join(' ') + '\' --rm');
         Request.args = ['run', 'npm', 'install', ...Request.args];
         this.run(container);
         Shell.exec('skyflow build assets');
@@ -83,7 +96,6 @@ module.exports = class AssetsCommand {
     uninstall(container){
         const {Request, Shell} = container;
         Request.args.shift();
-        // Shell.exec('skyflow run assets \'npm uninstall ' + Request.args.join(' ') + '\' --rm');
         Request.args = ['run', 'npm', 'uninstall', ...Request.args];
         this.run(container);
         Shell.exec('skyflow build assets');

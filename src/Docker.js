@@ -45,10 +45,6 @@ module.exports = class Docker {
             }
             c = defaultCommand;
         }
-        // if(!Request.hasOption('rm')){
-        //     Request.addOption('rm', true);
-        //     Request.addLongOption('rm', true);
-        // }
         let stringOpt = Request.getStringOptions();
         let dockerComposeFile = resolve(config.value.docker.directory, 'docker-compose.yml');
         let projectName = config.value.docker['project_name'];
@@ -65,7 +61,7 @@ module.exports = class Docker {
 
         Output.newLine();
         Output.write("Running ");
-        Output.write(('docker-compose -p ' + projectName + ' ' + command.trim() + ' ' + stringOpt.trim() + ' ' + containerName.trim() + ' ' + c).trim(), "green");
+        Output.write('docker-compose -p ' + projectName + ' ' + command.trim() + ' ' + (stringOpt.trim() + ' ' + containerName.trim() + ' ' + c).trim(), "green");
         Output.writeln(" command ...");
         Output.newLine();
 
