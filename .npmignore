@@ -1,0 +1,5 @@
+/.github/
+/.travis.yml
+/tests/
+/ci/
+/SECURITY.md
