@@ -22,9 +22,11 @@ let config = {
     "alias": {
         "c": "composer",
         "a": "assets",
+        "r": "react",
         "sf": "symfony",
     },
     "docker": {"version": "3", "directory": "docker", "project_name": "p_" + container.Helper.generateUniqueId(), "composes": {}},
+    "assets": {"directory": "assets"},
     "scripts": {"directory": "scripts"},
     "styles": {"directory": "styles"},
     "widgets": {"directory": "widgets"},
@@ -55,19 +57,10 @@ container['cache'] = {
     fonts: resolve(config.cache, 'fonts'),
     components: resolve(config.cache, 'components'),
     containers: resolve(config.cache, 'containers'),
+    templates: resolve(config.cache, 'templates'),
 };
 container['Api'] = new (require('./src/Api.js'))(container);
 container['Request'] = new (require('./src/Request.js'))(container);
-
-try {
-    container['token'] = container.File.readJson(container.cache.token);
-} catch (e) {
-    container['token'] = {
-        value:  null,
-        startAt: null,
-        endAt: null
-    };
-}
 
 container['Skyflow'] = require('./package.json');
 
@@ -87,7 +80,7 @@ let Command = null;
 try {
     Command = require('./src/Command/' + _.upperFirst(container.Request.command) + 'Command.js');
 } catch (e) {
-    container.Output.skyflowError("Command '" + container.Request.command + "' not found.");
+    container.Output.skyflowError("Command '" + container.Request.command + "' not found");
     process.exit(1);
 }
 

@@ -18,8 +18,8 @@ module.exports = class ShCommand {
 
     constructor(container) {
         const {Output, Docker, Request, config} = container;
-        let compose = Request.consoleArguments[0];
-        Request.consoleArguments = [compose, 'sh'];
+        let compose = Request.args[0];
+        Request.args = [compose, 'sh'];
 
         let composeContainerName = null;
         try {

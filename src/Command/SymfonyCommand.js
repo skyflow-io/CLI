@@ -7,6 +7,7 @@ const ExecCommand = require('./ExecCommand.js');
  * @module Command
  * @author Skyflow
  * @command symfony
+ * @alias sf
  * @arguments
  *      exec Execute command into symfony container.
  * @examples
@@ -20,26 +21,26 @@ module.exports = class SymfonyCommand {
 
     constructor(container) {
         const {Request} = container;
-        switch (Request.consoleArguments[0]) {
+        switch (Request.args[0]) {
             case 'exec':
                 return this.exec(container);
         }
-        container.Request.consoleArguments = ['', Request.consoleArguments.join(':')];
+        container.Request.args = ['', Request.args.join(':')];
         this.exec(container);
     }
 
     exec(container){
         const {Request} = container;
         Request.command = 'exec';
-        Request.consoleArguments.shift();
-        let sfCommand = Request.consoleArguments.join(' ') + ' ' + (Request.getStringOptions().replace(' ', '='));
-        Request.consoleArguments = ['symfony', sfCommand];
+        Request.args.shift();
+        let sfCommand = Request.args.join(' ') + ' ' + (Request.getStringOptions().replace(' ', '='));
+        Request.args = ['symfony', sfCommand];
         let bin = 'php bin/console';
-        if(Request.consoleArguments[1]){
-            bin += ' ' + Request.consoleArguments[1];
+        if(Request.args[1]){
+            bin += ' ' + Request.args[1];
         }
-        Request.consoleArguments[1] = bin;
-        Request.commands = [Request.command, ...Request.consoleArguments];
+        Request.args[1] = bin;
+        Request.commands = [Request.command, ...Request.args];
         new ExecCommand(container);
 
         return this;

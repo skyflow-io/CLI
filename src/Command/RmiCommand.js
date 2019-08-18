@@ -32,11 +32,11 @@ module.exports = class RmiCommand {
             Request.removeOption('all');
             stringOpt = Request.getStringOptions() + ' $(docker images -a -q)';
         }else {
-            if(!Request.consoleArguments[0]){
+            if(!Request.args[0]){
                 Output.info('No images found');
                 return this;
             }
-            stringOpt = Request.getStringOptions() + ' ' + (Request.consoleArguments.join(' '));
+            stringOpt = Request.getStringOptions() + ' ' + (Request.args.join(' '));
         }
         try {
             Shell.exec('docker rmi ' + stringOpt);

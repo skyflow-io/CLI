@@ -42,8 +42,8 @@ module.exports = class UpCommand {
         let dockerComposeFile = resolve(config.value.docker.directory, 'docker-compose.yml');
         let composes = config.value.docker.composes;
         let composeNames = Object.keys(composes);
-        if (Request.consoleArguments[0]) {
-            composeNames = Request.consoleArguments;
+        if (Request.args[0]) {
+            composeNames = Request.args;
         }
 
         let projectName = config.value.docker['project_name'];

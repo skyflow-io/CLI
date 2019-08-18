@@ -3,8 +3,8 @@ const RunCommand = require('./RunCommand.js');
 function runComposerCommand(command, container){
     const {Request} = container;
     Request.command = 'run';
-    Request.consoleArguments = ['composer', 'composer ' + command];
-    Request.commands = [Request.command, ...Request.consoleArguments];
+    Request.args = ['composer', 'composer ' + command];
+    Request.commands = [Request.command, ...Request.args];
     new RunCommand(container);
 }
 
@@ -15,6 +15,7 @@ function runComposerCommand(command, container){
  * @module Command
  * @author Skyflow
  * @command composer
+ * @alias c
  * @arguments
  *      init Create a composer.json.
  *      install The install command reads the composer.json file from the current directory, resolves the dependencies, and installs them into vendor.
@@ -42,7 +43,7 @@ module.exports = class ComposerCommand {
 
         const {Request} = container;
 
-        switch (Request.consoleArguments[0]) {
+        switch (Request.args[0]) {
             case 'init':
                 return this.init(container);
             case 'install':
@@ -72,17 +73,17 @@ module.exports = class ComposerCommand {
     }
 
     require(container){
-        return runComposerCommand(container.Request.consoleArguments.join(' '), container);
+        return runComposerCommand(container.Request.args.join(' '), container);
     }
 
     remove(container){
-        return runComposerCommand(container.Request.consoleArguments.join(' '), container);
+        return runComposerCommand(container.Request.args.join(' '), container);
     }
 
     exec(container){
         const {Request} = container;
-        Request.consoleArguments.splice(0, 1);
-        return runComposerCommand(Request.consoleArguments.join(' '), container);
+        Request.args.splice(0, 1);
+        return runComposerCommand(Request.args.join(' '), container);
     }
 
 };

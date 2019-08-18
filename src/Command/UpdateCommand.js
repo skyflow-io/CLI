@@ -27,7 +27,7 @@ module.exports = class UpdateCommand {
         const {Helper, Output, Input, File, Request, config, cache} = container;
 
         container.composesToUpdate = {};
-        let composes = Request.consoleArguments;
+        let composes = Request.args;
         if(!composes[0]){
             composes = Object.keys(config.value.docker.composes)
         }
@@ -40,10 +40,8 @@ module.exports = class UpdateCommand {
         let questions = [];
         composes.map((compose) => {
 
-            let variables = null;
-            try {
-                variables = config.value.docker.composes[compose].variables;
-            } catch (e) {}
+            let variables = Helper.getByKey(config, 'value.docker.composes.' + compose + '.variables');
+
             if (!variables) {
                 return false
             }
@@ -73,9 +71,9 @@ module.exports = class UpdateCommand {
                     Helper.getByKey(cacheComposeConfig, 'variables.' + variable + '.message') ||
                     'Enter ' + variable
                 );
-                question.default = variables[variable] ||
-                    Helper.getByKey(cacheComposeConfig, 'variables.' + variable + '.value') ||
+                let questionDefaultValue = Helper.getByKey(cacheComposeConfig, 'variables.' + variable + '.value') ||
                     Helper.getByKey(cacheComposeConfig, 'variables.' + variable + '.default');
+                question.default = variables[variable] || questionDefaultValue;
 
                 if(question.choices){
                     question.message += ' Choose from values:'
@@ -119,10 +117,7 @@ module.exports = class UpdateCommand {
             if(File.exists(composeFile)){
                 content = File.read(composeFile);
             }
-            let variables = {};
-            try {
-                variables = config.value.docker.composes[compose].variables;
-            } catch (e) {}
+            let variables = Helper.getByKey(config, 'value.docker.composes.' + compose + '.variables') || {};
 
             let cacheComposeDir = resolve(cache.composes, 'data', compose);
             let filesToUpdate = [];
@@ -143,6 +138,9 @@ module.exports = class UpdateCommand {
                     if(Helper.isArray(value)){
                         value = '\'' + value.join(' ') + '\'';
                     }
+                    value = value.replace(/{{ *config:([a-z0-9_\\.-]+) *}}/ig, (match, key)=>{
+                        return Helper.getByKey(config.value, key);
+                    });
                     content = content.replace(reg, value);
                 }catch (e) {}
             });
@@ -161,6 +159,9 @@ module.exports = class UpdateCommand {
                     if(Helper.isArray(value)){
                         value = '\'' + value.join(' ') + '\'';
                     }
+                    value = value.replace(/{{ *config:([a-z0-9_\\.-]+) *}}/ig, (match, key)=>{
+                        return Helper.getByKey(config.value, key);
+                    });
                     c = c.replace(reg, value);
                 });
                 File.create(resolve(composeDir, file.output), c);
@@ -193,10 +194,10 @@ module.exports = class UpdateCommand {
         if(!Helper.isEmpty(dockerComposeContent)){
             let reg = new RegExp('{{ *([a-z0-9_\-]+):([a-z0-9_-]+) *}}', 'ig');
             dockerComposeContent = dockerComposeContent.replace(reg, (match, compose, variable)=>{
-                let composes = config.value.docker.composes;
+                let composes = Helper.getByKey(config, 'value.docker.composes') || {};
                 let c = composes[compose];
                 if(!c){
-                    Output.skyflowWarning('Compose \'' + compose + '\' not found.');
+                    Output.warning(compose + ' compose not found');
                     return match;
                 }
 
@@ -205,12 +206,14 @@ module.exports = class UpdateCommand {
                     if(Helper.isArray(v)){
                         v = '\'' + v.join(' ') + '\'';
                     }
+                    v = v.replace(/{{ *config:([a-z0-9_\\.-]+) *}}/ig, (match, key)=>{
+                        return Helper.getByKey(config.value, key);
+                    });
                     if(v){
                         return v;
-                    }else {
-                        Output.skyflowWarning('Variable \'' + variable + '\' for \'' + compose + '\' compose not found');
-                        return match;
                     }
+                    Output.skyflowWarning('Variable \'' + variable + '\' for \'' + compose + '\' compose not found');
+                    return match;
                 }catch (e) {
                     Output.skyflowWarning('Variable \'' + variable + '\' for \'' + compose + '\' compose not found');
                     return match;

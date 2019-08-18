@@ -24,20 +24,20 @@ module.exports = class SyncCommand {
             return this.syncFromDir(container);
         }
         // Sync
-        Request.consoleArguments = [];
+        Request.args = [];
         let composes = Object.keys(config.value.docker.composes);
         composes.map((compose)=>{
             if(!File.exists(resolve(config.value.docker.directory, compose, 'docker-compose.dist'))){
-                Request.consoleArguments.push(compose);
+                Request.args.push(compose);
             }
         });
-        if(Helper.isEmpty(Request.consoleArguments)){
+        if(Helper.isEmpty(Request.args)){
             Output.info('No composes to synchronize');
             process.exit(0);
         }
         Request.command = 'add';
         Request.addOption('sync', true);
-        Request.commands = [Request.command, ...Request.consoleArguments];
+        Request.commands = [Request.command, ...Request.args];
         new AddCommand(container);
     }
 
@@ -45,21 +45,21 @@ module.exports = class SyncCommand {
         const {Output, Directory, Request, Helper, config} = container;
         let currentDockerDir = Request.getOption('dir');
         let composes = Directory.read(currentDockerDir, {file: false});
-        Request.consoleArguments = [];
+        Request.args = [];
         composes.map((compose)=>{
             if(!Helper.hasProperty(config.value.docker.composes, compose)){
-                Request.consoleArguments.push(compose);
+                Request.args.push(compose);
             }
         });
 
-        if(Helper.isEmpty(Request.consoleArguments)){
+        if(Helper.isEmpty(Request.args)){
             Output.info('No composes to synchronize');
             process.exit(0);
         }
 
         Request.command = 'add';
         Request.addOption('sync-dir', true);
-        Request.commands = [Request.command, ...Request.consoleArguments];
+        Request.commands = [Request.command, ...Request.args];
         new AddCommand(container);
     }
 

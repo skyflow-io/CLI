@@ -7,6 +7,7 @@ const {resolve} = require("path");
  * @module Command
  * @author Skyflow
  * @command assets
+ * @alias a
  * @arguments
  *      add Add node package.
  *      install Add node package.
@@ -28,10 +29,10 @@ module.exports = class AssetsCommand {
 
         const {Helper, Request} = container;
 
-        if (Helper.isEmpty(Request.consoleArguments[0])) {
+        if (Helper.isEmpty(Request.args[0])) {
             return this.compile(container);
         }
-        switch (Request.consoleArguments[0]) {
+        switch (Request.args[0]) {
             case 'install':
                 return this.install(container);
             case 'add':
@@ -52,8 +53,8 @@ module.exports = class AssetsCommand {
 
     run(container){
         const {Request, Shell, Output, config} = container;
-        Request.consoleArguments.shift();
-        let args = Request.consoleArguments;
+        Request.args.shift();
+        let args = Request.args;
         Shell.exec('skyflow rm assets -f');
         try {
             Shell.exec('docker run --rm -v ' + resolve(config.value.docker.directory, 'assets') + ':/src -w /src node:alpine sh -c \'' + args.join(' ') + '\'');
@@ -70,9 +71,9 @@ module.exports = class AssetsCommand {
 
     install(container){
         const {Request, Shell} = container;
-        Request.consoleArguments.shift();
-        // Shell.exec('skyflow run assets \'npm install ' + Request.consoleArguments.join(' ') + '\' --rm');
-        Request.consoleArguments = ['run', 'npm', 'install', ...Request.consoleArguments];
+        Request.args.shift();
+        // Shell.exec('skyflow run assets \'npm install ' + Request.args.join(' ') + '\' --rm');
+        Request.args = ['run', 'npm', 'install', ...Request.args];
         this.run(container);
         Shell.exec('skyflow build assets');
 
@@ -81,9 +82,9 @@ module.exports = class AssetsCommand {
 
     uninstall(container){
         const {Request, Shell} = container;
-        Request.consoleArguments.shift();
-        // Shell.exec('skyflow run assets \'npm uninstall ' + Request.consoleArguments.join(' ') + '\' --rm');
-        Request.consoleArguments = ['run', 'npm', 'uninstall', ...Request.consoleArguments];
+        Request.args.shift();
+        // Shell.exec('skyflow run assets \'npm uninstall ' + Request.args.join(' ') + '\' --rm');
+        Request.args = ['run', 'npm', 'uninstall', ...Request.args];
         this.run(container);
         Shell.exec('skyflow build assets');
 

@@ -31,11 +31,11 @@ module.exports = class RmcCommand {
             Request.removeOption('all');
             stringOpt = Request.getStringOptions() + ' $(docker ps -a -q)';
         }else {
-            if(!Request.consoleArguments[0]){
+            if(!Request.args[0]){
                 Output.info('No containers found');
                 return this;
             }
-            stringOpt = Request.getStringOptions() + ' ' + (Request.consoleArguments.join(' '));
+            stringOpt = Request.getStringOptions() + ' ' + (Request.args.join(' '));
         }
         try {
             Shell.exec('docker rm ' + stringOpt);

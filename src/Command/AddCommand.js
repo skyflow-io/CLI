@@ -21,7 +21,7 @@ const UpdateCommand = require('./UpdateCommand.js');
  *      skyflow add apache python
  *      skyflow apache:python:add
  *      skyflow add python -f
- * @related update up down token
+ * @related update up down
  * @since 1.0.0
  */
 module.exports = class AddCommand {
@@ -31,12 +31,12 @@ module.exports = class AddCommand {
         const {Helper, Output, Request} = container;
 
         // Resource is required
-        if (Helper.isEmpty(Request.consoleArguments[0])) {
+        if (Helper.isEmpty(Request.args[0])) {
             Output.skyflowError('Resource name is missing');
             process.exit(1);
         }
 
-        Request.consoleArguments.map((resource)=>{
+        Request.args.map((resource)=>{
             // Compose
             if(!/\.[a-zA-Z]+$/.test(resource)){
                 return this.addCompose(resource, container);
@@ -79,7 +79,8 @@ module.exports = class AddCommand {
                 let currentDockerDir = resolve(process.cwd(), config.value.docker.directory);
                 if (File.exists(resolve(currentDockerDir, compose, 'docker-compose.dist'))) {
                     if (!Request.hasOption('f') && !Request.hasOption('force') && !Request.hasOption('sync-dir')) {
-                        Output.skyflowWarning("'" + compose + "' compose already exists. Use '-f' or '--force' option.");
+                        Output.newLine();
+                        Output.warning(compose + ' compose already exists. Use -f or --force option.');
                         return false;
                     }
                     if (Request.hasOption('f') || Request.hasOption('force')) {

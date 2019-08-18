@@ -21,7 +21,7 @@ module.exports = class LsCommand {
 
         const {Shell, Request, Output} = container;
         let what = 'container';
-        switch (Request.consoleArguments[0]) {
+        switch (Request.args[0]) {
             case 'image':
                 what = 'image';
                 break;

@@ -30,13 +30,13 @@ module.exports = class Docker {
     static dockerCompose(command, container, isContainerRunning = false){
 
         const {Helper, Shell, Request, Output, config} = container;
-        let compose = Request.consoleArguments[0];
+        let compose = Request.args[0];
         let composes = config.value.docker.composes;
         if (!compose) {
             Output.skyflowError('Compose name is missing');
             return false;
         }
-        let c = Request.consoleArguments[1];
+        let c = Request.args[1];
         if (!c) {
             let defaultCommand = Helper.getByKey(composes, compose + '.command.default');
             if(!defaultCommand){
@@ -117,8 +117,8 @@ module.exports = class Docker {
         let projectName = config.value.docker['project_name'];
         let composes = config.value.docker.composes;
         let composeNames = Object.keys(composes);
-        if (Request.consoleArguments[0]) {
-            composeNames = Request.consoleArguments;
+        if (Request.args[0]) {
+            composeNames = Request.args;
         }
         let containerNames = '';
         composeNames.map((name)=>{

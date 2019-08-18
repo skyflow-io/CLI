@@ -18,8 +18,8 @@ module.exports = class BashCommand {
 
     constructor(container) {
         const {Output, Docker, Request, config} = container;
-        let compose = Request.consoleArguments[0];
-        Request.consoleArguments = [compose, 'bash'];
+        let compose = Request.args[0];
+        Request.args = [compose, 'bash'];
 
         let composeContainerName = null;
         try {

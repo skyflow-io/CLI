@@ -41,11 +41,11 @@ module.exports = class Request {
         /**
          * Parsed arguments.
          *
-         * @property consoleArguments
+         * @property args
          * @type Array
          * @default []
          */
-        this.consoleArguments = [];
+        this.args = [];
 
         /**
          * Parsed options.
@@ -92,7 +92,7 @@ module.exports = class Request {
 
         this.command = null;
         this.commands = [];
-        this.consoleArguments = [];
+        this.args = [];
         this.options = {};
         this.shortOptions = {};
         this.longOptions = {};
@@ -108,7 +108,7 @@ module.exports = class Request {
             }
 
             if(first !== '-' && !option && this.command){
-                this.consoleArguments.push(value);
+                this.args.push(value);
             }
 
             if(first !== '-' && !option && !this.command){
@@ -116,7 +116,7 @@ module.exports = class Request {
                 let commands = this.command.split(':');
                 this.command = commands.pop();
                 this.commands = this.commands.concat(commands);
-                this.consoleArguments = this.consoleArguments.concat(commands);
+                this.args = this.args.concat(commands);
                 continue;
             }
 

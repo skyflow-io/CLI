@@ -21,12 +21,12 @@ module.exports = class RemoveCommand {
     constructor(container) {
 
         const {Helper, Output, Shell, File, Directory, Request, config} = container;
-        if (Helper.isEmpty(Request.consoleArguments[0])) {
+        if (Helper.isEmpty(Request.args[0])) {
             Output.skyflowError("Compose name is missing");
             return this;
         }
-        for (let i = 0; i < Request.consoleArguments.length; i++) {
-            let resource = Request.consoleArguments[i];
+        for (let i = 0; i < Request.args.length; i++) {
+            let resource = Request.args[i];
             let currentDockerDir = resolve(config.value.docker.directory);
             if (!Directory.exists(resolve(currentDockerDir, resource))) {
                 continue;

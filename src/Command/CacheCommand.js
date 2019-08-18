@@ -25,7 +25,7 @@ module.exports = class CacheCommand {
     constructor(container) {
 
         const {Request, Output, cache} = container;
-        switch (Request.consoleArguments[0]) {
+        switch (Request.args[0]) {
             case 'clear':
                 return this.clear(container);
             case 'set':
@@ -77,7 +77,7 @@ module.exports = class CacheCommand {
     set(container){
         const {File, Request, Output, config} = container;
 
-        let cachePath = Request.consoleArguments[1];
+        let cachePath = Request.args[1];
         if(!cachePath){
             Output.skyflowError('Cache path missing');
             process.exit(1);
