@@ -159,24 +159,83 @@ module.exports = class Request {
     }
 
     /**
-     * Checks if options array is empty.
+     * Gets parsed command.
      *
-     * @method hasOption
-     * @return {Boolean} Returns true if options array is empty and false otherwise.
+     * @method getCommand
+     * @return {String} Returns command.
      */
-    isOptionsEmpty(){
-        return Helper.isEmpty(this.options);
+    getCommand(){
+        return this.command;
     }
 
     /**
-     * Checks if an option exists.
+     * Sets parsed command.
      *
-     * @method hasOption
-     * @param {String} option Option to check.
-     * @return {Boolean} Returns true if an option exists and false otherwise.
+     * @method setCommand
+     * @param {String} command Command to set.
+     * @return {Request} Returns the current Request object.
      */
-    hasOption(option){
-        return Helper.hasProperty(this.options, option);
+    setCommand(command){
+        this.command = command;
+        return this;
+    }
+
+    /**
+     * Checks if command is given.
+     *
+     * @method hasCommand
+     * @return {Boolean} Returns true if command is given and false otherwise.
+     */
+    hasCommand(){
+        return Helper.isString(this.command) && !Helper.isEmpty(this.command);
+    }
+
+    /**
+     * Gets parsed arguments.
+     *
+     * @method getArgs
+     * @return {Array} Returns parsed arguments.
+     */
+    getArgs(){
+        return this.args;
+    }
+
+    /**
+     * Sets arguments.
+     *
+     * @method setArgs
+     * @param {Array} args Arguments to set.
+     * @return {Request} Returns the current Request object.
+     */
+    setArgs(args){
+        this.args = args;
+        return this;
+    }
+
+    /**
+     * Adds an argument.
+     *
+     * @method addArg
+     * @param {String} arg Argument to add.
+     * @return {Request} Returns the current Request object.
+     */
+    addArg(arg){
+        this.args.push(arg);
+        return this;
+    }
+
+    /**
+     * Checks if an argument exists.
+     *
+     * @method hasArg
+     * @param {String} arg Argument to add.
+     * @return {Boolean} Returns true if an argument exists and false otherwise.
+     */
+    hasArg(arg = null){
+        if(arg === null){
+            return !Helper.isEmpty(this.args);
+        }
+        return this.args.indexOf(arg) !== -1;
     }
 
     /**
@@ -188,6 +247,16 @@ module.exports = class Request {
      */
     getOption(option){
         return this.options[option];
+    }
+
+    /**
+     * Gets all options.
+     *
+     * @method getOptions
+     * @return {Object} Returns all options.
+     */
+    getOptions(){
+        return this.options;
     }
 
     /**
@@ -216,6 +285,21 @@ module.exports = class Request {
         this.options[option] = value;
         return this;
     }
+
+    /**
+     * Checks if an option exists.
+     *
+     * @method hasOption
+     * @param {String} option Option to check.
+     * @return {Boolean} Returns true if an option exists and false otherwise.
+     */
+    hasOption(option = null){
+        if(option === null){
+            return !Helper.isEmpty(this.options);
+        }
+        return Helper.hasProperty(this.options, option);
+    }
+
 
     /**
      * Checks if short option exists.

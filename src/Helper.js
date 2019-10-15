@@ -46,6 +46,17 @@ module.exports = class Helper {
     }
 
     /**
+     * Checks if an object is a string.
+     *
+     * @method isString
+     * @param object Object we want to know the type.
+     * @return {Boolean} Returns true if the object is a string and false otherwise.
+     */
+    static isString(object) {
+        return this.getType(object) === 'string';
+    }
+
+    /**
      * Checks if an object is a object.
      *
      * @method isObject

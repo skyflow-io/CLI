@@ -1,4 +1,6 @@
-const fs = require('fs'), os = require("os");
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
 const jsonfile = require('jsonfile');
 
 /**
@@ -176,6 +178,80 @@ class File {
     appendJson(file, json = {}){
         jsonfile.writeFileSync(file, json, { spaces: 4, EOL: '\r\n', flag: 'a' });
         return this;
+    }
+
+    /**
+     * Gets file type.
+     *
+     * @method getType
+     * @param {String|Buffer|URL|int} file Filename or file descriptor
+     * @return {String} Returns the type.
+     */
+    getType(file){
+        if(!this.exists(file)){
+            return null;
+        }
+        return path.extname(file).substr(1).toLowerCase();
+    }
+
+    /**
+     * Checks if an file is a html file.
+     *
+     * @method isHtml
+     * @param {String|Buffer|URL|int} file Filename or file descriptor
+     * @return {Boolean} Returns true if the file is a html file and false otherwise.
+     */
+    isHtml(file){
+        const type = this.getType(file);
+        return type === 'html';
+    }
+
+    /**
+     * Checks if an file is a json file.
+     *
+     * @method isYaml
+     * @param {String|Buffer|URL|int} file Filename or file descriptor
+     * @return {Boolean} Returns true if the file is a json file and false otherwise.
+     */
+    isJson(file){
+        const type = this.getType(file);
+        return type === 'json';
+    }
+
+    /**
+     * Checks if an file is a js file.
+     *
+     * @method isYaml
+     * @param {String|Buffer|URL|int} file Filename or file descriptor
+     * @return {Boolean} Returns true if the file is a js file and false otherwise.
+     */
+    isJs(file){
+        const type = this.getType(file);
+        return type === 'js';
+    }
+
+    /**
+     * Checks if an file is a css file.
+     *
+     * @method isYaml
+     * @param {String|Buffer|URL|int} file Filename or file descriptor
+     * @return {Boolean} Returns true if the file is a css file and false otherwise.
+     */
+    isCss(file){
+        const type = this.getType(file);
+        return type === 'css';
+    }
+
+    /**
+     * Checks if an file is a yaml file.
+     *
+     * @method isYaml
+     * @param {String|Buffer|URL|int} file Filename or file descriptor
+     * @return {Boolean} Returns true if the file is a yaml file and false otherwise.
+     */
+    isYaml(file){
+        const type = this.getType(file);
+        return type === 'yaml' || type === 'yml';
     }
 
 }

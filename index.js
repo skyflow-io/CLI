@@ -2,7 +2,8 @@
 
 'use strict';
 
-const _ = require('lodash'), resolve = require('path').resolve;
+const _ = require('lodash');
+const resolve = require('path').resolve;
 
 let container = {
     Directory: require('./src/Directory.js'),
@@ -64,23 +65,23 @@ container['Request'] = new (require('./src/Request.js'))(container);
 
 container['Skyflow'] = require('./package.json');
 
-if (!container.Request.command) {
+if (!container.Request.hasCommand()) {
     let request = container.Request;
-    container.Request.command = 'help';
+    container.Request.setCommand('help');
     if(request.hasShortOption('h') || request.hasLongOption('help')){
-        container.Request.command = 'help';
+        container.Request.setCommand('help');
     }
     if(request.hasShortOption('v') || request.hasLongOption('version')){
-        container.Request.command = 'version';
+        container.Request.setCommand('version');
     }
 }
 
 let Command = null;
 
 try {
-    Command = require('./src/Command/' + _.upperFirst(container.Request.command) + 'Command.js');
+    Command = require('./src/Command/' + _.upperFirst(container.Request.getCommand()) + 'Command.js');
 } catch (e) {
-    container.Output.skyflowError("Command '" + container.Request.command + "' not found");
+    container.Output.skyflowError("Command '" + container.Request.getCommand() + "' not found");
     process.exit(1);
 }
 
