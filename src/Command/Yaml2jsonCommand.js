@@ -16,8 +16,8 @@ const Convert =  require('../Converter.js');
  * @examples
  *      skyflow yaml2json myDir -o dist
  *      skyflow yaml2json product.yml -o dist
- * @related jsdoc2json
- * @since 1.0.0
+ * @related jsdoc2json cdoc2json
+ * @since 2.3.5
  */
 module.exports = class Yaml2jsonCommand {
 

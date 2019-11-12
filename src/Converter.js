@@ -30,7 +30,7 @@ module.exports = class Converter {
      * @param container
      * @param from From type.
      * @param to To type.
-     * @return {Array} Returns an array that contains paths of converted files.
+     * @return {Object} Returns an array that contains paths of converted files.
      */
     static convert(container, from = 'yaml', to = 'json') {
 
@@ -64,6 +64,10 @@ module.exports = class Converter {
             }
         });
 
+        if(from === 'jsdoc'){
+            return {out};
+        }
+
         return files.map((file)=>{
             file = file.replace(/^\.\//, '');
             try {
@@ -89,6 +93,17 @@ module.exports = class Converter {
      */
     static yaml2json(container) {
         return this.convert(container, 'yaml', 'json');
+    }
+
+    /**
+     * Converts javascript annotation documentation to json file.
+     *
+     * @method jsdoc2json
+     * @param container
+     * @return {Array} Returns an array that contains paths of converted files.
+     */
+    static jsdoc2json(container) {
+        return this.convert(container, 'jsdoc', 'json');
     }
 
 };

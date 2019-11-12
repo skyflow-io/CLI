@@ -76,13 +76,11 @@ if (!container.Request.hasCommand()) {
     }
 }
 
-let Command = null;
-
 try {
-    Command = require('./src/Command/' + _.upperFirst(container.Request.getCommand()) + 'Command.js');
+    const Command = require('./src/Command/' + _.upperFirst(container.Request.getCommand()) + 'Command.js');
+    new Command(container);
 } catch (e) {
-    container.Output.skyflowError("Command '" + container.Request.getCommand() + "' not found");
+    console.log(e);
+    container.Output.skyflowError("Command '" + container.Request.getCommand() + "' not found.");
     process.exit(1);
 }
-
-new Command(container);

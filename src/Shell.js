@@ -229,10 +229,6 @@ class Shell {
         shx.popd(...arguments)
     }
 
-    test(){
-        shx.test(...arguments)
-    }
-
 }
 
 module.exports = new Shell();
